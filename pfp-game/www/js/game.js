@@ -9,6 +9,7 @@ var score;
 var labelScore;
 var level = 0;
 var levelMultiplier = 1.0001
+
  
 function preload() {
     this.load.image("world-tilemap", "img/world-tilemap.png")
