@@ -1,67 +1,34 @@
-
-var map;
-var player;
-var cursors;
-var groundLayer;
-var text;
-var scene;
 var score;
 var labelScore;
-var level = 0;
-var levelMultiplier = 1.0001
 
+var currLevel;
+var EL;
  
 function preload() {
-    this.load.image("world-tilemap", "img/world-tilemap.png")
-    this.load.spritesheet("character", "img/character.png", {frameWidth: 24, frameHeight: 48})
-    this.load.image("obstacle", "img/obstacle.png")
+    this.load.image("floor", "img/floor.png");
+    this.load.image("underground", "img/underground.png");
+    this.load.spritesheet("character", "img/character.png", {frameWidth: 24, frameHeight: 48});
+    this.load.image("obstacle", "img/obstacle.png");
+    this.load.spritesheet("enemy", "img/enemy.png", {frameWidth: 16, frameHeight: 16});
+    this.load.spritesheet("weapon", "img/weapon.png", {frameWidth: 2, frameHeight: 8})
 }
  
 function create() {
-    scene = this
-    width_repeat = Math.floor(grid_width / 8) + 2
-    height_repeat = Math.floor((width_repeat-2) / ratio)
+    this.physics.world.bounds.width = w;
+    this.physics.world.bounds.height = h;
     
-    levels_v = []
-    for (var i=0; i < height_repeat; i++) levels_v.push(-1)
-    levels_v[levels_v.length-1] = 2
-    levels_v[levels_v.length-2] = 1
-
-    level = []
-    for (var i=0; i < height_repeat; i++) {
-        level_row = []
-        for (var j=0; j < width_repeat; j++) {
-            level_row.push(levels_v[i])
-        }
-        level.push(level_row)
-    }
-    map = this.make.tilemap({data: level, tileWidth: 16, tileHeight: 16})
-    tiles = map.addTilesetImage("world-tilemap")
-    groundLayer = map.createDynamicLayer(0, tiles, 0, 0)
-    groundLayer.setCollisionByExclusion([-1])
-
-    this.physics.world.bounds.width = groundLayer.width;
-    this.physics.world.bounds.height = groundLayer.height;
-
-    // take care of player
-    player = this.physics.add.sprite(20, 10, 'character'); 
-    player.setBounce(0.0);
-    player.setCollideWorldBounds(true);
-
-    this.physics.add.collider(groundLayer, player);
-
-    // take care of obstacles
-    this.obstacles = this.add.group()
-    addObstacle(grid_width*ratio, 96)
+    currLevel = new Level(this);
+    currLevel.addPlayer(gridHeight*ratio - 240, -24)
+    currLevel.addGround(0, 128);
+    currLevel.addObstacle(gridHeight*ratio, 116);
+    currLevel.addTargetObject(gridHeight*ratio+8, Math.random()*64 - 32)
 
     // add event listeners for keys and touches.
-    cursors = this.input.keyboard.createCursorKeys();
-    this.input.on("pointerdown", pointerDown);
-    this.input.on("pointermove", pointerMove)
-    this.input.on("pointerup", pointerUp)
+    var cursors = this.input.keyboard.createCursorKeys();
+    EL = new eventListeners(cursors, this);
     
     // cameras
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);     
+    this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('#ccccff'); 
 
     score = 0
@@ -70,38 +37,25 @@ function create() {
 }
  
 function update(time, delta) {
-    checkKeyboardEvents(cursors)
+    // keep the floor under the player
+    if (!currLevel.grounds.isFull()) {
+        var groundChildren = currLevel.grounds.getChildren();
+        var lastChildX = groundChildren[groundChildren.length-1].x;
+        for (var i=currLevel.grounds.countActive(); i <= currLevel.grounds.maxSize; i++) {
+            currLevel.addGroundColumn(lastChildX + (i-currLevel.grounds.countActive()+1)*8, 128)
+        }
+        // currLevel.levelSpeedAdder = score * 0.05;
+        // console.log(currLevel.levelSpeedAdder);
+    }
+
+    EL.checkKeyboardEvents();
+
+    // update score
     score += delta * 0.02
     labelScore.setText(Math.round(score))
 }
 
-function addObstacle(x, y) {
-    console.log("new obstacle")
-    var obstacle = scene.physics.add.sprite(x, y, "obstacle");
-    scene.physics.add.collider(groundLayer, obstacle)
-    scene.physics.add.collider(player, obstacle, resetGame)
-
-    // Add velocity to the pipe to make it move left
-    obstacle.body.velocity.x = -200 + levelMultiplier;
-    levelMultiplier *= levelMultiplier 
-    console.log(levelMultiplier)
-
-    // Automatically kill the pipe when it's no longer visible 
-    obstacle.checkWorldBounds = true;
-    obstacle.outOfBoundsKill = true;
-
-    scene.obstacles.add(obstacle)
-    timer = scene.time.addEvent({
-        delay: Math.random() * 800 + 700,
-        callback: addObstacle,
-        args: [grid_width*ratio, 96],
-        loop: false
-    })
-}
-
 function resetGame() {
-    scene.scene.restart();
-    level = 0;
-    levelMultiplier = 1.0001
+    currLevel.scene.scene.restart();
     console.log("RESET");
 }

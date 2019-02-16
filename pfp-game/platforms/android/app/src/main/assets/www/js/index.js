@@ -1,4 +1,4 @@
-var grid_width = 144;   
+var gridHeight = 144;
 var ratio;
 var game;
 
@@ -21,13 +21,13 @@ var app = {
             scale: {
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH,
-                width: grid_width * ratio,
-                height: grid_width
+                width: gridHeight * ratio,
+                height: gridHeight
             },
             physics: {
                 default: 'arcade',
                 arcade: {
-                    gravity: {y: 500},
+                    gravity: {y: 0},
                     debug: false
                 }
             },

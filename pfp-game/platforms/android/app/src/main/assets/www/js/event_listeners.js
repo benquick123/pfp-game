@@ -1,44 +1,44 @@
-// touch event listeners
-isDown = false;
-pointX = NaN;
-pointY = NaN;
-df = 10;
 
-function pointerDown(pointer) {
-    isDown = true;
-    pointX = pointer.x;
-    pointY = pointer.y;
-    console.log(pointer.y);
-}
+var eventListeners = function(cursors, scene) {
+    this.cursors = cursors;
 
-function pointerMove(pointer) {
-    diffX = pointer.x - pointX;
-    diffY = pointer.y - pointY;
-    if (pointer.y+df < pointY && Math.abs(diffY) > Math.abs(diffX) && player.body.onFloor())
-        player.body.setVelocityY(-200);
-}
-
-function pointerUp(pointer) {
-    isDown = false;
-    pointX = NaN;
-    pointY = NaN;
-}
-
-// keyboard event listeners
-function checkKeyboardEvents(cursors) {
-    /*if (cursors.left.isDown) // if the left arrow key is down
-    {
-        player.body.setVelocityX(-20); // move left
+    // touch/click event listeners
+    this.pointerDown = function(pointer) {
+        this.isDown = true;
+        this.pointX = pointer.x;
+        this.pointY = pointer.y;
+        this.moveType = "";
+        this.df = 10;
     }
-    else if (cursors.right.isDown) // if the right arrow key is down
-    {
-        player.body.setVelocityX(20); // move right
+
+    this.pointerMove = function(pointer) {
+        var diffX = pointer.x - this.pointX;
+        var diffY = pointer.y - this.pointY;
+        if (diffY < -this.df && Math.abs(diffY) > Math.abs(diffX) && currLevel.player.body.touching.down) {
+            currLevel.player.body.setVelocityY(-250);
+            this.moveType = "jump";
+        }
     }
-    else {
-        player.body.setVelocityX(0)
-    }*/
-    if (cursors.up.isDown && player.body.onFloor())
-    {
-        player.body.setVelocityY(-200); // jump up
+
+    this.pointerUp = function(pointer) {
+        isDown = false;
+        this.pointX = NaN;
+        this.pointY = NaN;
+        if (this.moveType != "jump") {
+            if (pointer.y < 128 - 4)
+                currLevel.shootWeapon(currLevel.player.x+12, currLevel.player.y-4, pointer.x, pointer.y);
+        }
+        this.moveType = "";
     }
+
+    // keyboard event listeners
+    this.checkKeyboardEvents = function() {
+        if (this.cursors.up.isDown && currLevel.player.body.touching.down) {
+            currLevel.player.body.setVelocityY(-250); // jump up
+        }
+    }
+
+    scene.input.on("pointerdown", this.pointerDown);
+    scene.input.on("pointermove", this.pointerMove);
+    scene.input.on("pointerup", this.pointerUp);
 }
