@@ -2,24 +2,26 @@
 function Level(scene) {
     this.scene = scene;
     this.levelNumber = 0;
-    this.levelInitSpeed = 100;
+    this.levelInitSpeed = 0;
+    this.levelCurrentSpeed = 0;
     this.levelSpeedAdder = 0.0;
+    this.levelEndScore = 0;
+    this.levelStop = false;
     this.player;
-    this.playerSprite = "character";
+    this.playerSprite = "";
     this.playerBounce = 0.0;
-    this.enemySprite = "enemy";
+    this.enemySprite = "";
     this.grounds = this.scene.add.group()
-    this.groundFloorImage = "floor";
-    this.groundUnderImage = "underground";
+    this.groundFloorImage = "";
+    this.groundUnderImage = "";
     this.gravity = 500;
-    this.obstacleSprite = "obstacle";
+    this.obstacleSprite = "";
     this.obstacles = scene.add.group();
-    this.targetSprite = "enemy";
-    this.targetObjects = this.scene.add.group();
-    this.weaponSprite = "weapon";
+    this.targetSprite = "";
+    this.targets = this.scene.add.group();
+    this.weaponSprite = "";
     this.weaponAngularVelocity = 500;
-    this.weaponVelocityX = 200;
-    this.weaponVelocityY = -500;
+    this.helperSprite = "";
 
     this.leftCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, -16).setOrigin(0, 0);
     this.leftCollider.height = gridHeight + 32;
@@ -48,24 +50,24 @@ function Level(scene) {
         this.scene.physics.add.collider(this.player, floor)
         this.scene.physics.add.overlap(floor, this.leftCollider, onOutOfBounds)
 
-        floor.body.setVelocityX(-this.levelInitSpeed - this.levelSpeedAdder);
+        floor.body.setVelocityX(-this.levelCurrentSpeed);
         floor.body.setImmovable();
         floor.body.setFriction(0.0);
 
-        this.grounds.add(floor)
+        this.grounds.add(floor);
 
-        for (var i=y+8; i<=gridHeight+8; i+=8) {
+        for (var i=y+8; i<=gridHeight; i+=8) {
             var underground = this.scene.physics.add.sprite(x, i, this.groundUnderImage);
             this.scene.physics.add.overlap(underground, this.leftCollider, onOutOfBounds);
 
-            underground.body.setVelocityX(-this.levelInitSpeed - this.levelSpeedAdder);
+            underground.body.setVelocityX(-this.levelCurrentSpeed);
             this.grounds.add(underground);
         }
     }
     
     this.addGround = function (startX, startY) {
-        for (var i=startX; i<=gridHeight*ratio+16; i+=8) {
-            this.addGroundColumn(i, startY, this.leftCollider)
+        for (var i=startX; i<=gridHeight*ratio+8; i+=8) {
+            this.addGroundColumn(i, startY)
         }
         this.grounds.maxSize = this.grounds.getLength();
     }
@@ -77,21 +79,25 @@ function Level(scene) {
 
         var obstacle = this.scene.physics.add.sprite(x, y, this.obstacleSprite);
         obstacle.setGravity(0);
-        this.scene.physics.add.collider(this.player, obstacle, resetGame);
+        // this.scene.physics.add.collider(this.player, obstacle, restartGame);
 
         // Add velocity to the obstacle to make it move left
-        obstacle.body.setVelocityX(-this.levelInitSpeed)
+        obstacle.body.setVelocityX(-this.levelCurrentSpeed);
 
         this.scene.physics.add.overlap(obstacle, this.leftCollider, onOutOfBounds);
 
-        this.obstacles.add(obstacle)
-        this.scene.time.addEvent({
-            delay: Math.random() * (1000) + (1000),
-            callback: this.addObstacle,
-            args: [gridHeight*ratio, 116],
-            callbackScope: this,
-            loop: false
-        });
+        this.obstacles.add(obstacle);
+        
+        if (this.levelStop == false) {
+            var timer = this.scene.time.addEvent({
+                delay: Math.random() * (1000) + (1000),
+                callback: this.addObstacle,
+                args: [gridHeight*ratio, 116],
+                callbackScope: this,
+                loop: false
+            });
+            obstacle.timer = timer;
+        }
     }
 
     this.addTargetObject = function (x, y) {
@@ -102,11 +108,11 @@ function Level(scene) {
         var target = this.scene.physics.add.sprite(x, y, this.targetSprite);
         target.setDepth(-4)
         
-        this.scene.physics.add.collider(this.player, target, resetGame);
+        this.scene.physics.add.collider(this.player, target, restartGame);
         this.scene.physics.add.collider(this.grounds, target);
         this.scene.physics.add.overlap(target, this.leftCollider, onOutOfBounds);
         this.scene.physics.add.overlap(target, this.rightCollider, onOutOfBounds);
-        this.targetObjects.add(target);
+        this.targets.add(target);
 
         var tween = this.scene.tweens.add({
             targets: target,
@@ -120,14 +126,17 @@ function Level(scene) {
             }
         })
         target.tween = tween;
-
-        this.scene.time.addEvent({
-            delay: Math.random() * 2500 + 2000,
-            callback: this.addTargetObject,
-            callbackScope: this,
-            args: [gridHeight*ratio+8, Math.random()*64 - 32],
-            loop: false
-        })
+        
+        if (this.levelStop == false) {
+            var timer = this.scene.time.addEvent({
+                delay: Math.random() * 2500 + 2000,
+                callback: this.addTargetObject,
+                callbackScope: this,
+                args: [gridHeight*ratio+8, Math.random()*64 - 32],
+                loop: false
+            })
+            target.timer = timer;
+        }
     }
 
     this.shootWeapon = function(x, y, targetX, targetY) {
@@ -142,8 +151,8 @@ function Level(scene) {
         var weapon = this.scene.physics.add.sprite(x, y, this.weaponSprite);
         weapon.setDepth(-5);
         this.scene.physics.add.overlap(weapon, this.rightCollider, onOutOfBounds);
-        this.scene.physics.add.collider(weapon, this.targetObjects, onProjectileHit);
-        this.scene.physics.add.collider(weapon, this.player, resetGame);
+        this.scene.physics.add.collider(weapon, this.targets, onProjectileHit);
+        this.scene.physics.add.collider(weapon, this.player, restartGame);
 
         weapon.body.setAllowRotation();
         weapon.body.setAngularVelocity(this.weaponAngularVelocity)

@@ -1,0 +1,17 @@
+{
+    "levelNumber": 0,
+    "levelInitSpeed": 100,
+    "levelSpeedAdder": 0.0,
+    "levelEndScore": 10,
+    "playerSprite": "character",
+    "enemySprite": "enemy",
+    "groundFloorImage": "floor",
+    "groundUnderImage": "underground",
+    "gravity": 500,
+    "obstacleSprite": "obstacle",
+    "targetSprite": "enemy",
+    "weaponSprite": "weapon",
+    "helperSprite": "helper",
+    "music": "song-0",
+    "weaponAngularVelocity": 500
+}

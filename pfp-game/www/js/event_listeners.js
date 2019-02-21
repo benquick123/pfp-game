@@ -4,37 +4,54 @@ var eventListeners = function(cursors, scene) {
 
     // touch/click event listeners
     this.pointerDown = function(pointer) {
-        this.isDown = true;
-        this.pointX = pointer.x;
-        this.pointY = pointer.y;
-        this.moveType = "";
-        this.df = 10;
+        if (mode == MODELEVEL || mode == MODELEVELTRANSITION) {
+            this.isDown = true;
+            this.pointX = pointer.x;
+            this.pointY = pointer.y;
+            this.moveType = "";
+            this.df = 10;
+        }
+        else if (mode == MODESTORY) {
+            if (currStory.dialogueBox.timer && currStory.dialogueBox.timer.delay != 0) {
+                currStory.dialogueBox.timer.delay = 0;
+            }
+            else {
+                currStory.dialogueIndex++;
+                currStory.conversate();
+            }
+        }
     }
 
     this.pointerMove = function(pointer) {
-        var diffX = pointer.x - this.pointX;
-        var diffY = pointer.y - this.pointY;
-        if (diffY < -this.df && Math.abs(diffY) > Math.abs(diffX) && currLevel.player.body.touching.down) {
-            currLevel.player.body.setVelocityY(-250);
-            this.moveType = "jump";
+        if (mode == MODELEVEL || mode == MODELEVELTRANSITION) {
+            var diffX = pointer.x - this.pointX;
+            var diffY = pointer.y - this.pointY;
+            if (diffY < -this.df && Math.abs(diffY) > Math.abs(diffX) && currLevel.player.body.touching.down) {
+                currLevel.player.body.setVelocityY(-250);
+                this.moveType = "jump";
+            }
         }
     }
 
     this.pointerUp = function(pointer) {
-        isDown = false;
-        this.pointX = NaN;
-        this.pointY = NaN;
-        if (this.moveType != "jump") {
-            if (pointer.y < 128 - 4)
-                currLevel.shootWeapon(currLevel.player.x+12, currLevel.player.y-4, pointer.x, pointer.y);
+        if (mode == MODELEVEL || mode == MODELEVELTRANSITION) {
+            isDown = false;
+            this.pointX = NaN;
+            this.pointY = NaN;
+            if (this.moveType != "jump") {
+                if (pointer.y < 128 - 4)
+                    currLevel.shootWeapon(currLevel.player.x+12, currLevel.player.y-4, pointer.x, pointer.y);
+            }
+            this.moveType = "";
         }
-        this.moveType = "";
     }
 
     // keyboard event listeners
     this.checkKeyboardEvents = function() {
-        if (this.cursors.up.isDown && currLevel.player.body.touching.down) {
-            currLevel.player.body.setVelocityY(-250); // jump up
+        if (mode == MODELEVEL || mode == MODELEVELTRANSITION) {
+            if (this.cursors.up.isDown && currLevel.player.body.touching.down) {
+                currLevel.player.body.setVelocityY(-250); // jump up
+            }
         }
     }
 
