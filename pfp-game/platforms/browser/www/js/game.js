@@ -18,7 +18,7 @@ function preload() {
     this.load.image("underground", "img/underground.png");
     this.load.spritesheet("character", "img/character.png", {frameWidth: 24, frameHeight: 48});
     this.load.image("obstacle", "img/obstacle.png");
-    this.load.spritesheet("enemy", "img/enemy.png", {frameWidth: 16, frameHeight: 16});
+    this.load.spritesheet("enemy", "img/enemy.png", {frameWidth: 24, frameHeight: 24});
     this.load.spritesheet("weapon", "img/weapon.png", {frameWidth: 2, frameHeight: 8});
     this.load.spritesheet("helper", "img/helper.png", {frameWidth: 48, frameHeight: 64});
 
