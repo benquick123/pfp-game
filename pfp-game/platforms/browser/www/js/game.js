@@ -150,6 +150,7 @@ function changeMode() {
         var enemyChildren = currLevel.targets.getChildren();
         for (var i = 0; i < enemyChildren.length; i++) {
             enemyChildren[i].tween.stop();
+            enemyChildren[i].anims.stop();
         }
         currLevel.levelStop = true;
         labelScore.setText("");
