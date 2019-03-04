@@ -112,7 +112,7 @@ function Level(scene) {
             this.scene.anims.create({
                 key: 'normal',
                 frames: this.scene.anims.generateFrameNumbers(this.enemySprites[targetI], { start: 0, end: 3 }),
-                frameRate: 8,
+                frameRate: 4,
                 repeat: -1
             });
             // add new target to scene.
