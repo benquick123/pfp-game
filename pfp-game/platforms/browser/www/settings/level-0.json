@@ -13,7 +13,6 @@
     "gravity": 500,
     "obstacleSprite": "level-0-obstacle",
     "weaponSprite": "level-0-weapon",
-    "helperSprite": "level-0-helper",
     "music": "song-0",
     "weaponAngularVelocity": 500
 }

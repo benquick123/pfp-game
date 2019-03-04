@@ -18,6 +18,7 @@ function Story(scene) {
     this.currDialogueWidth;
 
     this.createHelper = function (x, y) {
+        console.log(this.helperSprite);
         this.helper = this.scene.physics.add.sprite(x+64, y, this.helperSprite);
 
         this.scene.tweens.add({

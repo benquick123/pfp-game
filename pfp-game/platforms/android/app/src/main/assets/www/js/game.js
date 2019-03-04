@@ -15,18 +15,20 @@ var EL;
 var mode;
  
 function preload() {
-    this.load.image("floor", "img/floor.png");
-    this.load.image("underground", "img/underground.png");
-    this.load.spritesheet("character", "img/character.png", {frameWidth: 24, frameHeight: 48});
-    this.load.image("obstacle", "img/obstacle.png");
-    this.load.spritesheet("enemy", "img/enemy.png", {frameWidth: 24, frameHeight: 24});
-    this.load.spritesheet("weapon", "img/weapon.png", {frameWidth: 2, frameHeight: 8});
-    this.load.spritesheet("helper", "img/helper.png", {frameWidth: 48, frameHeight: 64});
-
-    // load settings
+    // load settings and assets per level
     for (var i = 0; i < 1; i++) {
         this.load.json("level-" + i, "settings/level-" + i + ".json");
         this.load.json("story-" + i, "settings/story-" + i + ".json");
+        this.load.image("level-" + i +"-floor", "img/level-" + i + "-floor.png");
+        this.load.image("level-" + i + "-underground", "img/level-" + i + "-underground.png");
+        this.load.spritesheet("level-" + i + "-character", "img/level-" + i + "-character.png", {frameWidth: 24, frameHeight: 48});
+        this.load.image("level-" + i + "-obstacle", "img/level-" + i + "-obstacle.png");
+
+        for (var j = 0; j < 2; j++) {
+            this.load.spritesheet("level-" + i + "-enemy-" + j, "img/level-" + i + "-enemy-" + j + ".png", {frameWidth: 24, frameHeight: 24});
+        }
+        this.load.spritesheet("level-" + i + "-weapon", "img/level-" + i + "-weapon.png", {frameWidth: 2, frameHeight: 8});
+        this.load.spritesheet("story-" + i + "-helper", "img/story-" + i + "-helper.png", {frameWidth: 48, frameHeight: 64});
     }
 
     this.load.bitmapFont("font20", "fonts/font20.png", "fonts/font20.xml");

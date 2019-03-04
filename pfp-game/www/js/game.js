@@ -28,7 +28,7 @@ function preload() {
             this.load.spritesheet("level-" + i + "-enemy-" + j, "img/level-" + i + "-enemy-" + j + ".png", {frameWidth: 24, frameHeight: 24});
         }
         this.load.spritesheet("level-" + i + "-weapon", "img/level-" + i + "-weapon.png", {frameWidth: 2, frameHeight: 8});
-        this.load.spritesheet("level-" + i + "-helper", "img/level-" + i + "-helper.png", {frameWidth: 48, frameHeight: 64});
+        this.load.spritesheet("story-" + i + "-helper", "img/story-" + i + "-helper.png", {frameWidth: 48, frameHeight: 64});
     }
 
     this.load.bitmapFont("font20", "fonts/font20.png", "fonts/font20.xml");

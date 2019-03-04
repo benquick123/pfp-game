@@ -3,15 +3,16 @@
     "levelInitSpeed": 100,
     "levelSpeedAdder": 0.0,
     "levelEndScore": 100,
-    "playerSprite": "character",
-    "enemySprite": "enemy",
-    "groundFloorImage": "floor",
-    "groundUnderImage": "underground",
+    "playerSprite": "level-0-character",
+    "enemySprites": [
+        "level-0-enemy-0", 
+        "level-0-enemy-1"
+    ],
+    "groundFloorImage": "level-0-floor",
+    "groundUnderImage": "level-0-underground",
     "gravity": 500,
-    "obstacleSprite": "obstacle",
-    "targetSprite": "enemy",
-    "weaponSprite": "weapon",
-    "helperSprite": "helper",
+    "obstacleSprite": "level-0-obstacle",
+    "weaponSprite": "level-0-weapon",
     "music": "song-0",
     "weaponAngularVelocity": 500
 }

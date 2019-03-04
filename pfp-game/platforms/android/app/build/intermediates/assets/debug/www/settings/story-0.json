@@ -4,5 +4,6 @@
         [1, "Potegni mi penis", 50],
         [0, "hmmm ...", 50],
         [0, "bla bla bla bla text that is a bit longer bla bla bla", 70]
-    ]
+    ],
+    "helperSprite": "story-0-helper"
 }
