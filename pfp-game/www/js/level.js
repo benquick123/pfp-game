@@ -35,16 +35,30 @@ function Level(scene) {
     this.scene.physics.add.existing(this.rightCollider);
 
     this.addPlayer = function(x, y) {
-        this.player = this.scene.physics.add.sprite(x, y, this.playerSprite); 
+        this.player = this.scene.physics.add.sprite(x, y, this.playerSprite + "-walk"); 
         this.player.setBounce(this.playerBounce);
         this.player.setGravityY(500);
 
         this.scene.anims.create({
             key: 'playerwalk',
-            frames: this.scene.anims.generateFrameNumbers(this.playerSprite, { start: 0, end: 3 }),
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-walk", { start: 0, end: 3 }),
             frameRate: 8,
             repeat: -1
         });
+
+        this.scene.anims.create({
+            key: "playerjumpup",
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-jump", { start: 0, end: 3}),
+            frameRate: 8,
+            repeat: 0
+        });
+
+        this.scene.anims.create({
+            key: "playerjumpdown",
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-jump", { start: 3, end: 0}),
+            frameRate: 8,
+            repeat: 0
+        })
     }
 
     this.addGroundColumn = function (x, y) {

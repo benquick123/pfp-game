@@ -21,7 +21,8 @@ function preload() {
         this.load.json("story-" + i, "settings/story-" + i + ".json");
         this.load.image("level-" + i +"-floor", "img/level-" + i + "-floor.png");
         this.load.image("level-" + i + "-underground", "img/level-" + i + "-underground.png");
-        this.load.spritesheet("level-" + i + "-character", "img/level-" + i + "-character.png", {frameWidth: 24, frameHeight: 48});
+        this.load.spritesheet("level-" + i + "-character-walk", "img/level-" + i + "-character-walk.png", {frameWidth: 24, frameHeight: 48});
+        this.load.spritesheet("level-" + i + "-character-jump", "img/level-" + i + "-character-jump.png", {frameWidth: 24, frameHeight: 48});
         this.load.image("level-" + i + "-obstacle", "img/level-" + i + "-obstacle.png");
 
         for (var j = 0; j < 2; j++) {
@@ -71,6 +72,11 @@ function update(time, delta) {
     EL.checkKeyboardEvents();
 
     if (mode == MODELEVEL || mode == MODELEVELTRANSITION) {
+        if (currLevel.player.body.touching.down && !currLevel.player.anims.isPlaying) {
+            currLevel.player.anims.playReverse("playerjumpup");
+            currLevel.player.anims.chain("playerwalk");
+        }
+
         // keep the floor under the player
         if (!currLevel.grounds.isFull()) {
             var groundChildren = currLevel.grounds.getChildren();
