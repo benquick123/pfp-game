@@ -2,7 +2,7 @@
     "levelNumber": 0,
     "levelInitSpeed": 100,
     "levelSpeedAdder": 0.0,
-    "levelEndScore": 10,
+    "levelEndScore": 100,
     "playerSprite": "character",
     "enemySprite": "enemy",
     "groundFloorImage": "floor",

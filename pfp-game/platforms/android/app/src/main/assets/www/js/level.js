@@ -73,22 +73,22 @@ function Level(scene) {
     }
 
     this.addObstacle = function (x, y) {
-        var onOutOfBounds = function(objectA, objectB) {
-            objectA.destroy();
-        }
+        if (!this.levelStop) {
+            var onOutOfBounds = function(objectA, objectB) {
+                objectA.destroy();
+            }
 
-        var obstacle = this.scene.physics.add.sprite(x, y, this.obstacleSprite);
-        obstacle.setGravity(0);
-        // this.scene.physics.add.collider(this.player, obstacle, restartGame);
+            var obstacle = this.scene.physics.add.sprite(x, y, this.obstacleSprite);
+            obstacle.setGravity(0);
+            // this.scene.physics.add.collider(this.player, obstacle, restartGame);
 
-        // Add velocity to the obstacle to make it move left
-        obstacle.body.setVelocityX(-this.levelCurrentSpeed);
+            // Add velocity to the obstacle to make it move left
+            obstacle.body.setVelocityX(-this.levelCurrentSpeed);
 
-        this.scene.physics.add.overlap(obstacle, this.leftCollider, onOutOfBounds);
+            this.scene.physics.add.overlap(obstacle, this.leftCollider, onOutOfBounds);
 
-        this.obstacles.add(obstacle);
-        
-        if (this.levelStop == false) {
+            this.obstacles.add(obstacle);
+            
             var timer = this.scene.time.addEvent({
                 delay: Math.random() * (1000) + (1000),
                 callback: this.addObstacle,
@@ -101,41 +101,43 @@ function Level(scene) {
     }
 
     this.addTargetObject = function (x, y) {
-        var onOutOfBounds = function(objectA, objectB) {
-            objectA.destroy();
-        }
-
-        var target = this.scene.physics.add.sprite(x, y, this.targetSprite);
-        target.setDepth(-4)
-        
-        this.scene.physics.add.collider(this.player, target, restartGame);
-        this.scene.physics.add.collider(this.grounds, target);
-        this.scene.physics.add.overlap(target, this.leftCollider, onOutOfBounds);
-        this.scene.physics.add.overlap(target, this.rightCollider, onOutOfBounds);
-        this.targets.add(target);
-
-        var tween = this.scene.tweens.add({
-            targets: target,
-            x: -20,
-            y: Math.random() * 32 + 88,
-            ease: "Linear",
-            loop: 0,
-            duration: Math.random() * 4000 + 5000,
-            onComplete: function(event) {
-                event.targets[0].destroy();
+        if (!this.levelStop) {
+            var onOutOfBounds = function(objectA, objectB) {
+                objectA.destroy();
             }
-        })
-        target.tween = tween;
-        
-        if (this.levelStop == false) {
-            var timer = this.scene.time.addEvent({
-                delay: Math.random() * 2500 + 2000,
-                callback: this.addTargetObject,
-                callbackScope: this,
-                args: [gridHeight*ratio+8, Math.random()*64 - 32],
-                loop: false
+    
+            var target = this.scene.physics.add.sprite(x, y, this.targetSprite);
+            target.setDepth(-4)
+            
+            this.scene.physics.add.collider(this.player, target, restartGame);
+            this.scene.physics.add.collider(this.grounds, target);
+            this.scene.physics.add.overlap(target, this.leftCollider, onOutOfBounds);
+            this.scene.physics.add.overlap(target, this.rightCollider, onOutOfBounds);
+            this.targets.add(target);
+    
+            var tween = this.scene.tweens.add({
+                targets: target,
+                x: -20,
+                y: Math.random() * 32 + 88,
+                ease: "Linear",
+                loop: 0,
+                duration: Math.random() * 4000 + 5000,
+                onComplete: function(event) {
+                    event.targets[0].destroy();
+                }
             })
-            target.timer = timer;
+            target.tween = tween;
+            
+            if (this.levelStop == false) {
+                var timer = this.scene.time.addEvent({
+                    delay: Math.random() * 2500 + 2000,
+                    callback: this.addTargetObject,
+                    callbackScope: this,
+                    args: [gridHeight*ratio+8, Math.random()*64 - 32],
+                    loop: false
+                })
+                target.timer = timer;
+            }
         }
     }
 

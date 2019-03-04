@@ -1,6 +1,7 @@
 
 function Story(scene) {
     this.scene = scene;
+    this.grounds;
     this.storyNumber = 0;
     this.playerSprite = "character";
     this.player;
@@ -26,7 +27,7 @@ function Story(scene) {
             loop: 0,
             duration: 2000,
             onCompleteScope: this,
-            onComplete: function(event) {
+            onComplete: function() {
                 this.conversate();
             }
         })
@@ -88,7 +89,7 @@ function Story(scene) {
             this.dialogueBox.setColor("black");
             this.dialogueBox.wordNumber = 0;
             this.dialogueBox.timer = this.scene.time.addEvent({
-                delay: 150,
+                delay: 120,
                 callback: function () {
                     if (this.dialogueBox.wordNumber < this.currText.length) {
                         this.dialogueBox.setText(this.dialogueBox.text + (this.dialogueBox.wordNumber == 0 ? "" : " ") + this.currText[this.dialogueBox.wordNumber]);

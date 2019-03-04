@@ -25,32 +25,31 @@ function MainMenu(scene) {
 
     this.onPointerDown = function (pointer, localX, localY, event) {
         event.stopPropagation();
-        buttonNumber = -1
-        for (var i=0; i < currMenu.menuOptionsText.length; i++) {
-            if (this.text == currMenu.menuOptionsText[i]) {
-                buttonNumber = i;
-                break;
-            }
-        }
-        console.log(buttonNumber, " clicked");
-        if (buttonNumber == 0) {
-            changeMode()
-        }
-        else if (buttonNumber == 1) {
-            currMenu.letGo();
-            currMenu = new LeaderboardMenu(currMenu.scene);
-            currMenu.createMenu(gridHeight*ratio/2, gridHeight/2)
-        }
-        else if (buttonNumber == 2) {
-        }
+
+        this.timer = currMenu.scene.time.addEvent({
+            delay: 32,
+            callback: tintButton,
+            callbackScope: this,
+            loop: false,
+            repeat: 7
+        });
     }
 
-    this.letGo = function () {
+    this.letGo = function (button) {
         var menuChildren = this.menuOptions.getChildren();
         for (var i=0; i < menuChildren.length; i++) {
             menuChildren[i].off("pointerdown", NaN);
             menuChildren[i].removeAllListeners();
             menuChildren[i].destroy();
+        }
+        if (button.text == this.menuOptionsText[0]) 
+            changeMode();
+        else if (button.text == this.menuOptionsText[1]) {
+            currMenu = new LeaderboardMenu(this.scene);
+            currMenu.createMenu(gridHeight*ratio/2, gridHeight/2);
+        }
+        else if (button.text == this.menuOptionsText[2]) {
+            console.log(button.text);
         }
     }
 } 
@@ -79,7 +78,6 @@ function LeaderboardMenu(scene) {
             }
             text += Math.floor(Math.random()*1000).toString();
             while (text.length < this.maxCharPerLine) {
-                console.log("HERE");
                 text += " ";
             }
             textArray.push(text);
@@ -114,10 +112,22 @@ function LeaderboardMenu(scene) {
         this.backText.setLetterSpacing(2);
         this.backText.setX(gridHeight*ratio/2 - this.backText.width/2);
         this.backText.setY(this.leaderBoardText.y + this.leaderBoardText.height + 12/2);
-        this.backText.setInteractive().on("pointerdown", this.letGo, this);
+        this.backText.setInteractive().on("pointerdown", this.onPointerDown, this.backText);
     }
 
-    this.letGo = function () {
+    this.onPointerDown = function (pointer, localX, localY, event) {
+        event.stopPropagation();
+
+        this.timer = currMenu.scene.time.addEvent({
+            delay: 32,
+            callback: tintButton,
+            callbackScope: this,
+            loop: false,
+            repeat: 7
+        });
+    }
+
+    this.letGo = function (button) {
         this.leaderBoardText.destroy();
         this.backText.removeAllListeners();
         this.backText.destroy();
@@ -126,5 +136,16 @@ function LeaderboardMenu(scene) {
         if (this.backRestart) {
             this.scene.scene.restart();
         }
+    }
+}
+
+function tintButton() {
+    if (this.isTinted)
+        this.clearTint();
+    else
+        this.setTintFill("black");
+    
+    if (this.timer.getRepeatCount() == 0) {
+        currMenu.letGo(this);
     }
 }
