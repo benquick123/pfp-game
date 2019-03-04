@@ -28,6 +28,7 @@ var EventListeners = function(cursors, scene) {
             var diffY = pointer.y - this.pointY;
             if (diffY < -this.df && Math.abs(diffY) > Math.abs(diffX) && currLevel.player.body.touching.down) {
                 currLevel.player.body.setVelocityY(-250);
+                currLevel.player.anims.play("playerjumpup");
                 this.moveType = "jump";
             }
         }
