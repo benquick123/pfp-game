@@ -105,14 +105,18 @@ function Level(scene) {
                 objectA.destroy();
             }
             
+            // randomly select first or the second asset name.
             var targetI = Math.floor(Math.random()*this.enemySprites.length);
+            // add new target to scene.
             var target = this.scene.physics.add.sprite(x, y, this.enemySprites[targetI]);
+            // create new animation based on configuration in lines 114-117.
             this.scene.anims.create({
                 key: 'normal',
                 frames: this.scene.anims.generateFrameNumbers(this.enemySprites[targetI], { start: 0, end: 3 }),
                 frameRate: 8,
                 repeat: -1
             });
+            // play the animation.
             target.anims.play("normal", true);
             target.setDepth(-4)
             
