@@ -105,15 +105,20 @@ function Level(scene) {
                 objectA.destroy();
             }
             
-            var targetI = Math.floor(Math.random()*this.enemySprites.length);
-            var target = this.scene.physics.add.sprite(x, y, this.enemySprites[targetI]);
+            // randomly select first or the second asset name.
+            // var targetI = Math.floor(Math.random()*this.enemySprites.length);
+            var targetI = 0;
+            // create new animation based on configuration in lines 114-117.
             this.scene.anims.create({
                 key: 'normal',
                 frames: this.scene.anims.generateFrameNumbers(this.enemySprites[targetI], { start: 0, end: 3 }),
                 frameRate: 8,
                 repeat: -1
             });
-            target.anims.play("normal", true);
+            // add new target to scene.
+            var target = this.scene.physics.add.sprite(x, y, this.enemySprites[targetI]);
+            // play the animation.
+            target.play("normal", true);
             target.setDepth(-4)
             
             this.scene.physics.add.collider(this.player, target, restartGame);
