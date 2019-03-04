@@ -129,6 +129,7 @@ function changeMode() {
     }
     else if (mode == MODELEVELTRANSITION) {
         currLevel.levelCurrentSpeed = 0;
+        currLevel.player.anims.stop();
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
@@ -139,6 +140,7 @@ function changeMode() {
     }
     else if (mode == MODEGAMEOVER) {
         currLevel.levelCurrentSpeed = 0;
+        currLevel.player.anims.stop();
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
@@ -166,6 +168,7 @@ function changeMode() {
         currLevel.levelStop = false;
         currLevel.levelEndScore = 100000;
         currLevel.levelCurrentSpeed = currLevel.levelInitSpeed;
+        currLevel.player.play("playerwalk");
     
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
@@ -185,6 +188,7 @@ function changeMode() {
         currLevel.levelCurrentSpeed = currLevel.levelInitSpeed;
         currLevel.addObstacle(gridHeight*ratio, 116);
         currLevel.addTargetObject(gridHeight*ratio+8, Math.random()*64 - 32);
+        currLevel.player.play("playerwalk", true);
 
         mode = MODELEVEL;
     }

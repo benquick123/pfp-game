@@ -38,6 +38,13 @@ function Level(scene) {
         this.player = this.scene.physics.add.sprite(x, y, this.playerSprite); 
         this.player.setBounce(this.playerBounce);
         this.player.setGravityY(500);
+
+        this.scene.anims.create({
+            key: 'playerwalk',
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite, { start: 0, end: 3 }),
+            frameRate: 8,
+            repeat: -1
+        });
     }
 
     this.addGroundColumn = function (x, y) {
