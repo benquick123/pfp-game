@@ -89,7 +89,7 @@ function Story(scene) {
             this.dialogueBox.setColor("black");
             this.dialogueBox.wordNumber = 0;
             this.dialogueBox.timer = this.scene.time.addEvent({
-                delay: 150,
+                delay: 120,
                 callback: function () {
                     if (this.dialogueBox.wordNumber < this.currText.length) {
                         this.dialogueBox.setText(this.dialogueBox.text + (this.dialogueBox.wordNumber == 0 ? "" : " ") + this.currText[this.dialogueBox.wordNumber]);

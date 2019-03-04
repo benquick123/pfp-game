@@ -10,6 +10,7 @@ var labelScore;
 var currLevel;
 var currLevelNumber = 0;
 var currStory;
+var currMenu;
 var EL;
 var mode;
  
@@ -27,33 +28,39 @@ function preload() {
         this.load.json("level-" + i, "settings/level-" + i + ".json");
         this.load.json("story-" + i, "settings/story-" + i + ".json");
     }
+
+    // this.load.bitmapFont("scoreFont", "fonts/scoreFont.png", "fonts/scoreFont.xml");
 }
  
 function create() {
     this.physics.world.bounds.width = w;
     this.physics.world.bounds.height = h;
     
-    mode = MODELEVEL;
+    mode = MODEMENU;
     currLevel = new Level(this);
     $(currLevel).attr(this.cache.json.get("level-" + currLevelNumber));
-    currLevel.levelCurrentSpeed = currLevel.levelInitSpeed;
+    // currLevel.levelCurrentSpeed = currLevel.levelInitSpeed;
     // currLevel.levelStop = true;
 
-    currLevel.addPlayer(gridHeight*ratio - 240, -24)
+    currLevel.addPlayer(gridHeight*ratio - 220  , -24)
     currLevel.addGround(0, 128);
-    currLevel.addObstacle(gridHeight*ratio, 116);
-    currLevel.addTargetObject(gridHeight*ratio+8, Math.random()*64 - 32)
+    // currLevel.addObstacle(gridHeight*ratio, 116);
+    // currLevel.addTargetObject(gridHeight*ratio+8, Math.random()*64 - 32)
+
+    currMenu = new MainMenu(this);
+    currMenu.createMenu(gridHeight*ratio/2, gridHeight/2);
 
     // add event listeners for keys and touches.
     var cursors = this.input.keyboard.createCursorKeys();
-    EL = new eventListeners(cursors, this);
+    EL = new EventListeners(cursors, this);
     
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('#ccccff'); 
 
     score = 0;
-    labelScore = this.add.text(10, 10, "0", { font: "100px Arial", fill: "#ffffff" });
+    // labelScore = this.add.bitmapText(10, 10, "scoreFont", "0");
+    labelScore = this.add.text(10, 10, "", { font: "100px Arial", fill: "#ffffff" });
     labelScore.setScale(0.2);
 }
  
@@ -77,12 +84,11 @@ function update(time, delta) {
         score += delta * 0.02;
         labelScore.setText(Math.round(score));
     }
-
     if (mode == MODELEVEL && score >= currLevel.levelEndScore) {
         // wait until player reaches desired score, then go to level transition.
         changeMode()
     }
-    else if (mode == MODELEVELTRANSITION && currLevel.obstacles.countActive() == 0 && currLevel.targets.countActive() == 0) {
+    else if (mode == MODELEVELTRANSITION && currLevel.obstacles.getLength() == 0 && currLevel.targets.getLength() == 0) {
         // wait until there are no more obstacles and enemies on scene, then go to story.
         changeMode();
     }
@@ -111,6 +117,7 @@ function changeMode() {
         currStory = new Story(currLevel.scene);
         $(currStory).attr(currStory.scene.cache.json.get("story-" + currLevelNumber));
         currStory.player = currLevel.player;
+        currStory.grounds = currLevel.grounds;
 
         mode = MODELEVELTRANSITION;
         console.log("Go to level transition.");
@@ -121,7 +128,6 @@ function changeMode() {
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
         }
-        
         currStory.createHelper(gridHeight*ratio - 32, gridHeight/2);
         mode = MODESTORY;
         console.log("Go to story.");
@@ -145,6 +151,8 @@ function changeMode() {
         mode = MODELEVEL;
     }
     else if (mode == MODEMENU) {
+        currMenu.letGo();
+
         mode = MODELEVEL;
     }
 }

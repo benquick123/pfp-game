@@ -1,5 +1,5 @@
 
-var eventListeners = function(cursors, scene) {
+var EventListeners = function(cursors, scene) {
     this.cursors = cursors;
 
     // touch/click event listeners
