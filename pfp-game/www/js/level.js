@@ -40,6 +40,13 @@ function Level(scene) {
         this.player.setGravityY(500);
 
         this.scene.anims.create({
+            key: 'playeridle',
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-walk", { start: 0, end: 0 }),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        this.scene.anims.create({
             key: 'playerwalk',
             frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-walk", { start: 1, end: 9 }),
             frameRate: 12,
@@ -131,7 +138,7 @@ function Level(scene) {
             var targetI = 0;
             // create new animation based on configuration in lines 114-117.
             this.scene.anims.create({
-                key: 'normal',
+                key: "enemy" + targetI + "animation",
                 frames: this.scene.anims.generateFrameNumbers(this.enemySprites[targetI], { start: 0, end: 3 }),
                 frameRate: 4,
                 repeat: -1
@@ -139,7 +146,7 @@ function Level(scene) {
             // add new target to scene.
             var target = this.scene.physics.add.sprite(x, y, this.enemySprites[targetI]);
             // play the animation.
-            target.play("normal", true);
+            target.play("enemy" + targetI + "animation", true);
             target.setDepth(-4)
             
             this.scene.physics.add.collider(this.player, target, restartGame);
