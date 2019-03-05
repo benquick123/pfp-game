@@ -135,7 +135,7 @@ function changeMode() {
     }
     else if (mode == MODELEVELTRANSITION) {
         currLevel.levelCurrentSpeed = 0;
-        currLevel.player.anims.stop();
+        currLevel.player.anims.play("playeridle");
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
