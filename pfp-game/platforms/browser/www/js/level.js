@@ -41,8 +41,8 @@ function Level(scene) {
 
         this.scene.anims.create({
             key: 'playerwalk',
-            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-walk", { start: 0, end: 7 }),
-            frameRate: 8,
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-walk", { start: 1, end: 9 }),
+            frameRate: 12,
             repeat: -1
         });
 
