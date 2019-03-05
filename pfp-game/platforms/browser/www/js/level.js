@@ -134,8 +134,7 @@ function Level(scene) {
             }
             
             // randomly select first or the second asset name.
-            // var targetI = Math.floor(Math.random()*this.enemySprites.length);
-            var targetI = 0;
+            var targetI = Math.floor(Math.random()*this.enemySprites.length);
             // create new animation based on configuration in lines 114-117.
             this.scene.anims.create({
                 key: "enemy" + targetI + "animation",
