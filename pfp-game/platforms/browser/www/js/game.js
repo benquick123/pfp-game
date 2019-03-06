@@ -54,7 +54,7 @@ function create() {
     $(currLevel).attr(this.cache.json.get("level-" + currLevelNumber));
     // currLevel.levelStop = true;
 
-    currLevel.addPlayer(gridHeight*ratio - 220  , -24)
+    currLevel.addPlayer(gridHeight*ratio - 210  , -24)
     currLevel.addGround(0, 128);
 
     currMenu = new MainMenu(this);
