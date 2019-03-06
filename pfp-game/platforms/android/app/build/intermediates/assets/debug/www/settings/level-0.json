@@ -13,6 +13,6 @@
     "gravity": 500,
     "obstacleSprite": "level-0-obstacle",
     "weaponSprite": "level-0-weapon",
-    "musicName": "chuhapuha",
-    "weaponAngularVelocity": 500
+    "weaponAngularVelocity": 500,
+    "musicName": "chuhapuha"
 }

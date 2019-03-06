@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Wed Mar 06 18:29:23 CET 2019
+#Wed Mar 06 18:53:00 CET 2019
 56.path=www/plugins/cordova-plugin-media/www/Media.js
 5.base=C\:\\Users\\Jonathan\\Documents\\pfp-game\\pfp-game\\platforms\\android\\app\\build\\intermediates\\assets\\debug
 42.base=C\:\\Users\\Jonathan\\Documents\\pfp-game\\pfp-game\\platforms\\android\\app\\build\\intermediates\\assets\\debug

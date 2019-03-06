@@ -48,12 +48,11 @@ function MainMenu(scene) {
             menuChildren[i].off("pointerdown", NaN);
             menuChildren[i].removeAllListeners();
             menuChildren[i].destroy();
-            if (i == 0) {
-                menuChildren[i].fadeOutTimer.remove();
-            }
         }
-        if (button.text == this.menuOptionsText[0]) 
+        if (button.text == this.menuOptionsText[0]) {
+            button.fadeOutTimer.remove();
             changeMode();
+        }
         else if (button.text == this.menuOptionsText[1]) {
             currMenu = new LeaderboardMenu(this.scene);
             currMenu.createMenu(gridHeight*ratio/2, gridHeight/2);
