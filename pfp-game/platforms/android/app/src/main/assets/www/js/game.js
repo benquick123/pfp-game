@@ -37,10 +37,10 @@ function preload() {
     this.load.bitmapFont("font20", "fonts/font20.png", "fonts/font20.xml");
     this.load.bitmapFont("font20_1", "fonts/font20_1.png", "fonts/font20_1.xml");
 
-    /* this.load.audio("chuhapuha", "aud/chuhapuha.mp3");
+    this.load.audio("chuhapuha", "aud/chuhapuha.mp3");
     this.load.audio("basic", "aud/basic.mp3");
     this.load.audio("slshr", "aud/slshr.mp3");
-    this.load.audio("bff", "aud/bff.mp3");*/
+    this.load.audio("bff", "aud/bff.mp3");
 
 
 }
@@ -72,9 +72,8 @@ function create() {
     // labelScore.setScale(0.2);
 
     // initialize music object
-    // music = this.sound.add("basic", { loop: true });
-    // music.play();
-    music = new Media()
+    music = this.sound.add("basic", { loop: true });
+    music.play();
 
     // add event listeners for keys and touches.
     var cursors = this.input.keyboard.createCursorKeys();
@@ -131,6 +130,7 @@ function changeMode() {
         $(currStory).attr(currStory.scene.cache.json.get("story-" + currLevelNumber));
         currStory.player = currLevel.player;
         currStory.grounds = currLevel.grounds;
+        currStory.musicName = currLevel.musicName;
 
         mode = MODELEVELTRANSITION;
         console.log("Go to level transition.");
@@ -142,6 +142,7 @@ function changeMode() {
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
         }
+
         currStory.createHelper(gridHeight*ratio - 32, gridHeight/2);
         mode = MODESTORY;
         console.log("Go to story.");
@@ -178,6 +179,8 @@ function changeMode() {
         currLevel.levelEndScore = 100000;
         currLevel.levelCurrentSpeed = currLevel.levelInitSpeed;
         currLevel.player.play("playerwalk");
+        // change song after level change
+        music.setVolume(1.0);
     
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
@@ -199,12 +202,11 @@ function changeMode() {
         currLevel.addTargetObject(gridHeight*ratio+8, Math.random()*64 - 32);
         currLevel.player.play("playerwalk", true);
 
-        mode = MODELEVEL;
-    }
-}
+        music.stop();
+        music = currLevel.scene.sound.add(currLevel.musicName, { loop: true});
+        music.setVolume(1.0);
+        music.play();
 
-function musicFadeOut(newVolume) {
-    if (newVolume >= 0) {
-        music.setVolume(newVolume);
+        mode = MODELEVEL;
     }
 }

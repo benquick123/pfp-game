@@ -33,14 +33,13 @@ function MainMenu(scene) {
             loop: false,
             repeat: 7
         });
-        /*
         if (this.text == "New game") {
-            currMenu.scene.time.addEvent({
-                delay: 32,
-                callback: function () { musicFadeOut(music.volume-0.1) },
+            this.fadeOutTimer = currMenu.scene.time.addEvent({
+                delay: 24,
+                callback: function () { if (music.volume > 0) music.setVolume(music.volume-0.1); },
                 repeat: 10
             })
-        }*/
+        }
     }
 
     this.letGo = function (button) {
@@ -49,6 +48,9 @@ function MainMenu(scene) {
             menuChildren[i].off("pointerdown", NaN);
             menuChildren[i].removeAllListeners();
             menuChildren[i].destroy();
+            if (i == 0) {
+                menuChildren[i].fadeOutTimer.remove();
+            }
         }
         if (button.text == this.menuOptionsText[0]) 
             changeMode();

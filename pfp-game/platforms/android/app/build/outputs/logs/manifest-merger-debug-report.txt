@@ -1,13 +1,13 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-14:12
-INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-14:12
-INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-14:12
-INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-14:12
+ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
+INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
+INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
+INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
 MERGED from [:CordovaLib] C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\CordovaLib\build\intermediates\manifests\full\debug\AndroidManifest.xml:20:1-27:12
-INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-14:12
-INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-14:12
-INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-14:12
+INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
+INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
+INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
 	package
 		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:102-135
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
@@ -92,3 +92,19 @@ INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\ap
 		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:13:15-41
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:14:5-81
+	android:name
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:14:22-78
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:15:5-71
+	android:name
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:15:22-68
+uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
+ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:16:5-80
+	android:name
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:16:22-77
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:17:5-75
+	android:name
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:17:22-72

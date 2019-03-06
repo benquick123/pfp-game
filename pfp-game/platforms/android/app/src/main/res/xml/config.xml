@@ -31,4 +31,5 @@
     <preference name="loglevel" value="DEBUG" />
     <preference name="Fullscreen" value="true" />
     <preference name="Orientation" value="landscape" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
 </widget>
