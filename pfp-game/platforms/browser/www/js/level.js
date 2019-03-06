@@ -21,6 +21,7 @@ function Level(scene) {
     this.weaponSprite = "";
     this.weaponAngularVelocity = 500;
     this.helperSprite = "";
+    this.musicName = "";
 
     this.leftCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, -16).setOrigin(0, 0);
     this.leftCollider.height = gridHeight + 32;
@@ -35,13 +36,13 @@ function Level(scene) {
     this.scene.physics.add.existing(this.rightCollider);
 
     this.addPlayer = function(x, y) {
-        this.player = this.scene.physics.add.sprite(x, y, this.playerSprite + "-walk"); 
+        this.player = this.scene.physics.add.sprite(x, y, this.playerSprite); 
         this.player.setBounce(this.playerBounce);
         this.player.setGravityY(500);
 
         this.scene.anims.create({
             key: 'playeridle',
-            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-walk", { start: 0, end: 0 }),
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite, { start: 0, end: 0 }),
             frameRate: 12,
             repeat: -1
         });

@@ -21,7 +21,8 @@ function preload() {
         this.load.json("story-" + i, "settings/story-" + i + ".json");
         this.load.image("level-" + i +"-floor", "img/level-" + i + "-floor.png");
         this.load.image("level-" + i + "-underground", "img/level-" + i + "-underground.png");
-        this.load.spritesheet("level-" + i + "-character", "img/level-" + i + "-character.png", {frameWidth: 24, frameHeight: 48});
+        this.load.spritesheet("level-" + i + "-character-walk", "img/level-" + i + "-character-walk.png", {frameWidth: 24, frameHeight: 48});
+        this.load.spritesheet("level-" + i + "-character-jump", "img/level-" + i + "-character-jump.png", {frameWidth: 24, frameHeight: 48});
         this.load.image("level-" + i + "-obstacle", "img/level-" + i + "-obstacle.png");
 
         for (var j = 0; j < 2; j++) {
@@ -71,6 +72,11 @@ function update(time, delta) {
     EL.checkKeyboardEvents();
 
     if (mode == MODELEVEL || mode == MODELEVELTRANSITION) {
+        if (currLevel.player.body.touching.down && !currLevel.player.anims.isPlaying) {
+            currLevel.player.anims.playReverse("playerjumpup");
+            currLevel.player.anims.chain("playerwalk");
+        }
+
         // keep the floor under the player
         if (!currLevel.grounds.isFull()) {
             var groundChildren = currLevel.grounds.getChildren();
@@ -129,6 +135,7 @@ function changeMode() {
     }
     else if (mode == MODELEVELTRANSITION) {
         currLevel.levelCurrentSpeed = 0;
+        currLevel.player.anims.play("playeridle");
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
@@ -139,6 +146,7 @@ function changeMode() {
     }
     else if (mode == MODEGAMEOVER) {
         currLevel.levelCurrentSpeed = 0;
+        currLevel.player.anims.stop();
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
@@ -150,6 +158,7 @@ function changeMode() {
         var enemyChildren = currLevel.targets.getChildren();
         for (var i = 0; i < enemyChildren.length; i++) {
             enemyChildren[i].tween.stop();
+            enemyChildren[i].anims.stop();
         }
         currLevel.levelStop = true;
         labelScore.setText("");
@@ -165,6 +174,7 @@ function changeMode() {
         currLevel.levelStop = false;
         currLevel.levelEndScore = 100000;
         currLevel.levelCurrentSpeed = currLevel.levelInitSpeed;
+        currLevel.player.play("playerwalk");
     
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
@@ -184,6 +194,7 @@ function changeMode() {
         currLevel.levelCurrentSpeed = currLevel.levelInitSpeed;
         currLevel.addObstacle(gridHeight*ratio, 116);
         currLevel.addTargetObject(gridHeight*ratio+8, Math.random()*64 - 32);
+        currLevel.player.play("playerwalk", true);
 
         mode = MODELEVEL;
     }

@@ -24,6 +24,9 @@ var app = {
                 width: gridHeight * ratio,
                 height: gridHeight
             },
+            audio: {
+                disableWebAudio: true
+            },
             physics: {
                 default: 'arcade',
                 arcade: {

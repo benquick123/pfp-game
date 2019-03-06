@@ -21,6 +21,7 @@ function Level(scene) {
     this.weaponSprite = "";
     this.weaponAngularVelocity = 500;
     this.helperSprite = "";
+    this.musicName = "";
 
     this.leftCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, -16).setOrigin(0, 0);
     this.leftCollider.height = gridHeight + 32;
@@ -38,6 +39,34 @@ function Level(scene) {
         this.player = this.scene.physics.add.sprite(x, y, this.playerSprite); 
         this.player.setBounce(this.playerBounce);
         this.player.setGravityY(500);
+
+        this.scene.anims.create({
+            key: 'playeridle',
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite, { start: 0, end: 0 }),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        this.scene.anims.create({
+            key: 'playerwalk',
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-walk", { start: 1, end: 9 }),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        this.scene.anims.create({
+            key: "playerjumpup",
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-jump", { start: 0, end: 3}),
+            frameRate: 8,
+            repeat: 0
+        });
+
+        this.scene.anims.create({
+            key: "playerjumpdown",
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-jump", { start: 3, end: 0}),
+            frameRate: 8,
+            repeat: 0
+        })
     }
 
     this.addGroundColumn = function (x, y) {
@@ -105,8 +134,19 @@ function Level(scene) {
                 objectA.destroy();
             }
             
+            // randomly select first or the second asset name.
             var targetI = Math.floor(Math.random()*this.enemySprites.length);
+            // create new animation based on configuration in lines 114-117.
+            this.scene.anims.create({
+                key: "enemy" + targetI + "animation",
+                frames: this.scene.anims.generateFrameNumbers(this.enemySprites[targetI], { start: 0, end: 3 }),
+                frameRate: 4,
+                repeat: -1
+            });
+            // add new target to scene.
             var target = this.scene.physics.add.sprite(x, y, this.enemySprites[targetI]);
+            // play the animation.
+            target.play("enemy" + targetI + "animation", true);
             target.setDepth(-4)
             
             this.scene.physics.add.collider(this.player, target, restartGame);
