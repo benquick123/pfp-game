@@ -30,6 +30,9 @@ function preload() {
         for (var j = 0; j < 2; j++) {
             this.load.spritesheet("level-" + i + "-enemy-" + j, "img/level-" + i + "-enemy-" + j + ".png", {frameWidth: 24, frameHeight: 24});
         }
+        for (var j = 0; j < 3; j++) {
+            this.load.image("level-" + i + "-background-" + j, "img/level-" + i + "-background-" + j + ".png");
+        }
         this.load.spritesheet("level-" + i + "-weapon", "img/level-" + i + "-weapon.png", {frameWidth: 2, frameHeight: 8});
         this.load.spritesheet("story-" + i + "-helper", "img/story-" + i + "-helper.png", {frameWidth: 48, frameHeight: 64});
     }
@@ -54,7 +57,8 @@ function create() {
     $(currLevel).attr(this.cache.json.get("level-" + currLevelNumber));
     // currLevel.levelStop = true;
 
-    currLevel.addPlayer(gridHeight*ratio - 210  , -24)
+    currLevel.addPlayer(gridHeight*ratio - 210  , -24);
+    currLevel.addBackground();
     currLevel.addGround(0, 128);
 
     currMenu = new MainMenu(this);
@@ -62,7 +66,7 @@ function create() {
     
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
-    this.cameras.main.setBackgroundColor('#ccccff'); 
+    this.cameras.main.setBackgroundColor('black'); 
 
     score = 0;
     labelScore = this.add.bitmapText(10, 10, "font20", "");
@@ -95,9 +99,18 @@ function update(time, delta) {
             var groundChildren = currLevel.grounds.getChildren();
             var lastChildX = groundChildren[groundChildren.length-1].x;
             var active = currLevel.grounds.countActive();
-            var step = (gridHeight*ratio - 128) / 3; 
+            var step = (gridHeight*ratio - 128) / 3;
             for (var i=active; i < currLevel.grounds.maxSize; i+=step) {
                 currLevel.addGroundColumn(lastChildX + (i-active+1)*8, 128)
+            }
+        }
+        // keep background behind player
+        if (!currLevel.backgrounds.isFull()) {
+            var backgroundChildren = currLevel.backgrounds.getChildren();
+            var lastChild = backgroundChildren[backgroundChildren.length-1];
+            var active = currLevel.backgrounds.countActive();
+            for (var i = active; i < currLevel.backgrounds.maxSize; i++) {
+                currLevel.addBackgroundColumn(lastChild.x + lastChild.width, 0);
             }
         }
         // during regular gameplay or transition, keep increasing score and gameplay speed.
@@ -142,6 +155,10 @@ function changeMode() {
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
         }
+        var backgroundChildren = currLevel.backgrounds.getChildren();
+        for (var i = 0; i < backgroundChildren.length; i++) {
+            backgroundChildren[i].body.setVelocityX(0);
+        }
 
         currStory.createHelper(gridHeight*ratio - 32, gridHeight/2);
         mode = MODESTORY;
@@ -154,6 +171,10 @@ function changeMode() {
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
+        }
+        var backgroundChildren = currLevel.backgrounds.getChildren();
+        for (var i = 0; i < backgroundChildren.length; i++) {
+            backgroundChildren[i].body.setVelocityX(0);
         }
         var obstaclesChildren = currLevel.obstacles.getChildren();
         for (var i = 0; i < obstaclesChildren.length; i++) {
@@ -186,6 +207,11 @@ function changeMode() {
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(-currLevel.levelInitSpeed);
         }
+        var backgroundChildren = currLevel.backgrounds.getChildren();
+        for (var i = 0; i < backgroundChildren.length; i++) {
+            backgroundChildren[i].body.setVelocityX(-currLevel.levelInitSpeed*currLevel.parallaxScrollFactor);
+        }
+
         currLevel.addObstacle(gridHeight*ratio, 116);
         currLevel.addTargetObject(gridHeight*ratio+8, Math.random()*64 - 32)     
         mode = MODELEVEL;
@@ -196,6 +222,10 @@ function changeMode() {
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(-currLevel.levelInitSpeed);
+        }
+        var backgroundChildren = currLevel.backgrounds.getChildren();
+        for (var i = 0; i < backgroundChildren.length; i++) {
+            backgroundChildren[i].body.setVelocityX(-currLevel.levelInitSpeed*currLevel.parallaxScrollFactor);
         }
         currLevel.levelCurrentSpeed = currLevel.levelInitSpeed;
         currLevel.addObstacle(gridHeight*ratio, 116);

@@ -10,6 +10,12 @@
     ],
     "groundFloorImage": "level-0-floor",
     "groundUnderImage": "level-0-underground",
+    "backgroundImage": [
+        "level-0-background-0", 
+        "level-0-background-1", 
+        "level-0-background-2"
+    ],
+    "parallaxScrollFactor": 0.8,
     "gravity": 500,
     "obstacleSprite": "level-0-obstacle",
     "weaponSprite": "level-0-weapon",

@@ -33,14 +33,13 @@ function MainMenu(scene) {
             loop: false,
             repeat: 7
         });
-        /*
         if (this.text == "New game") {
-            currMenu.scene.time.addEvent({
-                delay: 32,
-                callback: function () { musicFadeOut(music.volume-0.1) },
+            this.fadeOutTimer = currMenu.scene.time.addEvent({
+                delay: 24,
+                callback: function () { if (music.volume > 0) music.setVolume(music.volume-0.1); },
                 repeat: 10
             })
-        }*/
+        }
     }
 
     this.letGo = function (button) {
@@ -50,8 +49,10 @@ function MainMenu(scene) {
             menuChildren[i].removeAllListeners();
             menuChildren[i].destroy();
         }
-        if (button.text == this.menuOptionsText[0]) 
+        if (button.text == this.menuOptionsText[0]) {
+            button.fadeOutTimer.remove();
             changeMode();
+        }
         else if (button.text == this.menuOptionsText[1]) {
             currMenu = new LeaderboardMenu(this.scene);
             currMenu.createMenu(gridHeight*ratio/2, gridHeight/2);

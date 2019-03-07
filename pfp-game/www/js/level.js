@@ -14,6 +14,9 @@ function Level(scene) {
     this.grounds = this.scene.add.group()
     this.groundFloorImage = "";
     this.groundUnderImage = "";
+    this.backgroundImage = "";
+    this.parallaxScrollFactor = 1.0;
+    this.backgrounds = scene.add.group();
     this.gravity = 500;
     this.obstacleSprite = "";
     this.obstacles = scene.add.group();
@@ -25,13 +28,19 @@ function Level(scene) {
 
     this.leftCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, -16).setOrigin(0, 0);
     this.leftCollider.height = gridHeight + 32;
-    this.leftCollider.x = -this.leftCollider.width-8;
+    this.leftCollider.x = -this.leftCollider.width-16;
     this.scene.add.existing(this.leftCollider);
     this.scene.physics.add.existing(this.leftCollider);
 
+    this.extraLeftCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, -16).setOrigin(0, 0);
+    this.extraLeftCollider.height = gridHeight + 32;
+    this.extraLeftCollider.x = -this.leftCollider.width-96;
+    this.scene.add.existing(this.extraLeftCollider);
+    this.scene.physics.add.existing(this.extraLeftCollider);
+
     this.rightCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, 0).setOrigin(0, 0);
     this.rightCollider.height = gridHeight + 32;
-    this.rightCollider.x = gridHeight*ratio + this.rightCollider.width + 8;
+    this.rightCollider.x = gridHeight*ratio + this.rightCollider.width + 16;
     this.scene.add.existing(this.rightCollider);
     this.scene.physics.add.existing(this.rightCollider);
 
@@ -94,10 +103,33 @@ function Level(scene) {
     }
     
     this.addGround = function (startX, startY) {
-        for (var i=startX; i<=gridHeight*ratio+8; i+=8) {
+        for (var i=startX; i<=gridHeight*ratio+16; i+=8) {
             this.addGroundColumn(i, startY)
         }
         this.grounds.maxSize = this.grounds.getLength();
+    }
+
+    this.addBackgroundColumn = function (x, y) {
+        var onOutOfBounds = function(objectA, objectB) {
+            console.log("background out of bounds");
+            objectA.destroy();
+        }
+
+        backgroundImageI = Math.floor(Math.random() * this.backgroundImage.length);
+        var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[backgroundImageI]);
+        background.setOrigin(0);
+        background.setDepth(-10);
+        this.scene.physics.add.overlap(background, this.extraLeftCollider, onOutOfBounds);
+
+        background.body.setVelocityX(-this.levelCurrentSpeed*this.parallaxScrollFactor);
+        this.backgrounds.add(background);
+    }
+    
+    this.addBackground = function () {
+        for (var i = 0; i < gridHeight*ratio+97; i+=96) {
+            this.addBackgroundColumn(i, 0);
+        }
+        this.backgrounds.maxSize = this.backgrounds.getLength()+1;
     }
 
     this.addObstacle = function (x, y) {
