@@ -104,7 +104,6 @@ function Level(scene) {
 
     this.addBackgroundColumn = function (x, y) {
         var onOutOfBounds = function(objectA, objectB) {
-            console.log("background out of bounds");
             objectA.destroy();
         }
 
@@ -183,7 +182,7 @@ function Level(scene) {
             var tween = this.scene.tweens.add({
                 targets: target,
                 x: -20,
-                y: Math.random() * 32 + 88,
+                y: Math.random() * 16 + 104 ,
                 ease: "Linear",
                 loop: 0,
                 duration: Math.random() * 4000 + 5000,
@@ -197,7 +196,7 @@ function Level(scene) {
                 delay: Math.random() * 2500 + 2000,
                 callback: this.addTargetObject,
                 callbackScope: this,
-                args: [gridHeight*ratio+8, Math.random()*64 - 32],
+                args: [gridHeight*ratio+8, Math.random()*120 - 32],
                 loop: false
             })
             target.timer = timer;
