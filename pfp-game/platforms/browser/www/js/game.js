@@ -90,8 +90,7 @@ function update(time, delta) {
 
     if (mode == MODELEVEL || mode == MODELEVELTRANSITION) {
         if (currLevel.player.body.touching.down && !currLevel.player.anims.isPlaying) {
-            currLevel.player.anims.playReverse("playerjumpup");
-            currLevel.player.anims.chain("playerwalk");
+            currLevel.player.anims.play("playerwalk")
         }
 
         // keep the floor under the player

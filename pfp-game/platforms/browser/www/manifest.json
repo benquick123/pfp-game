@@ -1,8 +1,8 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "HelloCordova",
-  "short_name": "HelloCordova",
+  "name": "pfp-game",
+  "short_name": "pfp-game",
   "version": "pfp.pfpgame",
   "description": "A persons from Porlock game.",
   "author": "Persons from Porlock",

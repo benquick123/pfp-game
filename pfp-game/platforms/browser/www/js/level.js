@@ -64,18 +64,11 @@ function Level(scene) {
         });
 
         this.scene.anims.create({
-            key: "playerjumpup",
-            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-jump", { start: 0, end: 3}),
+            key: "playerjump",
+            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-jump", { start: 0, end: 0}),
             frameRate: 8,
             repeat: 0
         });
-
-        this.scene.anims.create({
-            key: "playerjumpdown",
-            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-jump", { start: 3, end: 0}),
-            frameRate: 8,
-            repeat: 0
-        })
     }
 
     this.addGroundColumn = function (x, y) {
