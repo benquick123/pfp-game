@@ -28,6 +28,7 @@ var EventListeners = function(cursors, scene) {
             var diffY = pointer.y - this.pointY;
             if (diffY < -this.df && Math.abs(diffY) > Math.abs(diffX) && currLevel.player.body.touching.down) {
                 currLevel.player.body.setVelocityY(-250);
+                currLevel.player.anims.stop();
                 currLevel.player.anims.play("playerjump");
                 this.moveType = "jump";
             }
@@ -51,6 +52,7 @@ var EventListeners = function(cursors, scene) {
     this.checkKeyboardEvents = function() {
         if (mode == MODELEVEL || mode == MODELEVELTRANSITION) {
             if (this.cursors.up.isDown && currLevel.player.body.touching.down) {
+                currLevel.player.anims.play("playerjump");
                 currLevel.player.body.setVelocityY(-250); // jump up
             }
         }

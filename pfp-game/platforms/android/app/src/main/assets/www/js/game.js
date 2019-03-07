@@ -90,8 +90,7 @@ function update(time, delta) {
 
     if (mode == MODELEVEL || mode == MODELEVELTRANSITION) {
         if (currLevel.player.body.touching.down && !currLevel.player.anims.isPlaying) {
-            console.log("player back to walking.")
-            currLevel.player.anims.play("playerwalk")
+            currLevel.player.anims.play("playerwalk");
         }
 
         // keep the floor under the player
@@ -150,6 +149,7 @@ function changeMode() {
     }
     else if (mode == MODELEVELTRANSITION) {
         currLevel.levelCurrentSpeed = 0;
+        currLevel.player.anims.stop();
         currLevel.player.anims.play("playeridle");
         var groundChildren = currLevel.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
