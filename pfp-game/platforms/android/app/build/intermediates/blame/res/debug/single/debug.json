@@ -32,14 +32,6 @@
         "source": "C:\\Users\\Jonathan\\Documents\\pfp-game\\pfp-game\\platforms\\android\\app\\src\\main\\res\\drawable-land-ldpi\\screen.png"
     },
     {
-        "merged": "C:\\Users\\Jonathan\\Documents\\pfp-game\\pfp-game\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_icon.png.flat",
-        "source": "C:\\Users\\Jonathan\\Documents\\pfp-game\\pfp-game\\platforms\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\icon.png"
-    },
-    {
-        "merged": "C:\\Users\\Jonathan\\Documents\\pfp-game\\pfp-game\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_icon.png.flat",
-        "source": "C:\\Users\\Jonathan\\Documents\\pfp-game\\pfp-game\\platforms\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\icon.png"
-    },
-    {
         "merged": "C:\\Users\\Jonathan\\Documents\\pfp-game\\pfp-game\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_icon.png.flat",
         "source": "C:\\Users\\Jonathan\\Documents\\pfp-game\\pfp-game\\platforms\\android\\app\\src\\main\\res\\mipmap-mdpi\\icon.png"
     },

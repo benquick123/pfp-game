@@ -3,9 +3,9 @@
   "display": "standalone",
   "name": "HelloCordova",
   "short_name": "HelloCordova",
-  "version": "io.cordova.hellocordova",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "author": "Apache Cordova Team",
+  "version": "pfp.pfpgame",
+  "description": "A persons from Porlock game.",
+  "author": "Persons from Porlock",
   "icons": [],
   "orientation": "landscape",
   "start_url": "index.html"
