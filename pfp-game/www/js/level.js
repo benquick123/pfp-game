@@ -104,7 +104,6 @@ function Level(scene) {
 
     this.addBackgroundColumn = function (x, y) {
         var onOutOfBounds = function(objectA, objectB) {
-            console.log("background out of bounds");
             objectA.destroy();
         }
 
