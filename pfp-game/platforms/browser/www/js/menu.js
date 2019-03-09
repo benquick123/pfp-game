@@ -185,7 +185,6 @@ function LeaderboardMenu(scene) {
     this.constructLeaderboard = function (x, y) {
         onHandleClick = function (pointer, localX, localY, event) {
             window.open(encodeURI("https://www.instagram.com/" + this.text.substring(this.text.indexOf("@")+1, this.text.length)), "_system");
-            console.log(encodeURI("https://www.instagram.com/" + this.text.substring(this.text.indexOf("@")+1, this.text.length)));
         }
 
         for (var i = 0; i < this.maxItems; i++) {

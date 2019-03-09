@@ -175,7 +175,7 @@ function LeaderboardMenu(scene) {
     this.scene = scene;
     this.maxItems = 10;
     this.highscoreItems = [];
-    this.maxLineLength = 128;
+    this.maxLineLength = 160;
     this.leaderBoardText;
     this.leaderBoardArray = [];
     this.leaderboard = scene.add.group();
