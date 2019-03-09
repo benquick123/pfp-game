@@ -38,14 +38,12 @@ function preload() {
     }
 
     this.load.bitmapFont("font20", "fonts/font20.png", "fonts/font20.xml");
-    this.load.bitmapFont("font20_1", "fonts/font20_1.png", "fonts/font20_1.xml");
+    this.load.bitmapFont("font12", "fonts/font12.png", "fonts/font12.xml");
 
     this.load.audio("chuhapuha", "aud/chuhapuha.mp3");
     this.load.audio("basic", "aud/basic.mp3");
     this.load.audio("slshr", "aud/slshr.mp3");
     this.load.audio("bff", "aud/bff.mp3");
-
-
 }
  
 function create() {
@@ -186,11 +184,10 @@ function changeMode() {
             enemyChildren[i].anims.stop();
         }
         currLevel.levelStop = true;
-        labelScore.setText("");
+        // labelScore.setText("");
 
-        currMenu = new LeaderboardMenu(currLevel.scene);
-        currMenu.createMenu(gridHeight*ratio/2, gridHeight/2);
-        currMenu.backRestart = true;
+        currMenu = new EnterLeaderboardName(currLevel.scene);
+        currMenu.createMenu(score);
         mode = MODEMENU;
     }
     else if (mode == MODESTORY) {

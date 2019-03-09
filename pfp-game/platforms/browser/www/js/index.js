@@ -18,6 +18,7 @@ var app = {
             type: Phaser.AUTO,
             crisp: true,
             pixelArt: true,
+            parent: "main-game-window",
             scale: {
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -39,6 +40,13 @@ var app = {
             }
         };
         game = new Phaser.Game(config);
+
+        $("#highscore-text").css("height", 12*h / gridHeight + "px");
+        $("#highscore-text").css("width", 96*h / gridHeight + "px");
+        $("#highscore-text").css("border", h / gridHeight + "px solid black");
+        $("#highscore-text").css("padding", 2*h / gridHeight + "px");
+        $("#highscore-text").css("font-size", 12*h / gridHeight + "px");
+        $("#highscore-text").attr("placeholder", "@instagram_handle");
     }
 };
 

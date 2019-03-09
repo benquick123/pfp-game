@@ -55,7 +55,8 @@ function MainMenu(scene) {
         }
         else if (button.text == this.menuOptionsText[1]) {
             currMenu = new LeaderboardMenu(this.scene);
-            currMenu.createMenu(gridHeight*ratio/2, gridHeight/2);
+            currMenu.leaderBoardArray = retrieveLeaderBoard();
+            currMenu.createMenu(gridHeight*ratio/2-currMenu.maxLineLength/2, 2);
         }
         else if (button.text == this.menuOptionsText[2]) {
             console.log(button.text);
@@ -67,60 +68,165 @@ function CreditsMenu() {
 
 }
 
+function EnterLeaderboardName(scene) {
+    /* 
+    first, check if score is high enough for leaderboard.
+    if not, go directly to leaderboard menu.
+    if yes, display last score (at the same place as durign in-game), "Game over" text,
+    text input field and submit button. 
+    upon clicking submit, save the query to the db on server, and push the result into previously retrieved leaderboard array.
+    display new top 10 in LeaderboardMenu.
+    */
+    this.scene = scene;
+    this.leaderboard = []
+    this.gameOverText;
+    this.submitText;
+    this.achievedI = -1;
+    this.score = -1;
+    
+    this.createMenu = function(score) {
+        this.score = score;
+        this.leaderboard = retrieveLeaderBoard();
+        for (this.achievedI = this.leaderboard.length-1; this.achievedI >= 0; this.achievedI--) {
+            if (this.leaderboard[this.achievedI][1] > score) {
+                break;
+            }
+        }
+        if (this.achievedI == this.leaderboard.length-1 && this.leaderboard.length == 10) {
+            // open leaderboard menu
+            labelScore.setText("");
+            currMenu = new LeaderboardMenu(currMenu.scene);
+            currMenu.leaderBoardArray = this.leaderboard;
+            currMenu.backRestart = true;
+            currMenu.createMenu(gridHeight*ratio/2-currMenu.maxLineLength/2, 2);
+        }
+        else {
+            this.gameOverText = this.scene.make.bitmapText({
+                x: 0,
+                y: 0,
+                text: "GAME OVER",
+                font: "font20",
+            });
+            this.gameOverText.setFontSize(24);
+            this.gameOverText.setLetterSpacing(2);
+            this.gameOverText.setX(gridHeight*ratio/2 - this.gameOverText.width/2);
+            this.gameOverText.setY(10);
+
+            $("#highscore-text").css("visibility", "visible");
+            $("#highscore-text").val(window.localStorage.getItem("username"));
+
+            this.submitText = this.scene.make.bitmapText({
+                x: 0,
+                y: 0,
+                text: "SUBMIT",
+                font: "font20"
+            });
+            this.submitText.setFontSize(24);
+            this.submitText.setLetterSpacing(2);
+            this.submitText.setX(gridHeight*ratio/2 - this.submitText.width/2);
+            this.submitText.setY(96);
+            this.submitText.setInteractive().on("pointerdown", this.onPointerDown, this.submitText);
+        }
+
+        this.scene.input.keyboard.on("keydown-ENTER", this.onEnterDown, this);
+    }
+
+    this.onPointerDown = function (pointer, localX, localY, event) {
+        event.stopPropagation();
+
+        this.timer = currMenu.scene.time.addEvent({
+            delay: 32,
+            callback: tintButton,
+            callbackScope: this,
+            loop: false,
+            repeat: 7
+        });
+    }
+
+    this.onEnterDown = function (event) {
+        this.letGo(this.submitText);
+    }
+
+    this.letGo = function(button) {
+        var highScoreName = $("#highscore-text").val();
+        if (highScoreName.length == 0) {
+            $("#highscore-text").attr("placeholder", "Enter something");
+        }
+        else {
+            // post new score to server
+            var storage = window.localStorage;
+            storage.setItem("username", highScoreName);
+            this.leaderboard.splice(this.achievedI+1, 0, [highScoreName, Math.round(score)]);
+            this.gameOverText.destroy();
+            $("#highscore-text").css("visibility", "hidden");
+            this.submitText.removeAllListeners();
+            this.submitText.destroy();
+            this.scene.input.keyboard.off("keydown-ENTER");
+            labelScore.setText("");
+            currMenu = new LeaderboardMenu(currMenu.scene);
+            currMenu.leaderBoardArray = this.leaderboard;
+            currMenu.backRestart = true;
+            currMenu.createMenu(gridHeight*ratio/2-currMenu.maxLineLength/2, 2);
+        }
+    }
+}
+
 function LeaderboardMenu(scene) {
     this.scene = scene;
     this.maxItems = 10;
     this.highscoreItems = [];
-    this.maxCharPerLine = 12;
+    this.maxLineLength = 128;
     this.leaderBoardText;
+    this.leaderBoardArray = [];
+    this.leaderboard = scene.add.group();
     this.backText;
     this.backRestart = false;
 
-    this.getLeaderBoard = function () {
-        var textArray = [];
-        for (var i=0; i < this.maxItems; i++) {
-            var text = "";
-            name = "AUDBAI";
-            text += (i+1).toString() + "." + name;
-            for (var j=name.length; j < this.maxCharPerLine-3; j++) {
-                text += ".";
-            }
-            text += Math.floor(Math.random()*1000).toString();
-            while (text.length < this.maxCharPerLine) {
-                text += " ";
-            }
-            textArray.push(text);
+    this.constructLeaderboard = function (x, y) {
+        onHandleClick = function (pointer, localX, localY, event) {
+            window.open(encodeURI("https://www.instagram.com/" + this.text.substring(this.text.indexOf("@")+1, this.text.length)), "_system");
+            console.log(encodeURI("https://www.instagram.com/" + this.text.substring(this.text.indexOf("@")+1, this.text.length)));
         }
-        var text = "";
-        for (var i = 0; i < textArray.length/2; i++) {
-            text += textArray[i] + "  " + textArray[i+textArray.length/2] + "\n";
+
+        for (var i = 0; i < this.maxItems; i++) {
+            var number = (i+1).toString() + ".";
+            var name = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][0] : "NO_NAME";
+            var score = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][1].toString() : "0";
+            var textName = this.scene.make.bitmapText({
+                x: x,
+                y: y+i*12,
+                text: number + name,
+                font: "font12"
+            });
+            textName.setTintFill("black");
+            if (name[0] == "@") {
+                textName.setInteractive().on("pointerdown", onHandleClick, this.textName);
+            }
+            var textScore = this.scene.make.bitmapText({
+                x: textName.x + this.maxLineLength,
+                y: y+i*12,
+                text: score,
+                font: "font12"
+            });
+            textScore.setTintFill("black");
+            this.leaderboard.add(textName);
+            this.leaderboard.add(textScore);
         }
-        return text;
     }
 
     this.createMenu = function (x, y) {
-        text = this.getLeaderBoard();
-        this.leaderBoardText = this.scene.make.bitmapText({
-            x: x,
-            y: y-20/2,
-            text: text,
-            font: "font20_1"
-        });
-        this.leaderBoardText.setFontSize(20);
-        this.leaderBoardText.setLetterSpacing(2);
-        this.leaderBoardText.setX(gridHeight*ratio/2 - this.leaderBoardText.width/2);
-        this.leaderBoardText.setY(12);
+        this.constructLeaderboard(x, y);
 
+        lastChild = this.leaderboard.getChildren()[this.leaderboard.getChildren().length-1];
         this.backText = this.scene.make.bitmapText({
-            x: x,
-            y: this.leaderBoardText.y + 0.2*(this.leaderBoardText.height/2) + 20/2,
+            x: 0,
+            y: lastChild.y + lastChild.height + 4,
             text: "Back",
             font: "font20"
         });
         this.backText.setFontSize(24);
         this.backText.setLetterSpacing(2);
         this.backText.setX(gridHeight*ratio/2 - this.backText.width/2);
-        this.backText.setY(this.leaderBoardText.y + this.leaderBoardText.height + 12/2);
         this.backText.setInteractive().on("pointerdown", this.onPointerDown, this.backText);
     }
 
@@ -137,7 +243,11 @@ function LeaderboardMenu(scene) {
     }
 
     this.letGo = function (button) {
-        this.leaderBoardText.destroy();
+        leaderboardChildren = this.leaderboard.getChildren();
+        for (var i = 0; i < leaderboardChildren.length; i++) {
+            leaderboardChildren[i].removeAllListeners();
+        }
+        this.leaderboard.clear(true);
         this.backText.removeAllListeners();
         this.backText.destroy();
         currMenu = new MainMenu(currMenu.scene);
@@ -157,4 +267,9 @@ function tintButton() {
     if (this.timer.getRepeatCount() == 0) {
         currMenu.letGo(this);
     }
+}
+
+function retrieveLeaderBoard() {
+    // returns sorted array with indices ["name", score]
+    return [["@penis", 1000], ["pfp", 500], ["drek", 250]];
 }
