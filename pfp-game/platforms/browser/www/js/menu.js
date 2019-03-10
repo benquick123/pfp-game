@@ -69,18 +69,11 @@ function CreditsMenu() {
 }
 
 function EnterLeaderboardName(scene) {
-    /* 
-    first, check if score is high enough for leaderboard.
-    if not, go directly to leaderboard menu.
-    if yes, display last score (at the same place as durign in-game), "Game over" text,
-    text input field and submit button. 
-    upon clicking submit, save the query to the db on server, and push the result into previously retrieved leaderboard array.
-    display new top 10 in LeaderboardMenu.
-    */
     this.scene = scene;
     this.leaderboard = []
     this.gameOverText;
     this.submitText;
+    this.mainMenuText;
     this.achievedI = -1;
     this.score = -1;
     
@@ -103,14 +96,26 @@ function EnterLeaderboardName(scene) {
         this.submitText = this.scene.make.bitmapText({
             x: 0,
             y: 0,
-            text: "SUBMIT",
+            text: "Submit",
             font: "font20"
         });
         this.submitText.setFontSize(24);
         this.submitText.setLetterSpacing(2);
-        this.submitText.setX(gridHeight*ratio/2 - this.submitText.width/2);
+        this.submitText.setX(3*gridHeight*ratio/4 - this.submitText.width/2);
         this.submitText.setY(96);
         this.submitText.setInteractive().on("pointerdown", this.onPointerDown, this.submitText);
+
+        this.mainMenuText = this.scene.make.bitmapText({
+            x: 0,
+            y: 0,
+            text: "Main menu",
+            font: "font20"
+        });
+        this.mainMenuText.setFontSize(24);
+        this.mainMenuText.setLetterSpacing(2);
+        this.mainMenuText.setX(gridHeight*ratio/4 - this.submitText.width/2);
+        this.mainMenuText.setY(96);
+        this.mainMenuText.setInteractive().on("pointerdown", this.onPointerDown, this.mainMenuText);
 
         this.scene.input.keyboard.on("keydown-ENTER", this.onEnterDown, this);
     }
@@ -132,36 +137,53 @@ function EnterLeaderboardName(scene) {
     }
 
     this.letGo = function(button) {
-        var highScoreName = $("#highscore-text").val();
-        if (highScoreName.length == 0) {
-            $("#highscore-text").attr("placeholder", "Enter your Instagram handle");
+        if (button.text == "Main menu") {
+            this.gameOverText.destroy();
+            $("#highscore-text").css("visibility", "hidden");
+            this.submitText.removeAllListeners();
+            this.submitText.destroy();
+            this.scene.input.keyboard.off("keydown-ENTER");
+            labelScore.setText("");
+
+            currMenu = new MainMenu(currMenu.scene);
+            currMenu.createMenu(gridHeight*ratio/2, gridHeight/2);
+            currMenu.scene.scene.restart();
+
         }
         else {
-            var postResponse = $.ajax({
-                type: "POST",
-                url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings",
-                data: {"player": highScoreName.substring(1, highScoreName.length), "score": Math.round(score)},
-                async: false
-            });
-            if (postResponse.status == 400) {
-                $("#highscore-text").val("");
-                $("#highscore-text").attr("placeholder", "Invalid profile.");
+            var highScoreName = $("#highscore-text").val();
+            if (highScoreName.length == 0) {
+                $("#highscore-text").attr("placeholder", "Invalid Instagram handle");
             }
             else {
-                var storage = window.localStorage;
-                storage.setItem("username", highScoreName);
-                this.gameOverText.destroy();
-                $("#highscore-text").css("visibility", "hidden");
-                this.submitText.removeAllListeners();
-                this.submitText.destroy();
-                this.scene.input.keyboard.off("keydown-ENTER");
-                labelScore.setText("");
-                currMenu = new LeaderboardMenu(currMenu.scene);
-                currMenu.backRestart = true;
-                if (postResponse.responseJSON["isHighscore"]) {
-                    currMenu.currPlayerRank = postResponse.responseJSON["rank"];
-                }   
-                currMenu.createMenu(gridHeight*ratio/2-currMenu.maxLineLength/2, 2);
+                var postResponse = $.ajax({
+                    type: "POST",
+                    url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings",
+                    data: {"player": highScoreName.substring(1, highScoreName.length), "score": Math.round(score)},
+                    async: false
+                });
+                if (postResponse.status == 400) {
+                    $("#highscore-text").val("");
+                    $("#highscore-text").attr("placeholder", "Invalid profile.");
+                }
+                else {
+                    var storage = window.localStorage;
+                    storage.setItem("username", highScoreName);
+                    this.gameOverText.destroy();
+                    $("#highscore-text").css("visibility", "hidden");
+                    this.submitText.removeAllListeners();
+                    this.submitText.destroy();
+                    this.mainMenuText.removeAllListeners();
+                    this.mainMenuText.destroy();
+                    this.scene.input.keyboard.off("keydown-ENTER");
+                    labelScore.setText("");
+                    currMenu = new LeaderboardMenu(currMenu.scene);
+                    currMenu.backRestart = true;
+                    if (postResponse.responseJSON["isHighscore"]) {
+                        currMenu.currPlayerRank = postResponse.responseJSON["rank"];
+                    }   
+                    currMenu.createMenu(gridHeight*ratio/2-currMenu.maxLineLength/2, 2);
+                }
             }
         }
     }

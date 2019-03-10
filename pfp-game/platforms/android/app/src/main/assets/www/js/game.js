@@ -183,6 +183,7 @@ function changeMode() {
             enemyChildren[i].tween.stop();
             enemyChildren[i].anims.stop();
         }
+        currLevel.player.setVelocityX(0);
         currLevel.levelStop = true;
         // labelScore.setText("");
 
