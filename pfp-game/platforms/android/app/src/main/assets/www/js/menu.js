@@ -86,47 +86,31 @@ function EnterLeaderboardName(scene) {
     
     this.createMenu = function(score) {
         this.score = score;
-        this.leaderboard = retrieveLeaderBoard();
-        for (this.achievedI = this.leaderboard.length-1; this.achievedI >= 0; this.achievedI--) {
-            if (this.leaderboard[this.achievedI][1] > score) {
-                break;
-            }
-        }
-        if (this.achievedI == this.leaderboard.length-1 && this.leaderboard.length == 10) {
-            // open leaderboard menu
-            labelScore.setText("");
-            currMenu = new LeaderboardMenu(currMenu.scene);
-            currMenu.leaderBoardArray = this.leaderboard;
-            currMenu.backRestart = true;
-            currMenu.createMenu(gridHeight*ratio/2-currMenu.maxLineLength/2, 2);
-        }
-        else {
-            this.gameOverText = this.scene.make.bitmapText({
-                x: 0,
-                y: 0,
-                text: "GAME OVER",
-                font: "font20",
-            });
-            this.gameOverText.setFontSize(24);
-            this.gameOverText.setLetterSpacing(2);
-            this.gameOverText.setX(gridHeight*ratio/2 - this.gameOverText.width/2);
-            this.gameOverText.setY(10);
+        this.gameOverText = this.scene.make.bitmapText({
+            x: 0,
+            y: 0,
+            text: "GAME OVER",
+            font: "font20",
+        });
+        this.gameOverText.setFontSize(24);
+        this.gameOverText.setLetterSpacing(2);
+        this.gameOverText.setX(gridHeight*ratio/2 - this.gameOverText.width/2);
+        this.gameOverText.setY(10);
 
-            $("#highscore-text").css("visibility", "visible");
-            $("#highscore-text").val(window.localStorage.getItem("username"));
+        $("#highscore-text").css("visibility", "visible");
+        $("#highscore-text").val(window.localStorage.getItem("username"));
 
-            this.submitText = this.scene.make.bitmapText({
-                x: 0,
-                y: 0,
-                text: "SUBMIT",
-                font: "font20"
-            });
-            this.submitText.setFontSize(24);
-            this.submitText.setLetterSpacing(2);
-            this.submitText.setX(gridHeight*ratio/2 - this.submitText.width/2);
-            this.submitText.setY(96);
-            this.submitText.setInteractive().on("pointerdown", this.onPointerDown, this.submitText);
-        }
+        this.submitText = this.scene.make.bitmapText({
+            x: 0,
+            y: 0,
+            text: "SUBMIT",
+            font: "font20"
+        });
+        this.submitText.setFontSize(24);
+        this.submitText.setLetterSpacing(2);
+        this.submitText.setX(gridHeight*ratio/2 - this.submitText.width/2);
+        this.submitText.setY(96);
+        this.submitText.setInteractive().on("pointerdown", this.onPointerDown, this.submitText);
 
         this.scene.input.keyboard.on("keydown-ENTER", this.onEnterDown, this);
     }
@@ -150,23 +134,35 @@ function EnterLeaderboardName(scene) {
     this.letGo = function(button) {
         var highScoreName = $("#highscore-text").val();
         if (highScoreName.length == 0) {
-            $("#highscore-text").attr("placeholder", "Enter something");
+            $("#highscore-text").attr("placeholder", "Enter your Instagram handle");
         }
         else {
-            // post new score to server
-            var storage = window.localStorage;
-            storage.setItem("username", highScoreName);
-            this.leaderboard.splice(this.achievedI+1, 0, [highScoreName, Math.round(score)]);
-            this.gameOverText.destroy();
-            $("#highscore-text").css("visibility", "hidden");
-            this.submitText.removeAllListeners();
-            this.submitText.destroy();
-            this.scene.input.keyboard.off("keydown-ENTER");
-            labelScore.setText("");
-            currMenu = new LeaderboardMenu(currMenu.scene);
-            currMenu.leaderBoardArray = this.leaderboard;
-            currMenu.backRestart = true;
-            currMenu.createMenu(gridHeight*ratio/2-currMenu.maxLineLength/2, 2);
+            var postResponse = $.ajax({
+                type: "POST",
+                url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings",
+                data: {"player": highScoreName.substring(1, highScoreName.length), "score": Math.round(score)},
+                async: false
+            });
+            if (postResponse.status == 400) {
+                $("#highscore-text").val("");
+                $("#highscore-text").attr("placeholder", "Invalid profile.");
+            }
+            else {
+                var storage = window.localStorage;
+                storage.setItem("username", highScoreName);
+                this.gameOverText.destroy();
+                $("#highscore-text").css("visibility", "hidden");
+                this.submitText.removeAllListeners();
+                this.submitText.destroy();
+                this.scene.input.keyboard.off("keydown-ENTER");
+                labelScore.setText("");
+                currMenu = new LeaderboardMenu(currMenu.scene);
+                currMenu.backRestart = true;
+                if (postResponse.responseJSON["isHighscore"]) {
+                    currMenu.currPlayerRank = postResponse.responseJSON["rank"];
+                }   
+                currMenu.createMenu(gridHeight*ratio/2-currMenu.maxLineLength/2, 2);
+            }
         }
     }
 }
@@ -178,6 +174,7 @@ function LeaderboardMenu(scene) {
     this.maxLineLength = 160;
     this.leaderBoardText;
     this.leaderBoardArray = [];
+    this.currPlayerRank = -1;
     this.leaderboard = scene.add.group();
     this.backText;
     this.backRestart = false;
@@ -186,10 +183,10 @@ function LeaderboardMenu(scene) {
         onHandleClick = function (pointer, localX, localY, event) {
             window.open(encodeURI("https://www.instagram.com/" + this.text.substring(this.text.indexOf("@")+1, this.text.length)), "_system");
         }
-
+        console.log(this.currPlayerRank);
         for (var i = 0; i < this.maxItems; i++) {
             var number = (i+1).toString() + ".";
-            var name = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][0] : "(empty)";
+            var name = i < this.leaderBoardArray.length ? "@" + this.leaderBoardArray[i][0] : "(rajko)";
             var score = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][1].toString() : "0";
             var textName = this.scene.make.bitmapText({
                 x: x,
@@ -197,7 +194,7 @@ function LeaderboardMenu(scene) {
                 text: number + name,
                 font: "font12"
             });
-            textName.setTintFill("black");
+            // textName.setTintFill("black");
             if (name[0] == "@") {
                 textName.setInteractive().on("pointerdown", onHandleClick, this.textName);
             }
@@ -207,13 +204,28 @@ function LeaderboardMenu(scene) {
                 text: score,
                 font: "font12"
             });
-            textScore.setTintFill("black");
+            // textScore.setTintFill("black");
+            if (i == this.currPlayerRank-1) {
+                textScore.timer = this.scene.time.addEvent({
+                    delay: 500,
+                    callback: tintButton,
+                    callbackScope: textScore,
+                    repeat: 1000
+                });
+                textName.timer = this.scene.time.addEvent({
+                    delay: 500,
+                    callback: tintButton,
+                    callbackScope: textName,
+                    repeat: 1000
+                })
+            }
             this.leaderboard.add(textName);
             this.leaderboard.add(textScore);
         }
     }
 
     this.createMenu = function (x, y) {
+        this.leaderBoardArray = retrieveLeaderBoard();
         this.constructLeaderboard(x, y);
 
         lastChild = this.leaderboard.getChildren()[this.leaderboard.getChildren().length-1];
@@ -270,10 +282,19 @@ function tintButton() {
 
 function retrieveLeaderBoard() {
     // returns sorted array with indices ["name", score]
-    $.ajax({
+    var response = $.ajax({
         type: "GET",
         url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings?n=10",
-        success: function(response) { console.log(response) }
+        async: false
     });
-    return {}
+    var returnArray = []
+    if (Math.floor(response.status/100) != 4) {
+        for (var key in response.responseJSON) {
+            returnArray.push([key, response.responseJSON[key]]);
+        }
+    }
+    else {
+        returnArray.push(["CONNECTION ERROR", "0"])
+    }
+    return returnArray;
 }
