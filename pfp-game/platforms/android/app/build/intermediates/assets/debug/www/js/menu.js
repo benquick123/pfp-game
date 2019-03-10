@@ -189,7 +189,7 @@ function LeaderboardMenu(scene) {
 
         for (var i = 0; i < this.maxItems; i++) {
             var number = (i+1).toString() + ".";
-            var name = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][0] : "NO_NAME";
+            var name = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][0] : "(empty)";
             var score = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][1].toString() : "0";
             var textName = this.scene.make.bitmapText({
                 x: x,
@@ -270,5 +270,10 @@ function tintButton() {
 
 function retrieveLeaderBoard() {
     // returns sorted array with indices ["name", score]
-    return [["@penis", 1000], ["pfp", 500], ["drek", 250]];
+    $.ajax({
+        type: "GET",
+        url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings?n=10",
+        success: function(response) { console.log(response) }
+    });
+    return {}
 }
