@@ -194,7 +194,7 @@ function LeaderboardMenu(scene) {
                 text: number + name,
                 font: "font12"
             });
-            textName.setTintFill("black");
+            // textName.setTintFill("black");
             if (name[0] == "@") {
                 textName.setInteractive().on("pointerdown", onHandleClick, this.textName);
             }
@@ -204,7 +204,7 @@ function LeaderboardMenu(scene) {
                 text: score,
                 font: "font12"
             });
-            textScore.setTintFill("black");
+            // textScore.setTintFill("black");
             if (i == this.currPlayerRank-1) {
                 textScore.timer = this.scene.time.addEvent({
                     delay: 500,

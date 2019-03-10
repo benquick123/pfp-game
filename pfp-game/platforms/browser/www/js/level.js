@@ -34,13 +34,13 @@ function Level(scene) {
 
     this.extraLeftCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, -16).setOrigin(0, 0);
     this.extraLeftCollider.height = gridHeight + 32;
-    this.extraLeftCollider.x = -this.leftCollider.width-96;
+    this.extraLeftCollider.x = -this.leftCollider.width-128;
     this.scene.add.existing(this.extraLeftCollider);
     this.scene.physics.add.existing(this.extraLeftCollider);
 
     this.rightCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, 0).setOrigin(0, 0);
     this.rightCollider.height = gridHeight + 32;
-    this.rightCollider.x = gridHeight*ratio + this.rightCollider.width + 16;
+    this.rightCollider.x = gridHeight*ratio + this.rightCollider.width + 64;
     this.scene.add.existing(this.rightCollider);
     this.scene.physics.add.existing(this.rightCollider);
 
@@ -118,7 +118,7 @@ function Level(scene) {
     }
     
     this.addBackground = function () {
-        for (var i = 0; i < gridHeight*ratio+97; i+=96) {
+        for (var i = 0; i < gridHeight*ratio+129; i+=128) {
             this.addBackgroundColumn(i, 0);
         }
         this.backgrounds.maxSize = this.backgrounds.getLength()+1;
