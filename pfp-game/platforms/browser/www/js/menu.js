@@ -175,7 +175,7 @@ function LeaderboardMenu(scene) {
     this.scene = scene;
     this.maxItems = 10;
     this.highscoreItems = [];
-    this.maxLineLength = 128;
+    this.maxLineLength = 160;
     this.leaderBoardText;
     this.leaderBoardArray = [];
     this.leaderboard = scene.add.group();
@@ -189,7 +189,7 @@ function LeaderboardMenu(scene) {
 
         for (var i = 0; i < this.maxItems; i++) {
             var number = (i+1).toString() + ".";
-            var name = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][0] : "NO_NAME";
+            var name = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][0] : "(empty)";
             var score = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][1].toString() : "0";
             var textName = this.scene.make.bitmapText({
                 x: x,
