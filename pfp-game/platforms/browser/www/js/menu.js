@@ -186,7 +186,11 @@ function LeaderboardMenu(scene) {
         console.log(this.currPlayerRank);
         for (var i = 0; i < this.maxItems; i++) {
             var number = (i+1).toString() + ".";
+<<<<<<< HEAD
             var name = i < this.leaderBoardArray.length ? "@" + this.leaderBoardArray[i][0] : "(rajko)";
+=======
+            var name = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][0] : "(empty)";
+>>>>>>> e373eb35ce41af79f081e5074f1ddb2adcf8e496
             var score = i < this.leaderBoardArray.length ? this.leaderBoardArray[i][1].toString() : "0";
             var textName = this.scene.make.bitmapText({
                 x: x,
