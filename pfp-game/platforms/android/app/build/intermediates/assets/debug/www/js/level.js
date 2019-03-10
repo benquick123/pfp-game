@@ -132,7 +132,7 @@ function Level(scene) {
 
             var obstacle = this.scene.physics.add.sprite(x, y, this.obstacleSprite);
             obstacle.setGravity(0);
-            // this.scene.physics.add.collider(this.player, obstacle, restartGame);
+            this.scene.physics.add.collider(this.player, obstacle, restartGame);
 
             // Add velocity to the obstacle to make it move left
             obstacle.body.setVelocityX(-this.levelCurrentSpeed);

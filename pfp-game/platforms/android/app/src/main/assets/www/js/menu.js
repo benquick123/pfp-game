@@ -134,7 +134,7 @@ function EnterLeaderboardName(scene) {
     this.letGo = function(button) {
         var highScoreName = $("#highscore-text").val();
         if (highScoreName.length == 0) {
-            $("#highscore-text").attr("placeholder", "Enter your Instagram handle");
+            $("#highscore-text").attr("placeholder", "Invalid Instagram handle");
         }
         else {
             var postResponse = $.ajax({
