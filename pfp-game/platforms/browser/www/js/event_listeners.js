@@ -51,14 +51,11 @@ var EventListeners = function(cursors, scene) {
     // keyboard event listeners
     this.checkKeyboardEvents = function() {
         if (mode == MODELEVEL || mode == MODELEVELTRANSITION) {
-            if (this.cursors.up.isDown && currLevel.player.body.touching.down) {
-                currLevel.player.anims.play("playerjump");
-                currLevel.player.body.setVelocityY(-250); // jump up
-            }
+            
         }
     }
 
-    scene.input.on("pointerdown", this.pointerDown);
+
     scene.input.on("pointermove", this.pointerMove);
     scene.input.on("pointerup", this.pointerUp);
 }

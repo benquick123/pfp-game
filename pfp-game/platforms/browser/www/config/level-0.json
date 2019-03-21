@@ -1,0 +1,28 @@
+{
+    "initSpeed": 100,
+    "levelDifficultyFactor": 0.0,
+    "levelEndScore": 100,
+    "levelMode": 0,
+
+    "playerSprite": "character-0",
+    "playerAnimationFPS": 12,
+    "enemySprites": [
+        "enemy-0", 
+        "enemy-1"
+    ],
+    "groundFloorImage": "floor-0",
+    "groundUnderImage": "underground-0",
+    "backgroundImage": [
+        "background-0", 
+        "background-1", 
+        "background-2"
+    ],
+    "parallaxScrollFactor": 0.8,
+    "gravity": 500,
+    "obstacleSprite": "obstacle-0",
+    "obstacleStartingXOffset": 16,
+    "obstacleStartingYOffset": 0, 
+    "weaponSprite": "weapon-0",
+    "weaponAngularVelocity": 500,
+    "musicName": "chuhapuha"
+}
