@@ -1,151 +1,94 @@
 
-function Level(scene) {
-    this.scene = scene;
-    this.levelNumber = 0;
-    this.levelInitSpeed = 0;
-    this.levelCurrentSpeed = 0;
-    this.levelSpeedAdder = 0.0;
+function Level(environment) {
+    const LEVELMODEOVER = 0;
+    const LEVELMODEON = 1;
+
+    this.environment = environment;
     this.levelEndScore = 0;
-    this.levelStop = false;
-    this.player;
-    this.playerSprite = "";
-    this.playerBounce = 0.0;
+    this.levelMode = LEVELMODEOVER;
+
     this.enemySprites = [];
-    this.grounds = this.scene.add.group()
-    this.groundFloorImage = "";
-    this.groundUnderImage = "";
-    this.backgroundImage = "";
-    this.parallaxScrollFactor = 1.0;
-    this.backgrounds = scene.add.group();
-    this.gravity = 500;
+    this.enemyDimension = 24;
+    this.enemyYRange = [-32, 88];
+    this.enemyTimeRange = [2500, 4500];
+    this.enemySpeedRange = [5000, 9000];
+    this.enemies;
+
     this.obstacleSprite = "";
-    this.obstacles = scene.add.group();
-    this.targets = this.scene.add.group();
+    this.obstacles;
+    this.obstacleHeight = 16;
+    this.obstacleWidth = 24;
+    this.obstacleTimeRange = [1000, 2000];
+    this.obstacleStartingXOffset = 0;
+    this.obstacleStartingYOffset = 0;
+
     this.weaponSprite = "";
     this.weaponAngularVelocity = 500;
-    this.helperSprite = "";
-    this.musicName = "";
 
-    this.leftCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, -16).setOrigin(0, 0);
-    this.leftCollider.height = gridHeight + 32;
-    this.leftCollider.x = -this.leftCollider.width-16;
-    this.scene.add.existing(this.leftCollider);
-    this.scene.physics.add.existing(this.leftCollider);
+    this.jumpVelocity = 250;
+    this.initSpeed = 0;
 
-    this.extraLeftCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, -16).setOrigin(0, 0);
-    this.extraLeftCollider.height = gridHeight + 32;
-    this.extraLeftCollider.x = -this.leftCollider.width-128;
-    this.scene.add.existing(this.extraLeftCollider);
-    this.scene.physics.add.existing(this.extraLeftCollider);
+    this.cursors;
 
-    this.rightCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, 0).setOrigin(0, 0);
-    this.rightCollider.height = gridHeight + 32;
-    this.rightCollider.x = gridHeight*ratio + this.rightCollider.width + 64;
-    this.scene.add.existing(this.rightCollider);
-    this.scene.physics.add.existing(this.rightCollider);
+    this.initializeLevel = function (modeInstance) {
+        this.addAnimations();
 
-    this.addPlayer = function(x, y) {
-        this.player = this.scene.physics.add.sprite(x, y, this.playerSprite); 
-        this.player.setBounce(this.playerBounce);
-        this.player.setGravityY(500);
+        this.obstacles = modeInstance ? modeInstance.obstacles : this.scene.add.group();
+        this.enemies = modeInstance ? modeInstance.enemies : this.scene.add.group();
 
-        this.scene.anims.create({
-            key: 'playeridle',
-            frames: this.scene.anims.generateFrameNumbers(this.playerSprite, { start: 0, end: 0 }),
-            frameRate: 12,
-            repeat: -1
-        });
-
-        this.scene.anims.create({
-            key: 'playerwalk',
-            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-walk", { start: 1, end: 9 }),
-            frameRate: 12,
-            repeat: -1
-        });
-
-        this.scene.anims.create({
-            key: "playerjump",
-            frames: this.scene.anims.generateFrameNumbers(this.playerSprite + "-jump", { start: 0, end: 0}),
-            frameRate: 8,
-            repeat: 0
-        });
+        this.cursors = this.scene.input.keyboard.createCursorKeys();
+        this.scene.input.on("pointerdown", this.onPointerDown, this);
+        // this.scene.input.keyboard.on("keydown-SPACE", function () { this.scene.scene.pause(); }, this);
+        this.scoreText.setVisible(true);
     }
 
-    this.addGroundColumn = function (x, y) {
-        var onOutOfBounds = function(objectA, objectB) {
-            objectA.destroy();
+    this.letGo = function (listeners) {
+        if (listeners) {
+            this.cursors = undefined;
+            this.scene.input.off("pointerdown");
         }
 
-        var floor = this.scene.physics.add.image(x, y, this.groundFloorImage);
-        this.scene.physics.add.collider(this.player, floor)
-        this.scene.physics.add.overlap(floor, this.leftCollider, onOutOfBounds)
-
-        floor.body.setVelocityX(-this.levelCurrentSpeed);
-        floor.body.setImmovable();
-        floor.body.setFriction(0.0);
-
-        this.grounds.add(floor);
-
-        for (var i=y+8; i<=gridHeight; i+=8) {
-            var underground = this.scene.physics.add.sprite(x, i, this.groundUnderImage);
-            this.scene.physics.add.overlap(underground, this.leftCollider, onOutOfBounds);
-
-            underground.body.setVelocityX(-this.levelCurrentSpeed);
-            this.grounds.add(underground);
+        var obstaclesChildren = this.obstacles.getChildren();
+        for (var i = 0; i < obstaclesChildren.length; i++) {
+            obstaclesChildren[i].timer.remove();
         }
-    }
-    
-    this.addGround = function (startX, startY) {
-        for (var i=startX; i<=gridHeight*ratio+16; i+=8) {
-            this.addGroundColumn(i, startY)
+        var enemyChildren = this.enemies.getChildren();
+        for (var i = 0; i < enemyChildren.length; i++) {
+            enemyChildren[i].timer.remove();
         }
-        this.grounds.maxSize = this.grounds.getLength();
-    }
-
-    this.addBackgroundColumn = function (x, y) {
-        var onOutOfBounds = function(objectA, objectB) {
-            objectA.destroy();
-        }
-
-        backgroundImageI = Math.floor(Math.random() * this.backgroundImage.length);
-        var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[backgroundImageI]);
-        background.setOrigin(0);
-        background.setDepth(-10);
-        this.scene.physics.add.overlap(background, this.extraLeftCollider, onOutOfBounds);
-
-        background.body.setVelocityX(-this.levelCurrentSpeed*this.parallaxScrollFactor);
-        this.backgrounds.add(background);
-    }
-    
-    this.addBackground = function () {
-        for (var i = 0; i < gridHeight*ratio+129; i+=128) {
-            this.addBackgroundColumn(i, 0);
-        }
-        this.backgrounds.maxSize = this.backgrounds.getLength()+1;
     }
 
     this.addObstacle = function (x, y) {
-        if (!this.levelStop) {
+        if (!this.isStopped) {
             var onOutOfBounds = function(objectA, objectB) {
+                if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn) {
+                    gameOver();
+                }
                 objectA.destroy();
             }
 
             var obstacle = this.scene.physics.add.sprite(x, y, this.obstacleSprite);
-            obstacle.setGravity(0);
+            obstacle.setGravityY(this.gravity);
             obstacle.setImmovable();
-            this.scene.physics.add.collider(this.player, obstacle, restartGame);
+            obstacle.setFrictionX(0);
+            // this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            this.scene.physics.add.collider(this.grounds, obstacle, function (objectA, objectB) { 
+                objectB.setGravity(0); 
+                objectB.setVelocityY(0);
+                objectB.y = this.groundYOffset-this.groundImageDimension/2-this.obstacleHeight/2; 
+            }, null, this);
 
             // Add velocity to the obstacle to make it move left
-            obstacle.body.setVelocityX(-this.levelCurrentSpeed);
+            obstacle.body.setVelocityX(-this.currSpeed);
 
             this.scene.physics.add.overlap(obstacle, this.leftCollider, onOutOfBounds);
 
             this.obstacles.add(obstacle);
             
             var timer = this.scene.time.addEvent({
-                delay: Math.random() * (1000) + (1000),
+                delay: Math.random() * (this.obstacleTimeRange[1] - this.obstacleTimeRange[0]) + (this.obstacleTimeRange[0]),
                 callback: this.addObstacle,
-                args: [gridHeight*ratio, 116],
+                args: [gridHeight*ratio + this.obstacleStartingXOffset, this.groundYOffset-this.groundImageDimension/2-this.obstacleHeight/2 + this.obstacleStartingYOffset],
                 callbackScope: this,
                 loop: false
             });
@@ -153,54 +96,55 @@ function Level(scene) {
         }
     }
 
-    this.addTargetObject = function (x, y) {
-        if (!this.levelStop) {
+    this.addEnemyObject = function (x, y) {
+        if (!this.isStopped) {
             var onOutOfBounds = function(objectA, objectB) {
                 objectA.destroy();
             }
             
             // randomly select first or the second asset name.
-            var targetI = Math.floor(Math.random()*this.enemySprites.length);
+            var enemyI = Math.floor(Math.random()*this.enemySprites.length);
             // create new animation based on configuration in lines 114-117.
+            this.scene.anims.remove("enemy" + enemyI + "animation")
             this.scene.anims.create({
-                key: "enemy" + targetI + "animation",
-                frames: this.scene.anims.generateFrameNumbers(this.enemySprites[targetI], { start: 0, end: 3 }),
+                key: "enemy" + enemyI + "animation",
+                frames: this.scene.anims.generateFrameNumbers(this.enemySprites[enemyI], { start: 0, end: 3 }),
                 frameRate: 4,
                 repeat: -1
             });
             // add new target to scene.
-            var target = this.scene.physics.add.sprite(x, y, this.enemySprites[targetI]);
+            var enemy = this.scene.physics.add.sprite(x, y, this.enemySprites[enemyI]);
             // play the animation.
-            target.play("enemy" + targetI + "animation", true);
-            target.setDepth(-4)
+            enemy.anims.play("enemy" + enemyI + "animation", true);
+            enemy.setDepth(-4);
             
-            this.scene.physics.add.collider(this.player, target, restartGame);
-            this.scene.physics.add.collider(this.grounds, target);
-            this.scene.physics.add.overlap(target, this.leftCollider, onOutOfBounds);
-            this.scene.physics.add.overlap(target, this.rightCollider, onOutOfBounds);
-            this.targets.add(target);
+            // this.scene.physics.add.collider(this.player, enemy, restartGame);
+            // this.scene.physics.add.collider(this.grounds, enemy);
+            this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
+            this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
+            this.enemies.add(enemy);
     
             var tween = this.scene.tweens.add({
-                targets: target,
+                targets: enemy,
                 x: -20,
-                y: Math.random() * 16 + 104 ,
+                y: Math.random() * 16 + 104,
                 ease: "Linear",
                 loop: 0,
-                duration: Math.random() * 4000 + 5000,
+                duration: Math.random() * (this.enemySpeedRange[1] - this.enemySpeedRange[0]) + this.enemySpeedRange[0],
                 onComplete: function(event) {
                     event.targets[0].destroy();
                 }
-            })
-            target.tween = tween;
+            });
+            enemy.tween = tween;
             
             var timer = this.scene.time.addEvent({
-                delay: Math.random() * 2500 + 2000,
-                callback: this.addTargetObject,
+                delay: Math.random() * (this.enemyTimeRange[1] - this.enemyTimeRange[0]) + this.enemyTimeRange[0],
+                callback: this.addEnemyObject,
                 callbackScope: this,
-                args: [gridHeight*ratio+8, Math.random()*120 - 32],
+                args: [x, Math.random()*(this.enemyYRange[1] - this.enemyYRange[0]) + this.enemyYRange[0]],
                 loop: false
-            })
-            target.timer = timer;
+            });
+            enemy.timer = timer;
         }
     }
 
@@ -210,18 +154,18 @@ function Level(scene) {
         }
         var onProjectileHit = function(objectA, objectB) {
             objectB.tween.stop();
-            objectB.body.setGravity(currLevel.gravity);
+            objectB.body.setGravityY(currModeInstance.gravity);
         }
 
         var weapon = this.scene.physics.add.sprite(x, y, this.weaponSprite);
         weapon.setDepth(-5);
         this.scene.physics.add.overlap(weapon, this.rightCollider, onOutOfBounds);
-        this.scene.physics.add.collider(weapon, this.targets, onProjectileHit);
-        this.scene.physics.add.collider(weapon, this.player, restartGame);
+        this.scene.physics.add.collider(weapon, this.enemies, onProjectileHit);
+        // this.scene.physics.add.collider(weapon, this.player, restartGame);
 
         weapon.body.setAllowRotation();
         weapon.body.setAngularVelocity(this.weaponAngularVelocity)
-        weapon.body.setGravity(this.gravity);
+        weapon.body.setGravityY(this.gravity);
 
         var diffX = Math.abs(targetX - x);
         var diffY = Math.abs(targetY - y);
@@ -230,5 +174,37 @@ function Level(scene) {
 
         weapon.body.setVelocityX(v0 * Math.cos(angle));
         weapon.body.setVelocityY(-v0 * Math.sin(angle));
+    }
+
+    this.onObstacleCollision = function (objectA, objectB) {
+        if (this.levelMode == LEVELMODEOVER) {
+            restartGame();
+        }
+        else if (this.levelMode == LEVELMODEON) {
+            if (objectB.body.touching.up) {
+                objectB.isJumpedOn = true;
+            }
+            else {
+                restartGame();
+            }
+        }
+    }
+
+    this.onPointerDown = function(pointer) {
+        if (pointer.x < gridHeight*ratio/3) {
+            this.player.anims.play("playerjump");
+            this.player.body.setVelocityY(-this.jumpVelocity); // jump up
+        }
+        else {
+            if (pointer.y < this.groundYOffset - this.groundImageDimension/2)
+                this.shootWeapon(this.player.x + this.player.width/2, this.player.y - 4, pointer.x, pointer.y);
+        }
+    }
+
+    this.checkKeyboardEvents = function () {
+        if (this.cursors.up.isDown && this.player.body.touching.down) {
+            this.player.anims.play("playerjump");
+            this.player.body.setVelocityY(-this.jumpVelocity); // jump up
+        }
     }
 }

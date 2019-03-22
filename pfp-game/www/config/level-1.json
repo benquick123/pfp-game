@@ -1,0 +1,24 @@
+{
+    "initSpeed": 120,
+    "levelDifficultyFactor": 0.0,
+    "levelEndScore": 1000,
+    "levelMode": 1,
+
+    "playerSprite": "character-placeholder",
+    "enemySprites": [
+        "enemy-placeholder"
+    ],
+    "groundFloorImage": "floor-placeholder",
+    "groundUnderImage": "underground-placeholder",
+    "backgroundImage": [
+        "background-placeholder"
+    ],
+    "parallaxScrollFactor": 0.8,
+    "gravity": 500,
+    "obstacleSprite": "obstacle-placeholder",
+    "obstacleStartingXOffset": 0,
+    "obstacleStartingYOffset": 0, 
+    "weaponSprite": "weapon-placeholder",
+    "weaponAngularVelocity": 500,
+    "musicName": "bff"
+}

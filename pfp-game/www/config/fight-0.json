@@ -1,0 +1,17 @@
+{
+    "bossSprite": "character-placeholder",
+    "bossPower": -1,
+    "bossStartingPositionOffset": [24, 0],
+    "bossMovementBB": [[-72, -16], [0, 96]],
+    "bossEndingPositionOffset": [-112, 56],
+
+    "enemySprites": ["enemy-placeholder"],
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+
+    "weaponSprite": "weapon-0",
+    "weaponAngularVelocity": -1,
+
+    "hitCountGoal": 3
+}
