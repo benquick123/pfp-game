@@ -1,5 +1,5 @@
 {
-    "bossSprite": "boss-placeholder",
+    "bossSprite": "boss-0",
     "bossPower": -1,
     "bossStartingPositionOffset": [24, 0],
     "bossMovementBB": [[-72, -16], [0, 96]],
