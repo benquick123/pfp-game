@@ -97,7 +97,7 @@ function Level(environment) {
     }
 
     this.addEnemyObject = function (x, y) {
-        if (!this.isStopped) {
+        if (!this.isStopped && this.enemySprites.length > 0) {
             var onOutOfBounds = function(objectA, objectB) {
                 objectA.destroy();
             }
