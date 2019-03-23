@@ -35,6 +35,7 @@ function preload() {
         this.load.spritesheet("weapon-" + i, "img/weapon-" + i + ".png", {frameWidth: 2, frameHeight: 8});
 
         this.load.spritesheet("helper-" + i, "img/helper-" + i + ".png", {frameWidth: 48, frameHeight: 64});
+        this.load.spritesheet("boss-" + i, "img/boss-" + i + ".png", {frameWidth: 48, frameHeight: 64});
     }
 
     this.load.bitmapFont("font20", "fonts/font20.png", "fonts/font20.xml");
@@ -55,6 +56,7 @@ function preload() {
     this.load.spritesheet("enemy-placeholder", "img/enemy-placeholder.png", {frameWidth: 24, frameHeight: 24});
     this.load.spritesheet("weapon-placeholder", "img/weapon-placeholder.png", {frameWidth: 2, frameHeight: 8});
     this.load.spritesheet("helper-placeholder", "img/helper-placeholder.png", {frameWidth: 48, frameHeight: 64});
+    this.load.spritesheet("boss-placeholder", "img/boss-placeholder.png", {frameWidth: 48, frameHeight: 64});
 }
  
 function create() {
