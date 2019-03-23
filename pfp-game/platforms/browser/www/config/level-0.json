@@ -1,7 +1,7 @@
 {
     "initSpeed": 100,
     "levelDifficultyFactor": 1.0,
-    "levelEndScore": 200,
+    "levelEndScore": 100,
     "levelMode": 0,
 
     "playerSprite": "character-0",
@@ -16,9 +16,11 @@
     ],
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
-    "obstacleSprite": "obstacle-placeholder",
+    "obstacleSprite": ["obstacle-placeholder"],
+    "obstacleSequence": [],
     "obstacleStartingXOffset": 16,
     "obstacleStartingYOffset": 0, 
+    "obstacleHeight": 16,
     "weaponSprite": "weapon-placeholder",
     "weaponAngularVelocity": 500,
     "musicName": "chuhapuha"
