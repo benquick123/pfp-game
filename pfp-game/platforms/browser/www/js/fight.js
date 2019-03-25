@@ -124,6 +124,7 @@ function Fight(environment) {
         // this.scene.physics.add.collider(this.grounds, enemy);
         this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
         this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
+        this.scene.physics.add.overlap(enemy, this.bottomCollider, onOutOfBounds);
         this.enemies.add(enemy);
 
         var tween = this.scene.tweens.add({
@@ -178,7 +179,7 @@ function Fight(environment) {
         }*/ 
     }
 
-    this.letGo = function () {
+    this.letGo = function (listeners) {
         if (this.boss.tween) {
             this.boss.tween.stop();
         }
@@ -193,7 +194,8 @@ function Fight(environment) {
 
         this.boss.destroy();
 
-        this.scene.input.off("pointerdown");
+        if (listeners)
+            this.scene.input.off("pointerdown");
     }
 
     this.onPointerDown = function(pointer) {

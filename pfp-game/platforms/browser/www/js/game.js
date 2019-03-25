@@ -127,15 +127,17 @@ function update(time, delta) {
     }
     else if (currMode == MODESTORY) {
         if (!currModeInstance.inConversation && currModeInstance.speakersPositioned && 
-            ((prevMode == MODELEVEL && prevModeInstance.enemies.getLength() == 0 && prevModeInstance.obstacles.getLength() == 0) || prevMode == MODESTORY || prevMode == MODEFIGHT)) { 
-            if (prevMode == MODELEVEL)
+            ((prevMode == MODELEVEL && prevModeInstance.enemies.getLength() == 0 && prevModeInstance.obstacles.getLength() == 0) || 
+            prevMode == MODESTORY || 
+            (prevMode == MODEFIGHT && prevModeInstance.enemies.getLength() == 0))) { 
+            if (prevMode == MODELEVEL || prevMode == MODEFIGHT)
                 prevModeInstance.letGo(true);
+            
             currModeInstance.stopGameplay();
             currModeInstance.scene.input.on("pointerdown", currModeInstance.onPointerDown, currModeInstance);
             currModeInstance.conversate();
         }
         else if (!currModeInstance.inConversation && !currModeInstance.speakersPositioned) {
-            console.log("are speakers positioned?");
             var allSpeakersPositioned = true;
             if (currModeInstance.playerIsSpeaker0) {
                 allSpeakersPositioned = currModeInstance.player.x <= currModeInstance.speakerStartingPositionX - currModeInstance.playerXOffset + 
@@ -147,17 +149,14 @@ function update(time, delta) {
                 if (speakerChildren[i-currModeInstance.playerIsSpeaker0].x >
                         currModeInstance.speakerStartingPositionX + currModeInstance.speakersStartingPositionsOffsets[i][0] + 
                         currModeInstance.speakersEndingPositionsOffsets[i][0]) {
-                    console.log("speaker", i, "is not positioned");
                     allSpeakersPositioned = false;
                 }
                 else {
-                    console.log("stopping", i);
                     speakerChildren[i-currModeInstance.playerIsSpeaker0].x = currModeInstance.speakerStartingPositionX + currModeInstance.speakersStartingPositionsOffsets[i][0] + currModeInstance.speakersEndingPositionsOffsets[i][0];
                     speakerChildren[i-currModeInstance.playerIsSpeaker0].y = currModeInstance.speakerStartingPositionY + currModeInstance.speakersStartingPositionsOffsets[i][1] + currModeInstance.speakersEndingPositionsOffsets[i][1];
                     speakerChildren[i-currModeInstance.playerIsSpeaker0].setVelocity(0);
                 }
             }
-            console.log(allSpeakersPositioned);
             
             if (allSpeakersPositioned) {
                 currModeInstance.speakersPositioned = true;
@@ -206,7 +205,7 @@ function changeMode() {
 
         currModeInstance = new Story(prevModeInstance.environment);
         $(currModeInstance).attr(currModeInstance.scene.cache.json.get(newMode));
-
+        
         currModeInstance.initializeStory(prevModeInstance);
         currModeInstance.resumeGameplay(false, true);
     }

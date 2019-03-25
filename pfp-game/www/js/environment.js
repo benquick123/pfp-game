@@ -49,6 +49,12 @@ function Environment (scene) {
     this.scene.add.existing(this.rightCollider);
     this.scene.physics.add.existing(this.rightCollider);
 
+    this.bottomCollider = new Phaser.Physics.Arcade.Sprite(this.scene, -this.colliderMagicNumber, gridHeight+this.colliderMagicNumber).setOrigin(0, 0);
+    this.bottomCollider.width = gridHeight * ratio * 2 * this.colliderMagicNumber;
+    this.bottomCollider.x = -this.colliderMagicNumber;
+    this.scene.add.existing(this.bottomCollider);
+    this.scene.physics.add.existing(this.bottomCollider)
+
     this.addPlayer = function(x, y) {
         console.log("adding player");
         this.player = this.scene.physics.add.sprite(x, y, this.playerSprite); 

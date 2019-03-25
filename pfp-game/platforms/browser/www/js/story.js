@@ -57,6 +57,7 @@ function Story(environment) {
         speaker.setVelocityX(-this.currSpeed);
         speaker.setGravity(0);
         speaker.setFlipX(flipX);
+        speaker.setDepth(-1);
 
         // add animations for speaker
 
@@ -88,7 +89,7 @@ function Story(environment) {
 
             this.dialogueBox.setOrigin(0.5, 0.5);
             this.dialogueBox.setY(8 + this.dialogueBox.height/2);
-            this.dialogueBox.setX(this.currSpeaker.x - speakerPosition*this.currSpeaker.width - speakerPosition*this.dialogueBox.width/2 - speakerPosition*16);
+            this.dialogueBox.setX(this.currSpeaker.x - speakerPosition*this.currSpeaker.width - speakerPosition*this.dialogueBox.width/2);
 
             this.graphics.fillStyle(0xffffff, 1);
             this.graphics.lineStyle(1, 0x000000, 1);
@@ -133,7 +134,6 @@ function Story(environment) {
             });
         }
         else {
-
             this.letGo();
             this.resumeGameplay(false, true);
             this.player.anims.stop();
@@ -147,14 +147,17 @@ function Story(environment) {
     }
 
     this.letGo = function () {
+        console.log("letting go of story");
         var onOutOfBounds = function(objectA, objectB) {
             currModeInstance.speakersDead++;
             objectA.destroy();
         }
 
+        this.player.finalPositionX = this.player.x;
         if (this.playerIsSpeaker0 && this.stayingSpeaker != 0 && this.stayingSpeakerPosition != 0) {
             this.player.setVelocityX(-this.currSpeed);
             this.player.setGravity(0);
+            this.player.finalPositionX = this.speakersEndingPositionsOffsets[0][0];
             this.scene.physics.add.overlap(this.player, this.extraLeftCollider, onOutOfBounds);
         }
         

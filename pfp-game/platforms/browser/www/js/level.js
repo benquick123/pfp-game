@@ -14,9 +14,11 @@ function Level(environment) {
     this.enemySpeedRange = [5000, 9000];
     this.enemies;
 
-    this.obstacleSprite = "";
+    this.obstacleSprite = [];
+    this.obstacleSequence = [];
+    this.obstacleNumber = 0;
     this.obstacles;
-    this.obstacleHeight = 16;
+    this.obstacleHeight = 24;
     this.obstacleWidth = 24;
     this.obstacleTimeRange = [1000, 2000];
     this.obstacleStartingXOffset = 0;
@@ -66,8 +68,12 @@ function Level(environment) {
                 }
                 objectA.destroy();
             }
-
-            var obstacle = this.scene.physics.add.sprite(x, y, this.obstacleSprite);
+            var obstacleIndex = 0;
+            if (this.obstacleSequence.length > 0) {
+                obstacleIndex = this.obstacleSequence[this.obstacleNumber % this.obstacleSequence.length];
+                this.obstacleNumber++;
+            }
+            var obstacle = this.scene.physics.add.sprite(x, y, this.obstacleSprite[obstacleIndex]);
             obstacle.setGravityY(this.gravity);
             obstacle.setImmovable();
             obstacle.setFrictionX(0);
