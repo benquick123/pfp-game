@@ -4,7 +4,8 @@
     "levelEndScore": 1000,
     "levelMode": 1,
 
-    "playerSprite": "character-placeholder",
+    "playerSprite": "character-1",
+    "playerAnimationFPS": 12,
     "enemySprites": [
         "enemy-placeholder"
     ],
