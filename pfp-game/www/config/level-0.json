@@ -22,10 +22,6 @@
     "obstacleStartingYOffset": 0, 
     "obstacleHeight": 16,
     "weaponSprite": "weapon-0",
-<<<<<<< HEAD
-    "weaponAngularVelocity": -1,
-=======
     "weaponAngularVelocity": 250,
->>>>>>> 5ae73cf4acc91e3fbc397352da61cefaa9f65428
     "musicName": "chuhapuha"
 }
