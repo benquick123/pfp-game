@@ -32,7 +32,7 @@ function preload() {
         this.load.image("obstacle-" + i, "img/obstacle-" + i + ".png");
         this.load.spritesheet("enemy-" + i, "img/enemy-" + i + ".png", {frameWidth: 24, frameHeight: 24});
 
-        this.load.image("weapon-" + i, "img/weapon-" + i + ".png", {frameWidth: 2, frameHeight: 8});
+        this.load.image("weapon-" + i, "img/weapon-" + i + ".png");
 
         this.load.spritesheet("helper-" + i, "img/helper-" + i + ".png", {frameWidth: 48, frameHeight: 64});
         this.load.spritesheet("boss-" + i, "img/boss-" + i + ".png", {frameWidth: 48, frameHeight: 64});
@@ -54,7 +54,7 @@ function preload() {
     this.load.image("background-placeholder", "img/background-placeholder.png");
     this.load.image("obstacle-placeholder", "img/obstacle-placeholder.png");
     this.load.spritesheet("enemy-placeholder", "img/enemy-placeholder.png", {frameWidth: 24, frameHeight: 24});
-    this.load.image("weapon-placeholder", "img/weapon-placeholder.png", {frameWidth: 2, frameHeight: 8});
+    this.load.image("weapon-placeholder", "img/weapon-placeholder.png");
     this.load.spritesheet("helper-placeholder", "img/helper-placeholder.png", {frameWidth: 48, frameHeight: 64});
     this.load.spritesheet("boss-placeholder", "img/boss-placeholder.png", {frameWidth: 48, frameHeight: 64});
 }
