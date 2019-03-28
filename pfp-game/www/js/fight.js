@@ -28,6 +28,7 @@ function Fight(environment) {
     this.initializeFight = function (modeInstance) {
         this.environment.currSpeed = this.speed == -1 ? modeInstance.currSpeed : this.speed;
         this.parallaxScrollFactor = this.parallaxScrollFactor == -1 ? modeInstance.parallaxScrollFactor : this.parallaxScrollFactor;
+        this.jumpVelocity = this.jumpVelocity == -1 ? modeInstance.jumpVelocity : this.jumpVelocity;
 
         if (modeInstance.enemies) {
             this.prevEnemies = modeInstance.enemies;
