@@ -19,7 +19,7 @@
     "obstacleSprite": ["obstacle-0"],
     "obstacleSequence": [],
     "obstacleStartingXOffset": 16,
-    "obstacleStartingYOffset": 23, 
+    "obstacleStartingYOffset": 22, 
     "obstacleHeight": 24,
     "weaponSprite": "weapon-0",
     "weaponAngularVelocity": 100,
