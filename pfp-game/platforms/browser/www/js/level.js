@@ -77,7 +77,7 @@ function Level(environment) {
             obstacle.setGravityY(this.gravity);
             obstacle.setImmovable();
             obstacle.setFrictionX(0);
-            // this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            //this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
             this.scene.physics.add.collider(this.grounds, obstacle, function (objectA, objectB) { 
                 objectB.setGravity(0); 
                 objectB.setVelocityY(0);
