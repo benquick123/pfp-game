@@ -74,15 +74,19 @@ function Level(environment) {
                 this.obstacleNumber++;
             }
             var obstacle = this.scene.physics.add.sprite(x, y, this.obstacleSprite[obstacleIndex]);
-            obstacle.setGravityY(this.gravity);
             obstacle.setImmovable();
             obstacle.setFrictionX(0);
-            //this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
-            this.scene.physics.add.collider(this.grounds, obstacle, function (objectA, objectB) { 
-                objectB.setGravity(0); 
-                objectB.setVelocityY(0);
-                objectB.y = this.groundYOffset-this.groundImageDimension/2-this.obstacleHeight/2; 
-            }, null, this);
+            obstacle.setDepth(1);
+            this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+
+            if (this.obstacleStartingYOffset <= 0) {
+                obstacle.setGravityY(this.gravity);
+                this.scene.physics.add.collider(this.grounds, obstacle, function (objectA, objectB) { 
+                    objectB.setGravity(0); 
+                    objectB.setVelocityY(0);
+                    objectB.y = this.groundYOffset-this.groundImageDimension/2-this.obstacleHeight/2; 
+                }, null, this);
+            }
 
             // Add velocity to the obstacle to make it move left
             obstacle.body.setVelocityX(-this.currSpeed);
@@ -197,11 +201,11 @@ function Level(environment) {
     }
 
     this.onPointerDown = function(pointer) {
-        if (pointer.x < gridHeight*ratio/3) {
+        if (pointer.x < gridHeight*ratio/3 && this.player.anims.isPlaying) {
             this.player.anims.play("playerjump");
             this.player.body.setVelocityY(-this.jumpVelocity); // jump up
         }
-        else {
+        else if (pointer.x >= gridHeight*ratio*2/3) {
             if (pointer.y < this.groundYOffset - this.groundImageDimension/2)
                 this.shootWeapon(this.player.x + this.player.width/2, this.player.y - 4, pointer.x, pointer.y);
         }

@@ -170,6 +170,12 @@ function update(time, delta) {
                 changeMode();
         }
     }
+    else if (currMode == MODEFIGHT) {
+        currModeInstance.checkKeyboardEvents();
+        if (currModeInstance.player.body.touching.down && !currModeInstance.player.anims.isPlaying) {
+            currModeInstance.player.anims.play("playerwalk");
+        }
+    }
 }
 
 function restartGame() {

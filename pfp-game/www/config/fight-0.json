@@ -13,5 +13,6 @@
     "weaponSprite": "weapon-0",
     "weaponAngularVelocity": -1,
 
-    "hitCountGoal": 3
+    "hitCountGoal": 3,
+    "jumpVelocity": -1
 }
