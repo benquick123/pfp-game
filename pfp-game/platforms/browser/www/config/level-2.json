@@ -1,0 +1,36 @@
+{
+    "initSpeed": 120,
+    "levelDifficultyFactor": 1.0,
+    "levelEndScore": 200,
+    "levelMode": 0,
+
+    "playerSprite": "character-2",
+    "playerAnimationFPS": 12,
+    "enemySprites": [
+        "enemy-placeholder"
+    ],
+    "groundFloorImage": "floor-placeholder",
+    "groundUnderImage": "underground-placeholder",
+    "backgroundImage": [
+        "background-2"
+    ],
+
+    "bossSprite": "boss-1",
+    "bossMovementRangeYOffset": [0, -64],
+    "bossMovementXOffset": 8,
+    "bossStartingPositionOffset": [54, 0],
+    "bossEndingPositionOffset": [54, 0],
+	"bossTimeBetweenMovements": 0,
+    "bossMovementTime": 3000,
+
+    "parallaxScrollFactor": 0.8,
+    "gravity": 500,
+    "obstacleSprite": ["obstacle-placeholder"],
+    "obstacleSequence": [0, 1, 1, 0],
+    "obstacleStartingXOffset": 16,
+    "obstacleStartingYOffset": 0, 
+    "obstacleHeight": 16,
+    "weaponSprite": "weapon-placeholder",
+    "weaponAngularVelocity": 500,
+    "musicName": "bff"
+}

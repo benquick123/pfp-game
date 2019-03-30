@@ -35,8 +35,9 @@ function preload() {
         this.load.image("weapon-" + i, "img/weapon-" + i + ".png");
 
         this.load.spritesheet("helper-" + i, "img/helper-" + i + ".png", {frameWidth: 48, frameHeight: 64});
-        this.load.spritesheet("boss-" + i, "img/boss-" + i + ".png", {frameWidth: 48, frameHeight: 64});
     }
+    this.load.spritesheet("boss-0", "img/boss-0.png", {frameWidth: 48, frameHeight: 64});
+    this.load.spritesheet("boss-1", "img/boss-1.png", {frameWidth: 54, frameHeight: 105});
 
     this.load.bitmapFont("font20", "fonts/font20.png", "fonts/font20.xml");
     this.load.bitmapFont("font12", "fonts/font12.png", "fonts/font12.xml");
@@ -208,6 +209,12 @@ function changeMode() {
     else if (currMode == MODESTORY) {
         if (prevMode == MODELEVEL)
             prevModeInstance.letGo();
+
+        if (prevMode == MODELEVEL && prevModeInstance.bossSprite != "") {
+            var toX = gridHeight*ratio + prevModeInstance.bossEndingPositionOffset[0];
+            var toY = gridHeight/2 + prevModeInstance.bossEndingPositionOffset[1];
+            prevModeInstance.addBossMovement(toX, toY);
+        }
 
         currModeInstance = new Story(prevModeInstance.environment);
         $(currModeInstance).attr(currModeInstance.scene.cache.json.get(newMode));

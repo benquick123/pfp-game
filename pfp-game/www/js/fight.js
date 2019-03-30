@@ -88,7 +88,8 @@ function Fight(environment) {
                     currModeInstance.boss.betweenMovementTimer = betweenMovementTimer;
                 }
                 else if (currModeInstance.hitCount >= currModeInstance.hitCountGoal){
-                    currModeInstance.addBossMovement(currModeInstance.bossStartingPositionX + currModeInstance.bossEndingPositionOffset[0], currModeInstance.bossStartingPositionY/2 + currModeInstance.bossEndingPositionOffset[1]);
+                    if (currModeInstance.bossPower < 0)
+                        currModeInstance.addBossMovement(currModeInstance.bossStartingPositionX + currModeInstance.bossEndingPositionOffset[0], currModeInstance.bossStartingPositionY/2 + currModeInstance.bossEndingPositionOffset[1]);
                 }
                 if (currModeInstance.boss.x == currModeInstance.bossStartingPositionX + currModeInstance.bossEndingPositionOffset[0] && 
                     currModeInstance.boss.y == currModeInstance.bossStartingPositionY/2 + currModeInstance.bossEndingPositionOffset[1]) {
@@ -151,36 +152,38 @@ function Fight(environment) {
     }
 
     this.manageBossHits = function (objectA, objectB) {
-        if (currModeInstance.bossPower == -1) {
-            if (!objectB.scaleTween) {
-                var tween = currModeInstance.scene.tweens.add({
-                    targets: objectB,
-                    scaleX: 1.1,
-                    scaleY: 1.1,
-                    duration: 80,
-                    ease: "Quad.easeInOut",
-                    yoyo: true,
-                    repeat: 0,
-                    onComplete: function () {
-                        objectB.scaleTween = undefined;
-                    }
-                });
-                objectB.scaleTween = tween;
-            }
-        }
-        else {
-            objectA.destroy();
+        if (!objectB.scaleTween) {
+            var tween = currModeInstance.scene.tweens.add({
+                targets: objectB,
+                scaleX: 1.1,
+                scaleY: 1.1,
+                duration: 80,
+                ease: "Quad.easeInOut",
+                yoyo: true,
+                repeat: 0,
+                onComplete: function () {
+                    objectB.scaleTween = undefined;
+                }
+            });
+            objectB.scaleTween = tween;
         }
 
         currModeInstance.hitCount++;
 
-        /* if (currModeInstance.hitCount == currModeInstance.hitCountGoal) {
-            // console.log("boss");
+        if (currModeInstance.hitCount >= currModeInstance.hitCountGoal && currModeInstance.bossPower > 0) {
+            var onOutOfBounds = function (objectA, objectB) {
+                objectA.destroy();
+            }
+            currModeInstance.boss.setGravity(currModeInstance.gravity);
+            currModeInstance.scene.physics.add.collider(currModeInstance.boss, currModeInstance.rightCollider, onOutOfBounds);
+            currModeInstance.scene.physics.add.collider(currModeInstance.boss, currModeInstance.bottomCollider, onOutOfBounds);
+
+            currModeInstance.letGo(false, false);
             changeMode();
-        }*/ 
+        }
     }
 
-    this.letGo = function (listeners) {
+    this.letGo = function (listeners, removeBoss) {
         if (this.boss.tween) {
             this.boss.tween.stop();
         }
@@ -193,14 +196,15 @@ function Fight(environment) {
             enemyChildren[i].timer.remove();
         }
 
-        this.boss.destroy();
+        if (removeBoss)
+            this.boss.destroy();
 
         if (listeners)
             this.scene.input.off("pointerdown");
     }
 
     this.onPointerDown = function(pointer) {
-        if (pointer.x < gridHeight*ratio/3 && this.jumpVelocity) {
+        if (pointer.x < gridHeight*ratio/3 && this.jumpVelocity && this.player.anims.isPlaying) {
             this.player.anims.play("playerjump");
             this.player.body.setVelocityY(-this.jumpVelocity); // jump up
         }
@@ -234,7 +238,7 @@ function Fight(environment) {
         this.scene.physics.add.collider(weapon, this.boss, this.manageBossHits);
 
         weapon.body.setAllowRotation();
-        weapon.setBounce(this.bossPower == -1 ? 0.5 : 0);
+        weapon.setBounce(0.5);
         weapon.body.setAngularVelocity(this.weaponAngularVelocity);
         weapon.body.setGravityY(this.gravity);
 

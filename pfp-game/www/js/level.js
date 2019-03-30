@@ -14,6 +14,15 @@ function Level(environment) {
     this.enemySpeedRange = [5000, 9000];
     this.enemies;
 
+    this.bossSprite = "";
+    this.bossMovementRangeYOffset = [0, 0]
+    this.bossMovementXOffset = 0;
+    this.bossStartingPositionOffset = [];
+    this.bossEndingPositionOffset = [];
+    this.bossTimeBetweenMovements = 2000;
+    this.bossMovementTime = 4000;
+    this.boss;
+
     this.obstacleSprite = [];
     this.obstacleSequence = [];
     this.obstacleNumber = 0;
@@ -37,6 +46,10 @@ function Level(environment) {
 
         this.obstacles = modeInstance ? modeInstance.obstacles : this.scene.add.group();
         this.enemies = modeInstance ? modeInstance.enemies : this.scene.add.group();
+
+        if (this.bossSprite != "") {
+            this.addBoss();
+        }
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.scene.input.on("pointerdown", this.onPointerDown, this);
@@ -64,7 +77,7 @@ function Level(environment) {
         if (!this.isStopped) {
             var onOutOfBounds = function(objectA, objectB) {
                 if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn) {
-                    gameOver();
+                    // restartGame();
                 }
                 objectA.destroy();
             }
@@ -77,9 +90,10 @@ function Level(environment) {
             obstacle.setImmovable();
             obstacle.setFrictionX(0);
             obstacle.setDepth(1);
-            this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            obstacle.isJumpedOn = false;
+            // this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
 
-            if (this.obstacleStartingYOffset <= 0) {
+            if (this.obstacleStartingYOffset < 0) {
                 obstacle.setGravityY(this.gravity);
                 this.scene.physics.add.collider(this.grounds, obstacle, function (objectA, objectB) { 
                     objectB.setGravity(0); 
@@ -91,7 +105,7 @@ function Level(environment) {
             // Add velocity to the obstacle to make it move left
             obstacle.body.setVelocityX(-this.currSpeed);
 
-            this.scene.physics.add.overlap(obstacle, this.leftCollider, onOutOfBounds);
+            this.scene.physics.add.overlap(obstacle, this.leftCollider, onOutOfBounds, function(objectA, objectB) { return true; }, this);
 
             this.obstacles.add(obstacle);
             
@@ -107,9 +121,14 @@ function Level(environment) {
     }
 
     this.addEnemyObject = function (x, y) {
-        if (!this.isStopped && this.enemySprites.length > 0) {
+        if (!this.isStopped && this.enemySprites.length > 0 && currMode == MODELEVEL) {
             var onOutOfBounds = function(objectA, objectB) {
                 objectA.destroy();
+            }
+
+            if (this.bossSprite != "") {
+                x = this.boss.x;
+                y = this.boss.y;
             }
             
             // randomly select first or the second asset name.
@@ -132,6 +151,7 @@ function Level(environment) {
             // this.scene.physics.add.collider(this.grounds, enemy);
             this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
             this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
+            this.scene.physics.add.overlap(enemy, this.bottomCollider, onOutOfBounds);
             this.enemies.add(enemy);
     
             var tween = this.scene.tweens.add({
@@ -158,6 +178,54 @@ function Level(environment) {
         }
     }
 
+    this.addBoss = function() {
+        this.boss = this.scene.physics.add.sprite(gridHeight*ratio + this.bossStartingPositionOffset[0], gridHeight/2 + this.bossStartingPositionOffset[1], this.bossSprite);
+        
+        this.boss.setImmovable();
+        this.boss.stopMoving = false;
+
+        var toX = gridHeight*ratio + this.bossMovementXOffset;
+        var toY = Math.random() * (gridHeight+this.bossMovementRangeYOffset[1] - this.bossMovementRangeYOffset[0]) + this.bossMovementRangeYOffset[0];
+        this.addBossMovement(toX, toY);
+        
+    }
+
+    this.addBossMovement = function (toX, toY) {
+        if (this.boss.tween) {
+            this.boss.tween.stop();
+            this.boss.tween = undefined;
+        }
+        var tween = this.scene.tweens.add({
+            targets: this.boss,
+            x: toX,
+            y: toY,
+            duration: this.bossMovementTime,
+            onComplete: function () {
+                if (currMode == MODELEVEL) {
+                    if (currModeInstance.boss.betweenMovementTimer) {
+                        currModeInstance.boss.betweenMovementTimer.remove();
+                    }
+    
+                    var toX = gridHeight*ratio + currModeInstance.bossMovementXOffset;
+                    var toY = Math.random() * (gridHeight+currModeInstance.bossMovementRangeYOffset[1] - currModeInstance.bossMovementRangeYOffset[0]) + currModeInstance.bossMovementRangeYOffset[0];
+                    var betweenMovementTimer = currModeInstance.scene.time.addEvent({
+                        delay: currModeInstance.bossTimeBetweenMovements,
+                        callback: currModeInstance.addBossMovement,
+                        callbackScope: currModeInstance,
+                        args: [toX, toY],
+                        loop: false
+                    });
+                    currModeInstance.boss.betweenMovementTimer = betweenMovementTimer;
+                }
+                else if (currMode == MODESTORY && prevMode == MODELEVEL) {
+                    prevModeInstance.boss.destroy();
+                    prevModeInstance.boss = undefined;
+                }
+            }
+        });
+        this.boss.tween = tween;
+    }
+
     this.shootWeapon = function(x, y, targetX, targetY) {
         var onOutOfBounds = function(objectA, objectB) {
             objectA.destroy();
@@ -165,12 +233,14 @@ function Level(environment) {
         var onProjectileHit = function(objectA, objectB) {
             objectB.tween.stop();
             objectB.body.setGravityY(currModeInstance.gravity);
+            this.scene.physics.add.collider(objectB, this.rightCollider, function (objectA, objectB) { objectA.destroy(); });
+            this.scene.physics.add.collider(objectB, this.bottomCollider, function (objectA, objectB) { objectA.destroy(); });
         }
 
         var weapon = this.scene.physics.add.sprite(x, y, this.weaponSprite);
         weapon.setDepth(-5);
         this.scene.physics.add.overlap(weapon, this.rightCollider, onOutOfBounds);
-        this.scene.physics.add.collider(weapon, this.enemies, onProjectileHit);
+        this.scene.physics.add.collider(weapon, this.enemies, onProjectileHit, function (objectA, objectB) { return true; }, this);
         // this.scene.physics.add.collider(weapon, this.player, restartGame);
 
         weapon.body.setAllowRotation();
@@ -205,7 +275,7 @@ function Level(environment) {
             this.player.anims.play("playerjump");
             this.player.body.setVelocityY(-this.jumpVelocity); // jump up
         }
-        else if (pointer.x >= gridHeight*ratio*2/3) {
+        else if (pointer.x >= gridHeight*ratio/3) {
             if (pointer.y < this.groundYOffset - this.groundImageDimension/2)
                 this.shootWeapon(this.player.x + this.player.width/2, this.player.y - 4, pointer.x, pointer.y);
         }
