@@ -5,8 +5,8 @@
         [2, "Kesi kesi"]
     ],
     "nSpeakers": 3,
-    "speakersStartingPositionsOffsets": [[0, 0], [-112, 20], [192, -16]],
-    "speakersEndingPositionsOffsets": [[0, 0], [0, 0], [-240, 0]],
+    "speakersStartingPositionsOffsets": [[0, 0], [-96, 20], [192, -16]],
+    "speakersEndingPositionsOffsets": [[0, 0], [0, 0], [-224, 0]],
     "speakerSprites": ["character-0", "boss-0", "helper-0"],
     "speakerFlipX": [false, false, false],
     "playerIsSpeaker0": true,

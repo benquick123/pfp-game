@@ -16,9 +16,11 @@ function preload() {
     this.load.json("gameplay", "config/gameplay.json");
 
     // load settings and assets per level
-    for (var i = 0; i < 10; i++) {
-        this.load.json("level-" + i, "config/level-" + i + ".json");
+    for (var i = 0; i < 11; i++)
         this.load.json("story-" + i, "config/story-" + i + ".json");
+
+    for (var i = 0; i < 11; i++) {
+        this.load.json("level-" + i, "config/level-" + i + ".json");
         this.load.json("fight-" + i, "config/fight-" + i + ".json");
 
         this.load.image("floor-" + i, "img/floor-" + i + ".png");
@@ -132,7 +134,7 @@ function update(time, delta) {
             prevMode == MODESTORY || 
             (prevMode == MODEFIGHT && prevModeInstance.enemies.getLength() == 0))) { 
             if (prevMode == MODELEVEL || prevMode == MODEFIGHT)
-                prevModeInstance.letGo(true);
+                prevModeInstance.letGo(true, true);
             
             currModeInstance.stopGameplay();
             currModeInstance.scene.input.on("pointerdown", currModeInstance.onPointerDown, currModeInstance);

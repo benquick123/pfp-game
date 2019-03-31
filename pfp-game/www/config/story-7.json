@@ -1,12 +1,12 @@
 {
     "dialogues": [
-        [0, "Jov."],
-        [1, "Ful mamo beden sound, lol."]
+        [0, "Ca."],
+        [1, "We are matter, the better \npart of the universe."]
     ],
     "nSpeakers": 2,
     "speakersStartingPositionsOffsets": [[0, 0], [224, 0]],
     "speakersEndingPositionsOffsets": [[0, 0], [-258, 0]],
-    "speakerSprites": ["character-1", "helper-placeholder"],
+    "speakerSprites": ["character-3", "helper-3"],
     "speakerFlipX": [false, false],
     "playerIsSpeaker0": true,
 

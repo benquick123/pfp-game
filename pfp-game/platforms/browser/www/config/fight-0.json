@@ -3,7 +3,7 @@
     "bossPower": -1,
     "bossStartingPositionOffset": [24, 0],
     "bossMovementBB": [[-72, -16], [0, 96]],
-    "bossEndingPositionOffset": [-112, 56],
+    "bossEndingPositionOffset": [-96, 56],
     "bossTimeBetweenMovements": 2000,
     "bossMovementTime": 4000,
 
