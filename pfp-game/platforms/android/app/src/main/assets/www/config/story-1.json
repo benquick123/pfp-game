@@ -1,0 +1,21 @@
+{
+    "dialogues": [
+        [0, "Jov."],
+        [1, "Sup."]
+    ],
+    "nSpeakers": 2,
+    "speakersStartingPositionsOffsets": [[0, 0], [224, 28]],
+    "speakersEndingPositionsOffsets": [[0, 0], [-288, 0]],
+    "speakerSprites": ["character-0", "character-1"],
+    "speakerFlipX": [false, true],
+    "playerIsSpeaker0": true,
+
+    "stayingSpeaker": 1,
+    "stayingSpeakerPosition": 1,
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+
+    "groundFloorImage": "floor-0",
+    "groundUnderImage": "underground-0"
+}

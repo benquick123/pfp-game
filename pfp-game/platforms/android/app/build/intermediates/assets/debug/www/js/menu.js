@@ -1,11 +1,41 @@
 
-function MainMenu(scene) {
-    this.scene = scene;
+function Menu(environment) {
+    this.environment = environment;
+
+    this.tintButton = function () {
+        if (this.isTinted)
+            this.clearTint();
+        else
+            this.setTintFill("black");
+        
+        if (this.timer.getRepeatCount() == 0) {
+            currModeInstance.letGo(this);
+        }
+    }
+
+    this.onButtonClick = function (pointer, localX, localY, event) {
+        event.stopPropagation();
+
+        this.timer = currModeInstance.scene.time.addEvent({
+            delay: 32,
+            callback: currModeInstance.tintButton,
+            callbackScope: this,
+            loop: false,
+            repeat: 7
+        });
+    }
+}
+
+function MainMenu(menu) {
+    this.menu = menu;
     this.menuOptionsText = ["New game", "Leaderboard", "Credits"];
-    this.menuOptions = scene.add.group();
+    this.menuOptionsTextSize = 24;
+    this.menuOptions;
+    this.musicName = "basic";
 
     this.createMenu = function (x, y) {
-        y -= 24*this.menuOptionsText.length/2
+        this.menuOptions = this.scene.add.group();
+        y -= this.menuOptionsTextSize*this.menuOptionsText.length/2
         for (var i=0; i < this.menuOptionsText.length; i++) {
             var menuOption = this.scene.make.bitmapText({
                 x: 0,
@@ -14,29 +44,24 @@ function MainMenu(scene) {
                 font: "font20"
             });
             menuOption.setLetterSpacing(2);
-            menuOption.setFontSize(24);
+            menuOption.setFontSize(this.menuOptionsTextSize);
             menuOption.setX(gridHeight*ratio/2 - menuOption.width/2);
-            menuOption.setY(gridHeight/2 - y + i*24);
-            menuOption.setInteractive().on("pointerdown", this.onPointerDown, menuOption);
+            menuOption.setY(gridHeight/2 - y + i*this.menuOptionsTextSize);
+            menuOption.setInteractive().on("pointerdown", this.onButtonClick, menuOption);
 
             this.menuOptions.add(menuOption);
         }
+        this.menu.environment.music = this.scene.sound.add(this.musicName, { loop: true });
+        // this.menu.environment.music.play();
     }
 
-    this.onPointerDown = function (pointer, localX, localY, event) {
-        event.stopPropagation();
-
-        this.timer = currMenu.scene.time.addEvent({
-            delay: 32,
-            callback: tintButton,
-            callbackScope: this,
-            loop: false,
-            repeat: 7
-        });
+    this.onButtonClick = function (pointer, localX, localY, event) {
+        currModeInstance.menu.onButtonClick.call(this, pointer, localX, localY, event);
         if (this.text == "New game") {
-            this.fadeOutTimer = currMenu.scene.time.addEvent({
+            this.fadeOutTimer = currModeInstance.scene.time.addEvent({
                 delay: 24,
-                callback: function () { if (music.volume > 0) music.setVolume(music.volume-0.1); },
+                callback: function () { if (currModeInstance.menu.environment.music.volume > 0) 
+                    currModeInstance.menu.environment.music.setVolume(currModeInstance.menu.environment.music.volume-0.1); },
                 repeat: 10
             })
         }
@@ -49,15 +74,18 @@ function MainMenu(scene) {
             menuChildren[i].removeAllListeners();
             menuChildren[i].destroy();
         }
+
         if (button.text == this.menuOptionsText[0]) {
             button.fadeOutTimer.remove();
             changeMode();
         }
+        
         else if (button.text == this.menuOptionsText[1]) {
-            currMenu = new LeaderboardMenu(this.scene);
-            currMenu.leaderBoardArray = retrieveLeaderBoard();
-            currMenu.createMenu(gridHeight*ratio/2-currMenu.maxLineLength/2, 2);
+            prevModeInstance = currModeInstance;
+            currModeInstance = new LeaderboardMenu(prevModeInstance.menu);
+            currModeInstance.createMenu(gridHeight*ratio/2-currModeInstance.maxLineLength/2, 2);
         }
+        
         else if (button.text == this.menuOptionsText[2]) {
             console.log(button.text);
         }
@@ -103,7 +131,7 @@ function EnterLeaderboardName(scene) {
         this.submitText.setLetterSpacing(2);
         this.submitText.setX(3*gridHeight*ratio/4 - this.submitText.width/2);
         this.submitText.setY(96);
-        this.submitText.setInteractive().on("pointerdown", this.onPointerDown, this.submitText);
+        this.submitText.setInteractive().on("pointerdown", this.onButtonClick, this.submitText);
 
         this.mainMenuText = this.scene.make.bitmapText({
             x: 0,
@@ -115,21 +143,9 @@ function EnterLeaderboardName(scene) {
         this.mainMenuText.setLetterSpacing(2);
         this.mainMenuText.setX(gridHeight*ratio/4 - this.submitText.width/2);
         this.mainMenuText.setY(96);
-        this.mainMenuText.setInteractive().on("pointerdown", this.onPointerDown, this.mainMenuText);
+        this.mainMenuText.setInteractive().on("pointerdown", this.onButtonClick, this.mainMenuText);
 
         this.scene.input.keyboard.on("keydown-ENTER", this.onEnterDown, this);
-    }
-
-    this.onPointerDown = function (pointer, localX, localY, event) {
-        event.stopPropagation();
-
-        this.timer = currMenu.scene.time.addEvent({
-            delay: 32,
-            callback: tintButton,
-            callbackScope: this,
-            loop: false,
-            repeat: 7
-        });
     }
 
     this.onEnterDown = function (event) {
@@ -189,15 +205,15 @@ function EnterLeaderboardName(scene) {
     }
 }
 
-function LeaderboardMenu(scene) {
-    this.scene = scene;
+function LeaderboardMenu(menu) {
+    this.menu = menu;
     this.maxItems = 10;
     this.highscoreItems = [];
     this.maxLineLength = 160;
     this.leaderBoardText;
     this.leaderBoardArray = [];
     this.currPlayerRank = -1;
-    this.leaderboard = scene.add.group();
+    this.leaderboard;;
     this.backText;
     this.backRestart = false;
 
@@ -205,7 +221,7 @@ function LeaderboardMenu(scene) {
         onHandleClick = function (pointer, localX, localY, event) {
             window.open(encodeURI("https://www.instagram.com/" + this.text.substring(this.text.indexOf("@")+1, this.text.length)), "_system");
         }
-        console.log(this.currPlayerRank);
+        this.leaderboard = this.scene.add.group();
         for (var i = 0; i < this.maxItems; i++) {
             var number = (i+1).toString() + ".";
             var name = i < this.leaderBoardArray.length ? "@" + this.leaderBoardArray[i][0] : "(rajko)";
@@ -230,13 +246,13 @@ function LeaderboardMenu(scene) {
             if (i == this.currPlayerRank-1) {
                 textScore.timer = this.scene.time.addEvent({
                     delay: 500,
-                    callback: tintButton,
+                    callback: currMenu.tintButton,
                     callbackScope: textScore,
                     repeat: 1000
                 });
                 textName.timer = this.scene.time.addEvent({
                     delay: 500,
-                    callback: tintButton,
+                    callback: currMenu.tintButton,
                     callbackScope: textName,
                     repeat: 1000
                 })
@@ -247,7 +263,7 @@ function LeaderboardMenu(scene) {
     }
 
     this.createMenu = function (x, y) {
-        this.leaderBoardArray = retrieveLeaderBoard();
+        this.leaderBoardArray = this.retrieveLeaderBoard();
         this.constructLeaderboard(x, y);
 
         lastChild = this.leaderboard.getChildren()[this.leaderboard.getChildren().length-1];
@@ -260,19 +276,7 @@ function LeaderboardMenu(scene) {
         this.backText.setFontSize(24);
         this.backText.setLetterSpacing(2);
         this.backText.setX(gridHeight*ratio/2 - this.backText.width/2);
-        this.backText.setInteractive().on("pointerdown", this.onPointerDown, this.backText);
-    }
-
-    this.onPointerDown = function (pointer, localX, localY, event) {
-        event.stopPropagation();
-
-        this.timer = currMenu.scene.time.addEvent({
-            delay: 32,
-            callback: tintButton,
-            callbackScope: this,
-            loop: false,
-            repeat: 7
-        });
+        this.backText.setInteractive().on("pointerdown", this.onButtonClick, this.backText);
     }
 
     this.letGo = function (button) {
@@ -283,40 +287,30 @@ function LeaderboardMenu(scene) {
         this.leaderboard.clear(true);
         this.backText.removeAllListeners();
         this.backText.destroy();
-        currMenu = new MainMenu(currMenu.scene);
-        currMenu.createMenu(gridHeight*ratio/2, gridHeight/2);
+        prevModeInstance = currModeInstance;
+        currModeInstance = new MainMenu(prevModeInstance.menu);
+        currModeInstance.createMenu(gridHeight*ratio/2, gridHeight/2);
         if (this.backRestart) {
             this.scene.scene.restart();
         }
     }
-}
 
-function tintButton() {
-    if (this.isTinted)
-        this.clearTint();
-    else
-        this.setTintFill("black");
-    
-    if (this.timer.getRepeatCount() == 0) {
-        currMenu.letGo(this);
-    }
-}
-
-function retrieveLeaderBoard() {
-    // returns sorted array with indices ["name", score]
-    var response = $.ajax({
-        type: "GET",
-        url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings?n=10",
-        async: false
-    });
-    var returnArray = []
-    if (Math.floor(response.status/100) != 4) {
-        for (var key in response.responseJSON) {
-            returnArray.push([key, response.responseJSON[key]]);
+    this.retrieveLeaderBoard = function () {
+        // returns sorted array with indices ["name", score]
+        var response = $.ajax({
+            type: "GET",
+            url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings?n=10",
+            async: false
+        });
+        var returnArray = []
+        if (Math.floor(response.status/100) != 4) {
+            for (var key in response.responseJSON) {
+                returnArray.push([key, response.responseJSON[key]]);
+            }
         }
+        else {
+            returnArray.push(["CONNECTION ERROR", "0"])
+        }
+        return returnArray;
     }
-    else {
-        returnArray.push(["CONNECTION ERROR", "0"])
-    }
-    return returnArray;
 }

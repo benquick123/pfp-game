@@ -1,0 +1,22 @@
+{
+    "dialogues": [
+        [0, "Dej rec kej"],
+        [1, "Tvojo mami dolgo \ndolgo dolgo dolgo \ndolgo dolgo dolgo"],
+        [2, "Kesi kesi"]
+    ],
+    "nSpeakers": 3,
+    "speakersStartingPositionsOffsets": [[0, 0], [-96, 20], [192, -16]],
+    "speakersEndingPositionsOffsets": [[0, 0], [0, 0], [-224, 0]],
+    "speakerSprites": ["character-0", "boss-0", "helper-0"],
+    "speakerFlipX": [false, false, false],
+    "playerIsSpeaker0": true,
+
+    "stayingSpeaker": 0,
+    "stayingSpeakerPosition": 0,
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+
+    "groundFloorImage": "floor-placeholder",
+    "groundUnderImage": "underground-placeholder"
+}
