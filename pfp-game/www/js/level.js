@@ -91,7 +91,7 @@ function Level(environment) {
             obstacle.setFrictionX(0);
             obstacle.setDepth(1);
             obstacle.isJumpedOn = false;
-            // this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
 
             if (this.obstacleStartingYOffset < 0) {
                 obstacle.setGravityY(this.gravity);

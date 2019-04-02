@@ -60,6 +60,7 @@ function Environment (scene) {
         this.player = this.scene.physics.add.sprite(x, y, this.playerSprite); 
         this.player.setBounce(this.playerBounce);
         this.player.setGravityY(this.gravity);
+        this.player.body.setSize(this.player.body.width-6, this.player.body.height);
     }
 
     this.addAnimations = function () {

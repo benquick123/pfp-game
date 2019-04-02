@@ -15,6 +15,7 @@ function Environment (scene) {
     this.groundImageDimension = 8;
     this.grounds = scene.add.group();
     this.backgroundImage = ["background-placeholder"];
+    this.backgroundImageSpawner = "random";
     this.backgroundImageWidth = 128;
     this.parallaxScrollFactor = 1.0;
     this.backgrounds = scene.add.group();
@@ -60,6 +61,7 @@ function Environment (scene) {
         this.player = this.scene.physics.add.sprite(x, y, this.playerSprite); 
         this.player.setBounce(this.playerBounce);
         this.player.setGravityY(this.gravity);
+        this.player.body.setSize(this.player.body.width-6, this.player.body.height);
     }
 
     this.addAnimations = function () {
@@ -131,7 +133,7 @@ function Environment (scene) {
         var onOutOfBounds = function(objectA, objectB) {
             objectA.destroy();
         }
-
+        
         var backgroundImageI = Math.floor(Math.random() * this.backgroundImage.length);
         var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[backgroundImageI]);
         background.setOrigin(0);
