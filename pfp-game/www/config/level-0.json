@@ -1,7 +1,7 @@
 {
     "initSpeed": 100,
     "levelDifficultyFactor": 1.0,
-    "levelEndScore": 300,
+    "levelEndScore": 1000,
     "levelMode": 0,
 
     "playerSprite": "character-0",
@@ -19,7 +19,7 @@
         "background-6",
         "background-7"
     ],
-    "backgroundImageSpawning": "sequential",
+    "backgroundImageSpawner": "sequential",
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
     "obstacleSprite": ["obstacle-0"],
