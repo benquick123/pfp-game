@@ -19,11 +19,7 @@
         "background-6",
         "background-7"
     ],
-<<<<<<< HEAD
-    "backgroundImageSpawning": "sequential",
-=======
     "backgroundImageSpawner": "sequential",
->>>>>>> f68ef0784ac30b85bf72661f798566d6205455f3
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
     "obstacleSprite": ["obstacle-0"],

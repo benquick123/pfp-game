@@ -16,10 +16,7 @@ function Environment (scene) {
     this.grounds = scene.add.group();
     this.backgroundImage = ["background-placeholder"];
     this.backgroundImageSpawner = "random";
-<<<<<<< HEAD
-=======
     this.backgroundIndex = 0;
->>>>>>> f68ef0784ac30b85bf72661f798566d6205455f3
     this.backgroundImageWidth = 128;
     this.parallaxScrollFactor = 1.0;
     this.backgrounds = scene.add.group();
@@ -137,7 +134,7 @@ function Environment (scene) {
         var onOutOfBounds = function(objectA, objectB) {
             objectA.destroy();
         }
-        
+
         var backgroundImageI = Math.floor(Math.random() * this.backgroundImage.length);
         if (this.backgroundImageSpawner == "sequential") {
             console.log("does this happen?")
