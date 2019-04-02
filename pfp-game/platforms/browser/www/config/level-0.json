@@ -1,7 +1,7 @@
 {
     "initSpeed": 100,
     "levelDifficultyFactor": 1.0,
-    "levelEndScore": 100,
+    "levelEndScore": 300,
     "levelMode": 0,
 
     "playerSprite": "character-0",
@@ -10,9 +10,14 @@
     "groundFloorImage": "floor-0",
     "groundUnderImage": "underground-0",
     "backgroundImage": [
-        "background-0", 
-        "background-1", 
-        "background-2"
+        "background-0",
+        "background-1",
+        "background-2",
+        "background-3",
+        "background-4",
+        "background-5",
+        "background-6",
+        "background-7"
     ],
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
