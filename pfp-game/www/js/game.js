@@ -18,14 +18,15 @@ function preload() {
     // load settings and assets per level
     for (var i = 0; i < 11; i++)
         this.load.json("story-" + i, "config/story-" + i + ".json");
+    for (var i = 0; i < 16; i++)
+        this.load.image("background-" + i, "img/background-" + i + ".png");
 
-    for (var i = 0; i < 11; i++) {
+    for (var i = 0; i < 10; i++) {
         this.load.json("level-" + i, "config/level-" + i + ".json");
         this.load.json("fight-" + i, "config/fight-" + i + ".json");
 
         this.load.image("floor-" + i, "img/floor-" + i + ".png");
         this.load.image("underground-" + i, "img/underground-" + i + ".png");
-        this.load.image("background-" + i, "img/background-" + i + ".png");
         
         this.load.spritesheet("character-" + i, "img/character-" + i + ".png", {frameWidth: 24, frameHeight: 48});
         this.load.spritesheet("character-" + i + "-walk", "img/character-" + i + "-walk.png", {frameWidth: 24, frameHeight: 48});
