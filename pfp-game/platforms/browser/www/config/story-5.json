@@ -6,7 +6,7 @@
     "nSpeakers": 2,
     "speakersStartingPositionsOffsets": [[0, 0], [64, 0]],
     "speakersEndingPositionsOffsets": [[0, 0], [-96, 0]],
-    "speakerSprites": ["character-2", "helper-placeholder"],
+    "speakerSprites": ["character-2", "helper-2"],
     "speakerFlipX": [false, false],
     "playerIsSpeaker0": true,
 
