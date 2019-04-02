@@ -1,7 +1,7 @@
 {
     "initSpeed": 100,
     "levelDifficultyFactor": 1.0,
-    "levelEndScore": 200,
+    "levelEndScore": 100,
     "levelMode": 0,
 
     "playerSprite": "character-0",

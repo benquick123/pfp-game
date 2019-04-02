@@ -47,6 +47,12 @@ function Level(environment) {
         this.obstacles = modeInstance ? modeInstance.obstacles : this.scene.add.group();
         this.enemies = modeInstance ? modeInstance.enemies : this.scene.add.group();
 
+        this.environment.backgroundImage = this.backgroundImage;
+        this.environment.backgroundImageSpawner = this.backgroundImageSpawner;
+
+        this.environment.groundFloorImage = this.groundFloorImage;
+        this.environment.groundUnderImage = this.groundUnderImage;
+
         if (this.bossSprite != "") {
             this.addBoss();
         }

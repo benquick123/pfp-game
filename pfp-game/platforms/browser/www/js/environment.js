@@ -10,8 +10,8 @@ function Environment (scene) {
     this.playerAnimationFPS = 12;
 
     this.groundYOffset = 128;
-    this.groundFloorImage = "floor-placeholder";
-    this.groundUnderImage = "underground-placeholder";
+    this.groundFloorImage = "floor-0";
+    this.groundUnderImage = "underground-0";
     this.groundImageDimension = 8;
     this.grounds = scene.add.group();
     this.backgroundImage = ["background-0", "background-1", "background-2", "background-3", "background-4", "background-5", "background-6", "background-7"];
