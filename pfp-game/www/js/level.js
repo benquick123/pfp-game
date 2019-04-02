@@ -81,7 +81,7 @@ function Level(environment) {
                 }
                 objectA.destroy();
             }
-            var obstacleIndex = 0;
+            var obstacleIndex = Math.floor(Math.random() * this.obstacleSprite.length);
             if (this.obstacleSequence.length > 0) {
                 obstacleIndex = this.obstacleSequence[this.obstacleNumber % this.obstacleSequence.length];
                 this.obstacleNumber++;
