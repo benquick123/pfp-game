@@ -14,6 +14,7 @@
     "backgroundImage": [
         "background-placeholder"
     ],
+    "backgroundImageSpawner": "random",
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
     "obstacleSprite": ["obstacle-2", "obstacle-3"],

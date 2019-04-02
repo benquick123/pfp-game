@@ -1,7 +1,7 @@
 function Environment (scene) {
     this.scene = scene;
     
-    this.playerSprite = "character-placeholder";
+    this.playerSprite = "character-0";
     this.playerHeight = 24;
     this.playerXOffset = 210;
     this.player = undefined;
@@ -14,8 +14,8 @@ function Environment (scene) {
     this.groundUnderImage = "underground-placeholder";
     this.groundImageDimension = 8;
     this.grounds = scene.add.group();
-    this.backgroundImage = ["background-placeholder"];
-    this.backgroundImageSpawner = "random";
+    this.backgroundImage = ["background-0", "background-1", "background-2", "background-3", "background-4", "background-5", "background-6", "background-7"];
+    this.backgroundImageSpawner = "sequential";
     this.backgroundIndex = 0;
     this.backgroundImageWidth = 128;
     this.parallaxScrollFactor = 1.0;
@@ -58,7 +58,6 @@ function Environment (scene) {
     this.scene.physics.add.existing(this.bottomCollider)
 
     this.addPlayer = function(x, y) {
-        console.log("adding player");
         this.player = this.scene.physics.add.sprite(x, y, this.playerSprite); 
         this.player.setBounce(this.playerBounce);
         this.player.setGravityY(this.gravity);
@@ -137,11 +136,9 @@ function Environment (scene) {
 
         var backgroundImageI = Math.floor(Math.random() * this.backgroundImage.length);
         if (this.backgroundImageSpawner == "sequential") {
-            console.log("does this happen?")
             backgroundImageI = this.backgroundIndex % this.backgroundImage.length;
             this.backgroundIndex++;
         }
-        console.log(this.backgroundImage[backgroundImageI]);
         console.log(backgroundImageI);
         var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[backgroundImageI]);
         background.setOrigin(0);
