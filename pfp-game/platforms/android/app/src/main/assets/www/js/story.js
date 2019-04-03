@@ -36,6 +36,9 @@ function Story(environment) {
         this.environment.currSpeed = this.speed == -1 ? modeInstance.currSpeed : this.speed;
         this.parallaxScrollFactor = this.parallaxScrollFactor == -1 ? modeInstance.parallaxScrollFactor : this.parallaxScrollFactor;
 
+        if (modeInstance.backgroundIndex)
+            this.environment.backgroundIndex = modeInstance.backgroundIndex;
+
         this.speakers = this.scene.add.group();
         if (this.playerIsSpeaker0) {
             this.environment.playerSprite = this.speakerSprites[0];

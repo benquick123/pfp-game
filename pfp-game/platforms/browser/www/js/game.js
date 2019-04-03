@@ -92,6 +92,8 @@ function create() {
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('black'); 
+
+
 }
  
 function update(time, delta) {
@@ -119,6 +121,30 @@ function update(time, delta) {
         currModeInstance.checkKeyboardEvents();
         if (currModeInstance.player.body.touching.down && !currModeInstance.player.anims.isPlaying) {
             currModeInstance.player.anims.play("playerwalk");
+        }
+
+        if (currModeInstance.customBackgroundPipeline) {
+            backgroundChildren = currModeInstance.backgrounds.getChildren();
+            var stopBackground = false;
+            for (var i = 0; i < backgroundChildren.length; i++) {
+                if (backgroundChildren[i].frame.texture.key == currModeInstance.backgroundImage[0] && backgroundChildren[i].x <= 0.0) {
+                    stopBackground = true;
+                }
+            }
+            for (var i = 0; i < backgroundChildren.length; i++) {
+                if (stopBackground) {
+                    currModeInstance.parallaxScrollFactor = 0.0;
+                    backgroundChildren[i].setVelocityX(0.0);
+                    backgroundChildren[i].setX(0.0);
+                }
+            }
+
+            var filter = currModeInstance.filter;
+            if (filter) {
+                filter.setFloat1("time", time/1000.0);
+                filter.setFloat2("resolution", gridHeight*ratio, gridHeight);                
+            }
+
         }
 
         // during regular gameplay, keep increasing score.

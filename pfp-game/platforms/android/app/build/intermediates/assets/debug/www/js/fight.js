@@ -38,6 +38,8 @@ function Fight(environment) {
         }
         if (modeInstance.weaponAngularVelocity && this.weaponAngularVelocity == -1)
             this.weaponAngularVelocity = modeInstance.weaponAngularVelocity;
+        if (modeInstance.backgroundIndex)
+            this.environment.backgroundIndex = modeInstance.backgroundIndex;
         
         this.enemies = this.scene.add.group();
 

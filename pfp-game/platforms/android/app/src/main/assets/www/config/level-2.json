@@ -14,7 +14,7 @@
     "backgroundImage": [
         "background-2"
     ],
-
+    "backgroundImageSpawner": "random",
     "bossSprite": "boss-1",
     "bossMovementRangeYOffset": [0, -64],
     "bossMovementXOffset": 8,

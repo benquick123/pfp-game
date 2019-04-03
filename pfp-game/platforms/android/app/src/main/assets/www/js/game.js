@@ -18,14 +18,15 @@ function preload() {
     // load settings and assets per level
     for (var i = 0; i < 11; i++)
         this.load.json("story-" + i, "config/story-" + i + ".json");
+    for (var i = 0; i < 16; i++)
+        this.load.image("background-" + i, "img/background-" + i + ".png");
 
-    for (var i = 0; i < 11; i++) {
+    for (var i = 0; i < 10; i++) {
         this.load.json("level-" + i, "config/level-" + i + ".json");
         this.load.json("fight-" + i, "config/fight-" + i + ".json");
 
         this.load.image("floor-" + i, "img/floor-" + i + ".png");
         this.load.image("underground-" + i, "img/underground-" + i + ".png");
-        this.load.image("background-" + i, "img/background-" + i + ".png");
         
         this.load.spritesheet("character-" + i, "img/character-" + i + ".png", {frameWidth: 24, frameHeight: 48});
         this.load.spritesheet("character-" + i + "-walk", "img/character-" + i + "-walk.png", {frameWidth: 24, frameHeight: 48});
@@ -91,6 +92,8 @@ function create() {
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('black'); 
+
+
 }
  
 function update(time, delta) {
@@ -118,6 +121,30 @@ function update(time, delta) {
         currModeInstance.checkKeyboardEvents();
         if (currModeInstance.player.body.touching.down && !currModeInstance.player.anims.isPlaying) {
             currModeInstance.player.anims.play("playerwalk");
+        }
+
+        if (currModeInstance.customBackgroundPipeline) {
+            backgroundChildren = currModeInstance.backgrounds.getChildren();
+            var stopBackground = false;
+            for (var i = 0; i < backgroundChildren.length; i++) {
+                if (backgroundChildren[i].frame.texture.key == currModeInstance.backgroundImage[0] && backgroundChildren[i].x <= 0.0) {
+                    stopBackground = true;
+                }
+            }
+            for (var i = 0; i < backgroundChildren.length; i++) {
+                if (stopBackground) {
+                    currModeInstance.parallaxScrollFactor = 0.0;
+                    backgroundChildren[i].setVelocityX(0.0);
+                    backgroundChildren[i].setX(0.0);
+                }
+            }
+
+            var filter = currModeInstance.filter;
+            if (filter) {
+                filter.setFloat1("time", time/1000.0);
+                filter.setFloat2("resolution", gridHeight*ratio, gridHeight);                
+            }
+
         }
 
         // during regular gameplay, keep increasing score.

@@ -1,7 +1,7 @@
 {
     "initSpeed": 160,
     "levelDifficultyFactor": 1.0,
-    "levelEndScore": 1000000000,
+    "levelEndScore": 10000,
     "levelMode": 0,
 
     "playerSprite": "character-placeholder",
@@ -14,10 +14,9 @@
     "groundFloorImage": "floor-0",
     "groundUnderImage": "underground-0",
     "backgroundImage": [
-        "background-0",
-        "background-1",
-        "background-2"
+        "background-11"
     ],
+    "customBackgroundPipeline": true,
     "backgroundImageSpawner": "random",
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
