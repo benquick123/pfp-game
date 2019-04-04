@@ -142,7 +142,6 @@ function Environment (scene) {
             backgroundImageI = this.backgroundIndex % this.backgroundImage.length;
             this.backgroundIndex++;
         }
-        console.log(backgroundImageI);
         var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[backgroundImageI]);
         background.setOrigin(0);
         background.setDepth(-10);
