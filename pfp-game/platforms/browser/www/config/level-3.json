@@ -7,8 +7,8 @@
     "playerSprite": "character-3",
     "playerAnimationFPS": 12,
     "enemySprites": [
-        "enemy-0",
-        "enemy-1"
+        "enemy-2",
+        "enemy-3"
     ],
     "groundFloorImage": "floor-0",
     "groundUnderImage": "underground-0",
