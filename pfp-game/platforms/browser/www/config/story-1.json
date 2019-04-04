@@ -1,7 +1,12 @@
 {
     "dialogues": [
-        [0, "Jov."],
-        [1, "Sup."]
+        [0, "Greetings, friend."],
+        [1, "Fellow wanderer,\nI seek the road\nto Lyubliannaah."],
+        [0, "One must only step\nforward, friend,\nfor every road..."],
+        [0, "...Leads to where\nyou wish to go."],
+        [0, "But beware, I hear rumors\nthat to successfully sculpt\nthe sickest of tones,\none must first..."],
+        [0, "...tread on\nEVERY pedal."],
+        [1, "Sweet!."]
     ],
     "nSpeakers": 2,
     "speakersStartingPositionsOffsets": [[0, 0], [224, 28]],
