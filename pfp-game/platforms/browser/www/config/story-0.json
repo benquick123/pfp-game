@@ -1,13 +1,26 @@
 {
     "dialogues": [
-        [0, "Dej rec kej"],
-        [1, "Tvojo mami dolgo \ndolgo dolgo dolgo \ndolgo dolgo dolgo"],
-        [2, "Kesi kesi"]
+        [1, "So..."],
+        [1, "You think you can tell?"],
+        [0, "..."],
+        [1, "Heaven from hell?"],
+        [1, "You think you can tell?"],
+        [0, "I beseach thou, I seek not for trouble"],
+        [0, "I am but a lone pilgrim on my way to Lyublianaah."],
+        [1, "Ahh, a pilgrim. Pleased to meet you, Hope you guess my name."],
+        [1, "But whats troubling you, Is the nature of my game"],
+        [0, "Ok cool it with the dadrock references"],
+        [0, "NOW I LAY YOU DOWN TO SLEEP PRAY THE LORD MY SOUL TO KEEP!!111!!!"],
+        [2, "Vse je kul prjatu..."],
+        [0, "Its DAN D!"],
+        [0, "...uhh I mean..."],
+        [0, "GDWYN!"],
+        [0, "The Grand Wizards of the Psalm!"]
     ],
     "nSpeakers": 3,
     "speakersStartingPositionsOffsets": [[0, 0], [-96, 20], [192, -16]],
     "speakersEndingPositionsOffsets": [[0, 0], [0, 0], [-224, 0]],
-    "speakerSprites": ["character-0", "boss-0", "helper-0"],
+    "speakerSprites": ["character-0", "boss-0", "helper-0"]
     "speakerFlipX": [false, false, false],
     "playerIsSpeaker0": true,
 
