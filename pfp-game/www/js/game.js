@@ -18,8 +18,13 @@ function preload() {
     // load settings and assets per level
     for (var i = 0; i < 11; i++)
         this.load.json("story-" + i, "config/story-" + i + ".json");
+    
     for (var i = 0; i < 16; i++)
         this.load.image("background-" + i, "img/background-" + i + ".png");
+    
+    this.load.spritesheet("obstacle-0", "img/obstacle-0.png", {frameWidth: 48, frameHeight: 24});
+    for (var i = 1; i < 10; i++)
+        this.load.image("obstacle-" + i, "img/obstacle-" + i + ".png"); 
 
     for (var i = 0; i < 10; i++) {
         this.load.json("level-" + i, "config/level-" + i + ".json");

@@ -97,7 +97,17 @@ function Level(environment) {
             obstacle.setFrictionX(0);
             obstacle.setDepth(1);
             obstacle.isJumpedOn = false;
+
             // this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 4 }).length > 0) {
+                this.scene.anims.create({
+                    key: this.obstacleSprite[obstacleIndex] + "-animation",
+                    frames: this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 4 }),
+                    frameRate: 12,
+                    repeat: -1
+                });
+                obstacle.anims.play(this.obstacleSprite[obstacleIndex] + "-animation");
+            }
 
             if (this.obstacleStartingYOffset < 0) {
                 obstacle.setGravityY(this.gravity);
