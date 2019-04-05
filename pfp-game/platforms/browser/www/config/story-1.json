@@ -6,7 +6,7 @@
         [0, "...Leads to where\nyou wish to go."],
         [0, "But beware, I hear rumors\nthat to successfully sculpt\nthe sickest of tones,\none must first..."],
         [0, "...tread on\nEVERY pedal."],
-        [1, "Sweet!."]
+        [1, "Sweet!"]
     ],
     "nSpeakers": 2,
     "speakersStartingPositionsOffsets": [[0, 0], [224, 28]],

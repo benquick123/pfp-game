@@ -8,7 +8,7 @@
         [0, "I am but a lone pilgrim\non my way to Lyublianaah."],
         [1, "Ahh, a pilgrim.\nPleased to meet you,\nHope you guess my name."],
         [1, "But whats troubling you,\nIs the nature of my game."],
-        [0, "Ok cool it with the\ndadrock references."],
+        [0, "Ok, cool it with the\ndadrock references."],
         [1, "NOW I LAY YOU\nDOWN TO SLEEP\nPRAY THE LORD\nMY SOUL TO KEEP!"],
         [2, "Vse je kul prjatu..."],
         [0, "Its DAN D!"],
@@ -18,8 +18,8 @@
         [2, "This demon has sewn\nhis bad vibes upon this\nland for too long."],
         [2, "He must be strewn down\ninto the void,\nInto the hottest flame of\nhuman fire."],
         [2, "But we can only extend\nour hand, You yourself\nmust grab it."],
-        [2, "Finish your pilgrimage to\nLyublianaah.\nLearn the ways of\nthe Sacred Lute."],
-        [2, "It is only through the\ndivine psalm that we\ncan defeat this perversion\nof the human soul."],
+        [2, "Finish your pilgrimage\nto Lyublianaah. Learn the ways\nof the Sacred Lute."],
+        [2, "It is only through the\ndivine psalm that we can\ndefeat this perversion\nof the human soul."],
         [2, "Do you accept our quest?"],
         [1, "HA! HA! HA! HA! HA!"],
         [1, "No wizarding trickery\ncan save you now."],
@@ -42,8 +42,8 @@
     "speed": -1,
     "parallaxScrollFactor": -1,
 
-    "groundFloorImage": "floor-placeholder",
-    "groundUnderImage": "underground-placeholder",
+    "groundFloorImage": "floor-0",
+    "groundUnderImage": "underground-0",
 
     "backgroundImage": [
         "background-0",
