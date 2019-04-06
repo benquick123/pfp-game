@@ -169,7 +169,6 @@ function Environment (scene) {
         this.addBackground();
         this.addGround(0, this.groundYOffset);
 
-        console.log("Initialize env");
         this.score = 0;
         this.scoreText = this.scene.add.bitmapText(10, 10, "font20", this.score);
         this.scoreText.setVisible(false);

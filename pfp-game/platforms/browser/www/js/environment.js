@@ -142,7 +142,6 @@ function Environment (scene) {
             backgroundImageI = this.backgroundIndex % this.backgroundImage.length;
             this.backgroundIndex++;
         }
-        console.log(backgroundImageI);
         var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[backgroundImageI]);
         background.setOrigin(0);
         background.setDepth(-10);
@@ -170,7 +169,6 @@ function Environment (scene) {
         this.addBackground();
         this.addGround(0, this.groundYOffset);
 
-        console.log("Initialize env");
         this.score = 0;
         this.scoreText = this.scene.add.bitmapText(10, 10, "font20", this.score);
         this.scoreText.setVisible(false);

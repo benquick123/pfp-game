@@ -27,10 +27,12 @@ function Story(environment) {
     this.speakersDead = 0;
     this.stayingSpeaker = 0;
     this.stayingSpeakerPosition = 0;
+    this.speakersDieImmediately = []
     this.playerIsSpeaker0 = true;
 
     this.inConversation = false;
     this.speakersPositioned = false;
+    this.stopGameplayImmediately = false;
 
     this.initializeStory = function (modeInstance) {
         this.environment.currSpeed = this.speed == -1 ? modeInstance.currSpeed : this.speed;
@@ -87,6 +89,7 @@ function Story(environment) {
                 x: 0,
                 y: 0,
                 text: this.currText,
+                align: 1,
                 font: "font12" 
             });
 
@@ -166,7 +169,10 @@ function Story(environment) {
         
         var speakerChildren = this.speakers.getChildren();
         for (var i = 0+this.playerIsSpeaker0; i < this.speakerSprites.length; i++) {
-            if (i != this.stayingSpeaker) {
+            if (this.speakersDieImmediately[i]) {
+                speakerChildren[i-this.playerIsSpeaker0].destroy();
+            }
+            else if (i != this.stayingSpeaker) {
                 speakerChildren[i-this.playerIsSpeaker0].setVelocityX(-this.currSpeed);
                 this.scene.physics.add.overlap(speakerChildren[i-this.playerIsSpeaker0], this.extraLeftCollider, onOutOfBounds);
             }

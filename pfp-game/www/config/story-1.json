@@ -1,26 +1,52 @@
 {
     "dialogues": [
-        [0, "Greetings, friend."],
-        [1, "Fellow wanderer,\nI seek the road\nto Lyubliannaah."],
-        [0, "One must only step\nforward, friend,\nfor every road..."],
-        [0, "...Leads to where\nyou wish to go."],
-        [0, "But beware, I hear rumors\nthat to successfully sculpt\nthe sickest of tones,\none must first..."],
-        [0, "...tread on\nEVERY pedal."],
-        [1, "Sweet!"]
+        [2, "Vse je kul prjatu..."],
+        [0, "Its DAN D!"],
+        [0, "...uhh I mean..."],
+        [0, "GDWYN!"],
+        [2, "We find you here, now.\nBecause you are the one\nfate has smiled upon."],
+        [2, "This demon has sewn\nhis bad vibes upon this\nland for too long."],
+        [2, "He must be strewn down\ninto the void,\nInto the hottest flame of\nhuman fire."],
+        [2, "But we can only extend\nour hand, You yourself\nmust grab it."],
+        [2, "Finish your pilgrimage\nto Lyublianaah. Learn the ways\nof the Sacred Lute."],
+        [2, "It is only through the\ndivine psalm that we can\ndefeat this perversion\nof the human soul."],
+        [2, "Do you accept our quest?"],
+        [1, "HA! HA! HA! HA! HA!"],
+        [1, "No wizarding trickery\ncan save you now."],
+        [1, "You stand no chance,\nboi."],
+        [2, "Silence, ageless one."],
+        [2, "Sedaj bom..."],
+        [2, "Umru zate...."],
+        [0, "GDWYN, NOOOOO"]
     ],
-    "nSpeakers": 2,
-    "speakersStartingPositionsOffsets": [[0, 0], [224, 28]],
-    "speakersEndingPositionsOffsets": [[0, 0], [-288, 0]],
-    "speakerSprites": ["character-0", "character-1"],
-    "speakerFlipX": [false, true],
+    "nSpeakers": 3,
+    "speakersStartingPositionsOffsets": [[0, 0], [-96, 20], [192, -16]],
+    "speakersEndingPositionsOffsets": [[0, 0], [0, 0], [-224, 0]],
+    "speakerSprites": ["character-0", "boss-0", "helper-0"],
+    "speakerFlipX": [false, false, false],
+    "speakersDieImmediately": [false, false, false],
     "playerIsSpeaker0": true,
 
-    "stayingSpeaker": 1,
-    "stayingSpeakerPosition": 1,
+    "stayingSpeaker": 0,
+    "stayingSpeakerPosition": 0,
 
     "speed": -1,
     "parallaxScrollFactor": -1,
 
     "groundFloorImage": "floor-0",
-    "groundUnderImage": "underground-0"
+    "groundUnderImage": "underground-0",
+
+    "backgroundImage": [
+        "background-0",
+        "background-1",
+        "background-2",
+        "background-3",
+        "background-4",
+        "background-5",
+        "background-6",
+        "background-7"
+    ],
+    "backgroundImageSpawner": "sequential",
+
+    "stopGameplayImmediately": true
 }

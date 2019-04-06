@@ -16,7 +16,7 @@ function preload() {
     this.load.json("gameplay", "config/gameplay.json");
 
     // load settings and assets per level
-    for (var i = 0; i < 11; i++)
+    for (var i = 0; i < 12; i++)
         this.load.json("story-" + i, "config/story-" + i + ".json");
     
     for (var i = 0; i < 16; i++)
