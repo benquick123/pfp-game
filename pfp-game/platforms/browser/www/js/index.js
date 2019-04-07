@@ -11,9 +11,9 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
-        w = document.documentElement.clientWidth
-        h = document.documentElement.clientHeight
-        ratio = w / h
+        w = document.documentElement.clientWidth;
+        h = document.documentElement.clientHeight;
+        ratio = w / h;
         var config = {
             type: Phaser.AUTO,
             crisp: true,
@@ -22,7 +22,7 @@ var app = {
             scale: {
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH,
-                width: gridHeight * ratio,
+                width: Math.floor(gridHeight * ratio),
                 height: gridHeight
             },
             physics: {
