@@ -13,11 +13,11 @@
     "groundFloorImage": "floor-0",
     "groundUnderImage": "underground-0",
     "backgroundImage": [
-        "background-8",
+        ["background-8",
         "background-9",
-        "background-10"
+        "background-10"]
     ],
-    "backgroundImageSpawner": "random",
+    "backgroundImageSpawner": ["random"],
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
     "obstacleSprite": ["obstacle-4", "obstacle-5"],

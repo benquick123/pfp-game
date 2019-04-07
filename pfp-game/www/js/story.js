@@ -32,7 +32,7 @@ function Story(environment) {
 
     this.inConversation = false;
     this.speakersPositioned = false;
-    this.stopGameplayImmediately = false;
+    this.remainStillAfterEnd = false;
 
     this.initializeStory = function (modeInstance) {
         this.environment.currSpeed = this.speed == -1 ? modeInstance.currSpeed : this.speed;
@@ -141,7 +141,8 @@ function Story(environment) {
         }
         else {
             this.letGo();
-            this.resumeGameplay(false, true);
+            if (!this.remainStillAfterEnd)
+                this.resumeGameplay(false, true);
             this.player.anims.stop();
             this.player.anims.play("playeridle");
         }
@@ -153,7 +154,6 @@ function Story(environment) {
     }
 
     this.letGo = function () {
-        console.log("letting go of story");
         var onOutOfBounds = function(objectA, objectB) {
             currModeInstance.speakersDead++;
             objectA.destroy();

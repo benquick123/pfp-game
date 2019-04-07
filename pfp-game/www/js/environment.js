@@ -14,12 +14,12 @@ function Environment (scene) {
     this.groundUnderImage = "underground-0";
     this.groundImageDimension = 8;
     this.grounds = scene.add.group();
-    this.backgroundImage = ["background-0", "background-1", "background-2", "background-3", "background-4", "background-5", "background-6", "background-7"];
-    this.backgroundImageSpawner = "sequential";
-    this.backgroundIndex = 2;
+    this.backgroundImage = [["background-0", "background-1", "background-2", "background-3", "background-4", "background-5", "background-6", "background-7"]];
+    this.backgroundImageSpawner = ["sequential"];
+    this.backgroundIndex = [2];
     this.backgroundImageWidth = 128;
     this.parallaxScrollFactor = 1.0;
-    this.backgrounds = scene.add.group();
+    this.backgrounds = [];
     this.customBackgroundPipeline = false;
 
     this.customPipelineWasMadeBefore = false;
@@ -129,44 +129,50 @@ function Environment (scene) {
         for (var i=startX; i<=gridHeight*ratio+4*this.groundImageDimension; i+=this.groundImageDimension) {
             this.addGroundColumn(i, startY)
         }
-        this.grounds.maxSize = this.grounds.getLength();
     }
 
-    this.addBackgroundColumn = function (x, y) {
+    this.addBackgroundColumn = function (i, x, y) {
         var onOutOfBounds = function(objectA, objectB) {
             objectA.destroy();
         }
 
-        var backgroundImageI = Math.floor(Math.random() * this.backgroundImage.length);
-        if (this.backgroundImageSpawner == "sequential") {
-            backgroundImageI = this.backgroundIndex % this.backgroundImage.length;
-            this.backgroundIndex++;
+        var backgroundImageI = Math.floor(Math.random() * this.backgroundImage[i].length);
+        if (this.backgroundImageSpawner[i] == "sequential") {
+            backgroundImageI = this.backgroundIndex[i] % this.backgroundImage[i].length;
+            this.backgroundIndex[i]++;
         }
-        var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[backgroundImageI]);
+        var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[i][backgroundImageI]);
         background.setOrigin(0);
-        background.setDepth(-10);
+        background.setDepth(-(i+1)*10);
         this.scene.physics.add.overlap(background, this.extraLeftCollider, onOutOfBounds);
 
-        background.body.setVelocityX(-this.currSpeed*this.parallaxScrollFactor);
+        background.body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
 
         if (this.customBackgroundPipeline) {
             this.createBackgroundShader();
             background.setPipeline("custom-pipeline");
         }
 
-        this.backgrounds.add(background);
+        this.backgrounds[i].add(background);
     }
     
-    this.addBackground = function () {
-        for (var i = 0; i < gridHeight*ratio+this.backgroundImageWidth+1; i+=this.backgroundImageWidth) {
-            this.addBackgroundColumn(i, 0);
+    this.addBackground = function (i) {
+        this.backgrounds.push(this.scene.add.group());
+
+        var newChildPosition = 0;
+        while (newChildPosition < gridHeight*ratio + 16) {
+            this.addBackgroundColumn(i, newChildPosition, 0);
+            var backgroundChildren = this.backgrounds[i].getChildren();
+            lastChild = backgroundChildren[backgroundChildren.length-1];
+            newChildPosition = lastChild.x + lastChild.width;
         }
-        this.backgrounds.maxSize = this.backgrounds.getLength();
     }
 
     this.initializeEnv = function () {
         this.addPlayer(gridHeight*ratio - this.playerXOffset, -this.playerHeight);
-        this.addBackground();
+        for (var i = 0; i < this.backgroundImage.length; i++) {
+            this.addBackground(i);
+        }
         this.addGround(0, this.groundYOffset);
 
         this.score = 0;
@@ -183,10 +189,12 @@ function Environment (scene) {
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
         }
-
-        var backgroundChildren = this.backgrounds.getChildren();
-        for (var i = 0; i < backgroundChildren.length; i++) {
-            backgroundChildren[i].body.setVelocityX(0);
+        
+        for (var i = 0; i < this.backgrounds.length; i++) {
+            var backgroundChildren = this.backgrounds[i].getChildren();
+            for (var j = 0; j < backgroundChildren.length; j++) {
+                backgroundChildren[j].body.setVelocityX(0);
+            }
         }
 
         this.player.anims.stop();
@@ -205,9 +213,11 @@ function Environment (scene) {
             groundChildren[i].body.setVelocityX(-this.currSpeed);
         }
 
-        var backgroundChildren = this.backgrounds.getChildren();
-        for (var i = 0; i < backgroundChildren.length; i++) {
-            backgroundChildren[i].body.setVelocityX(-this.currSpeed*this.parallaxScrollFactor);
+        for (var i = 0; i < this.backgrounds.length; i++) {
+            var backgroundChildren = this.backgrounds[i].getChildren();
+            for (var j = 0; j < backgroundChildren.length; j++) {
+                backgroundChildren[j].body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
+            }
         }
 
         if (!animationsOnly) {    
