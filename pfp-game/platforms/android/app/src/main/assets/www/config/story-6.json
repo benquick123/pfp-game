@@ -1,16 +1,17 @@
 {
     "dialogues": [
         [0, "Jov."],
-        [1, "Sup. Jaz sem VASKO."]
+        [1, "Pokazi mi vrticek."]
     ],
     "nSpeakers": 2,
-    "speakersStartingPositionsOffsets": [[0, 0], [224, 28]],
-    "speakersEndingPositionsOffsets": [[0, 0], [-288, 0]],
-    "speakerSprites": ["character-2", "character-3"],
-    "speakerFlipX": [false, true],
+    "speakersStartingPositionsOffsets": [[0, 0], [64, 0]],
+    "speakersEndingPositionsOffsets": [[0, 0], [-96, 0]],
+    "speakerSprites": ["character-2", "helper-2"],
+    "speakerFlipX": [false, false],
+    "speakersDieImmediately": [false, false],
     "playerIsSpeaker0": true,
 
-    "stayingSpeaker": 1,
+    "stayingSpeaker": 0,
     "stayingSpeakerPosition": 1,
 
     "speed": -1,

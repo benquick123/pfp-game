@@ -7,14 +7,14 @@
     "playerSprite": "character-2",
     "playerAnimationFPS": 12,
     "enemySprites": [
-        "enemy-placeholder"
+        "enemy-1"
     ],
     "groundFloorImage": "floor-placeholder",
     "groundUnderImage": "underground-placeholder",
     "backgroundImage": [
-        "background-2"
+        ["background-2"]
     ],
-    "backgroundImageSpawner": "random",
+    "backgroundImageSpawner": ["random"],
     "bossSprite": "boss-1",
     "bossMovementRangeYOffset": [0, -64],
     "bossMovementXOffset": 8,

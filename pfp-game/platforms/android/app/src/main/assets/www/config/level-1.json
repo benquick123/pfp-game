@@ -12,9 +12,17 @@
     "groundFloorImage": "floor-placeholder",
     "groundUnderImage": "underground-placeholder",
     "backgroundImage": [
-        "background-placeholder"
+        ["character-placeholder"],
+        ["background-0",
+        "background-1",
+        "background-2",
+        "background-3",
+        "background-4",
+        "background-5",
+        "background-6",
+        "background-7"]
     ],
-    "backgroundImageSpawner": "random",
+    "backgroundImageSpawner": ["random", "sequential"],
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
     "obstacleSprite": ["obstacle-2", "obstacle-3"],

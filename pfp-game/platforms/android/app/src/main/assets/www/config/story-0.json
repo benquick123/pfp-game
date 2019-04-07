@@ -1,14 +1,22 @@
 {
     "dialogues": [
-        [0, "Dej rec kej"],
-        [1, "Tvojo mami dolgo \ndolgo dolgo dolgo \ndolgo dolgo dolgo"],
-        [2, "Kesi kesi"]
+        [1, "So..."],
+        [1, "You think you can tell?"],
+        [0, "..."],
+        [1, "Heaven from hell?"],
+        [0, "I beseach thou,\nI seek not for trouble"],
+        [0, "I am but a lone pilgrim\non my way to Lyublianaah."],
+        [1, "Ahh, a pilgrim.\nPleased to meet you,\nHope you guess my name."],
+        [1, "But whats troubling you,\nIs the nature of my game."],
+        [0, "Ok, cool it with the\ndadrock references."],
+        [1, "NOW I LAY YOU\nDOWN TO SLEEP\nPRAY THE LORD\nMY SOUL TO KEEP!"]
     ],
-    "nSpeakers": 3,
-    "speakersStartingPositionsOffsets": [[0, 0], [-96, 20], [192, -16]],
-    "speakersEndingPositionsOffsets": [[0, 0], [0, 0], [-224, 0]],
-    "speakerSprites": ["character-0", "boss-0", "helper-0"],
-    "speakerFlipX": [false, false, false],
+    "nSpeakers": 2,
+    "speakersStartingPositionsOffsets": [[0, 0], [-96, 20]],
+    "speakersEndingPositionsOffsets": [[0, 0], [0, 0]],
+    "speakerSprites": ["character-0", "boss-0"],
+    "speakerFlipX": [false, false],
+    "speakersDieImmediately": [false, true],
     "playerIsSpeaker0": true,
 
     "stayingSpeaker": 0,
@@ -17,18 +25,20 @@
     "speed": -1,
     "parallaxScrollFactor": -1,
 
-    "groundFloorImage": "floor-placeholder",
-    "groundUnderImage": "underground-placeholder",
+    "groundFloorImage": "floor-0",
+    "groundUnderImage": "underground-0",
 
     "backgroundImage": [
-        "background-0",
+        ["background-0",
         "background-1",
         "background-2",
         "background-3",
         "background-4",
         "background-5",
         "background-6",
-        "background-7"
+        "background-7"]
     ],
-    "backgroundImageSpawner": "sequential"
+    "backgroundImageSpawner": ["sequential"],
+
+    "remainStillAfterEnd": true
 }
