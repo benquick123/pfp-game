@@ -7,7 +7,7 @@
     "playerSprite": "character-placeholder",
     "playerAnimationFPS": 12,
     "enemySprites": [
-        "enemy-0",
+        "enemy-2",
         "enemy-1",
         "enemy-placeholder"
     ],
