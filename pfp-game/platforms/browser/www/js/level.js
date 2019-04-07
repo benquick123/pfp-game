@@ -103,7 +103,7 @@ function Level(environment) {
             if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 4 }).length > 0) {
                 this.scene.anims.create({
                     key: this.obstacleSprite[obstacleIndex] + "-animation",
-                    frames: this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 4 }),
+                    frames: this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }),
                     frameRate: 12,
                     repeat: -1
                 });
