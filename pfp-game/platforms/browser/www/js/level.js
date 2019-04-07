@@ -104,7 +104,7 @@ function Level(environment) {
                 this.scene.anims.create({
                     key: this.obstacleSprite[obstacleIndex] + "-animation",
                     frames: this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }),
-                    frameRate: 12,
+                    frameRate: 7,
                     repeat: -1
                 });
                 obstacle.anims.play(this.obstacleSprite[obstacleIndex] + "-animation");
