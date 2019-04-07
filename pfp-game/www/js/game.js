@@ -119,7 +119,6 @@ function update(time, delta) {
     // keep background behind player
     for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
         var backgroundChildren = currModeInstance.backgrounds[i].getChildren();
-        console.log(backgroundChildren.length);
         var lastChild = backgroundChildren[backgroundChildren.length-1];
         if (lastChild.x < gridHeight*ratio + 16 && currModeInstance.parallaxScrollFactor > 0.0) {
             while (lastChild.x < gridHeight*ratio + 16) {
@@ -137,7 +136,6 @@ function update(time, delta) {
         }
 
         if (currModeInstance.customBackgroundPipeline) {
-            console.log(currModeInstance.backgrounds[0].getLength());
             for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
                 backgroundChildren = currModeInstance.backgrounds[i].getChildren();
                 var stopBackground = false;
