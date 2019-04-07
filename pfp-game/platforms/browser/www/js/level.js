@@ -74,6 +74,10 @@ function Level(environment) {
         this.scene.input.on("pointerdown", this.onPointerDown, this);
         // this.scene.input.keyboard.on("keydown-SPACE", function () { this.scene.scene.pause(); }, this);
         this.scoreText.setVisible(true);
+
+        this.environment.music.stop();
+        this.environment.music = this.scene.sound.add(this.musicName, { loop: true });
+        this.environment.music.play();
     }
 
     this.letGo = function (listeners) {

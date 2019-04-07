@@ -27,7 +27,7 @@ function Environment (scene) {
     this.gravity = 500;
     this.currSpeed = 0;
     
-    this.musicName = "";
+    this.musicName = "basic";
     this.music = undefined;
 
     this.score = 0;
