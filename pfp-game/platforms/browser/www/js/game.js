@@ -103,22 +103,25 @@ function create() {
  
 function update(time, delta) {
     // keep the floor under the player
-    if (!currModeInstance.grounds.isFull()) {
-        var groundChildren = currModeInstance.grounds.getChildren();
-        var lastChild = groundChildren[groundChildren.length-1];
-        var active = currModeInstance.grounds.countActive();
-        // var step = (gridHeight*ratio - 128) / 3;
-        for (var i=active; i < currModeInstance.grounds.maxSize; i+=3) {
-            currModeInstance.addGroundColumn(lastChild.x + (i-active+1)*8, currModeInstance.groundYOffset);
+    var groundChildren = currModeInstance.grounds.getChildren();
+    var lastChild = groundChildren[groundChildren.length-1];
+    if (lastChild.x < gridHeight*ratio + 16) {
+        while (lastChild.x < gridHeight*ratio + 16) {
+            currModeInstance.addGroundColumn(lastChild.x + lastChild.width, currModeInstance.groundYOffset);
+            groundChildren = currModeInstance.grounds.getChildren();
+            lastChild = groundChildren[groundChildren.length-1];
         }
     }
     // keep background behind player
-    if (!currModeInstance.backgrounds.isFull()) {
-        var backgroundChildren = currModeInstance.backgrounds.getChildren();
+    for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
+        var backgroundChildren = currModeInstance.backgrounds[i].getChildren();
         var lastChild = backgroundChildren[backgroundChildren.length-1];
-        var active = currModeInstance.backgrounds.countActive();
-        for (var i = active; i < currModeInstance.backgrounds.maxSize; i++) {
-            currModeInstance.addBackgroundColumn(lastChild.x + lastChild.width, 0);
+        if (lastChild.x < gridHeight*ratio + 16) {
+            while (lastChild.x < gridHeight*ratio + 16) {
+                currModeInstance.addBackgroundColumn(i, lastChild.x + lastChild.width, 0);
+                backgroundChildren = currModeInstance.backgrounds[i].getChildren();
+                lastChild = backgroundChildren[backgroundChildren.length-1]
+            }
         }
     }
 
@@ -129,18 +132,20 @@ function update(time, delta) {
         }
 
         if (currModeInstance.customBackgroundPipeline) {
-            backgroundChildren = currModeInstance.backgrounds.getChildren();
-            var stopBackground = false;
-            for (var i = 0; i < backgroundChildren.length; i++) {
-                if (backgroundChildren[i].frame.texture.key == currModeInstance.backgroundImage[0] && backgroundChildren[i].x <= 0.0) {
-                    stopBackground = true;
+            for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
+                backgroundChildren = currModeInstance.backgrounds[i].getChildren();
+                var stopBackground = false;
+                for (var j = 0; j < backgroundChildren.length; j++) {
+                    if (backgroundChildren[j].frame.texture.key == currModeInstance.backgroundImage[0] && backgroundChildren[j].x <= 0.0) {
+                        stopBackground = true;
+                    }
                 }
-            }
-            for (var i = 0; i < backgroundChildren.length; i++) {
-                if (stopBackground) {
-                    currModeInstance.parallaxScrollFactor = 0.0;
-                    backgroundChildren[i].setVelocityX(0.0);
-                    backgroundChildren[i].setX(0.0);
+                for (var j = 0; j < backgroundChildren.length; j++) {
+                    if (stopBackground) {
+                        currModeInstance.parallaxScrollFactor = 0.0;
+                        backgroundChildren[j].setVelocityX(0.0);
+                        backgroundChildren[j].setX(0.0);
+                    }
                 }
             }
 
@@ -254,7 +259,8 @@ function changeMode() {
         $(currModeInstance).attr(currModeInstance.scene.cache.json.get(newMode));
 
         currModeInstance.initializeStory(prevModeInstance);
-        currModeInstance.resumeGameplay(false, true);
+        if (prevMode != MODESTORY || (prevMode == MODESTORY && !prevModeInstance.remainStillAfterEnd))
+            currModeInstance.resumeGameplay(false, true);
     }
     else if (currMode == MODEFIGHT) {
         if (prevMode == MODELEVEL)

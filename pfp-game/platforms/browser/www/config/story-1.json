@@ -20,8 +20,8 @@
         [0, "GDWYN, NOOOOO"]
     ],
     "nSpeakers": 3,
-    "speakersStartingPositionsOffsets": [[0, 0], [-96, 20], [192, -16]],
-    "speakersEndingPositionsOffsets": [[0, 0], [0, 0], [-224, 0]],
+    "speakersStartingPositionsOffsets": [[0, 0], [-96, 20], [48, -16]],
+    "speakersEndingPositionsOffsets": [[0, 0], [0, 0], [-80, 0]],
     "speakerSprites": ["character-0", "boss-0", "helper-0"],
     "speakerFlipX": [false, false, false],
     "speakersDieImmediately": [false, false, false],
@@ -37,16 +37,14 @@
     "groundUnderImage": "underground-0",
 
     "backgroundImage": [
-        "background-0",
+        ["background-0",
         "background-1",
         "background-2",
         "background-3",
         "background-4",
         "background-5",
         "background-6",
-        "background-7"
+        "background-7"]
     ],
-    "backgroundImageSpawner": "sequential",
-
-    "stopGameplayImmediately": true
+    "backgroundImageSpawner": ["sequential"]
 }

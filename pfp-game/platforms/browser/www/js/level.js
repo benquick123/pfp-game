@@ -50,6 +50,19 @@ function Level(environment) {
         this.environment.backgroundImage = this.backgroundImage;
         this.environment.backgroundImageSpawner = this.backgroundImageSpawner;
 
+        if (this.environment.backgrounds.length > this.environment.backgroundImage.length) {
+            while (this.environment.backgrounds.length != this.environment.backgroundImage.length) {
+                this.environment.backgroundIndex.splice(-1, 1);
+                this.environment.backgrounds.splice(-1, 1);
+            }
+        }
+        else if (this.environment.backgrounds.length < this.environment.backgroundImage.length) {
+            while (this.environment.backgrounds.length != this.environment.backgroundImage.length) {
+                this.environment.backgroundIndex.push(this.environment.backgroundIndex[0]);
+                this.environment.addBackground(this.environment.backgrounds.length);
+            }
+        }
+
         this.environment.groundFloorImage = this.groundFloorImage;
         this.environment.groundUnderImage = this.groundUnderImage;
 
@@ -102,12 +115,12 @@ function Level(environment) {
             
             if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 4 }).length > 0) {
                 this.scene.anims.create({
-                    key: this.obstacleSprite[obstacleIndex] + "-animation",
+                    key: this.obstacleSprite[obstacleIndex] + "animation",
                     frames: this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 4 }),
                     frameRate: 12,
                     repeat: -1
                 });
-                obstacle.anims.play(this.obstacleSprite[obstacleIndex] + "-animation");
+                obstacle.anims.play(this.obstacleSprite[obstacleIndex] + "animation");
             }
 
             if (this.obstacleStartingYOffset < 0) {
@@ -151,17 +164,18 @@ function Level(environment) {
             // randomly select first or the second asset name.
             var enemyI = Math.floor(Math.random()*this.enemySprites.length);
             // create new animation based on configuration in lines 114-117.
-            this.scene.anims.remove("enemy" + enemyI + "animation")
-            this.scene.anims.create({
-                key: "enemy" + enemyI + "animation",
-                frames: this.scene.anims.generateFrameNumbers(this.enemySprites[enemyI], { start: 0, end: 3 }),
-                frameRate: 4,
-                repeat: -1
-            });
             // add new target to scene.
             var enemy = this.scene.physics.add.sprite(x, y, this.enemySprites[enemyI]);
-            // play the animation.
-            enemy.anims.play("enemy" + enemyI + "animation", true);
+            if (this.scene.anims.generateFrameNumbers(this.enemySprites[enemyI], { start: 0, end: 3 }).length > 0) {
+                this.scene.anims.remove("enemy" + enemyI + "animation");
+                this.scene.anims.create({
+                    key: "enemy" + enemyI + "animation",
+                    frames: this.scene.anims.generateFrameNumbers(this.enemySprites[enemyI], { start: 0, end: 3 }),
+                    frameRate: 4,
+                    repeat: -1
+                });   
+                enemy.anims.play("enemy" + enemyI + "animation", true);
+            }
             enemy.setDepth(-4);
             
             // this.scene.physics.add.collider(this.player, enemy, restartGame);
