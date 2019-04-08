@@ -1,15 +1,12 @@
 {
     "initSpeed": 160,
     "levelDifficultyFactor": 1.0,
-    "levelEndScore": 400,
+    "levelEndScore": 700,
     "levelMode": 0,
 
     "playerSprite": "character-3",
     "playerAnimationFPS": 12,
-    "enemySprites": [
-        "enemy-2",
-        "enemy-3"
-    ],
+    "enemySprites": [],
     "groundFloorImage": "floor-0",
     "groundUnderImage": "underground-0",
     "backgroundImage": [
