@@ -16,6 +16,7 @@
     "backgroundImage": [
         ["background-15"]
     ],
+    "backgroundImageSpawner": ["sequential"],
     "customBackgroundPipeline": true,
     "backgroundImageSpawner": ["random"],
     "parallaxScrollFactor": 0.8,
