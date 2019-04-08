@@ -115,7 +115,7 @@ function Level(environment) {
             obstacle.setDepth(1);
             obstacle.isJumpedOn = false;
 
-            // this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
             
             if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }).length > 0) {
                 this.scene.anims.create({
@@ -182,7 +182,7 @@ function Level(environment) {
             }
             enemy.setDepth(-4);
             
-            // this.scene.physics.add.collider(this.player, enemy, restartGame);
+            this.scene.physics.add.collider(this.player, enemy, restartGame);
             // this.scene.physics.add.collider(this.grounds, enemy);
             this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
             this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
@@ -311,7 +311,7 @@ function Level(environment) {
             this.player.body.setVelocityY(-this.jumpVelocity); // jump up
         }
         else if (pointer.x >= gridHeight*ratio/3) {
-            if (pointer.y < this.groundYOffset - this.groundImageDimension/2)
+            if (pointer.y < this.groundYOffset - this.groundImageDimension/2 && this.weaponSprite != "")
                 this.shootWeapon(this.player.x + this.player.width/2, this.player.y - 4, pointer.x, pointer.y);
         }
     }

@@ -27,7 +27,7 @@
     "obstacleStartingXOffset": 16,
     "obstacleStartingYOffset": 22, 
     "obstacleHeight": 24,
-    "weaponSprite": "weapon-0",
+    "weaponSprite": "",
     "weaponAngularVelocity": 100,
     "musicName": "slshr"
 }

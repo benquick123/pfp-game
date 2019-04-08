@@ -23,12 +23,12 @@
     "backgroundImageSpawner": ["random", "sequential"],
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
-    "obstacleSprite": ["obstacle-2", "obstacle-3"],
+    "obstacleSprite": ["obstacle-1", "obstacle-2"],
     "obstacleSequence": [0, 1, 1, 0],
     "obstacleStartingXOffset": 16,
     "obstacleStartingYOffset": -0, 
     "obstacleHeight": 22,
-    "weaponSprite": "weapon-placeholder",
+    "weaponSprite": "",
     "weaponAngularVelocity": 500,
     "musicName": "bff"
 }

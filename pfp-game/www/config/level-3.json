@@ -6,18 +6,18 @@
 
     "playerSprite": "character-3",
     "playerAnimationFPS": 12,
-    "enemySprites": [],
-    "groundFloorImage": "floor-0",
-    "groundUnderImage": "underground-0",
+    "enemySprites": ["enemy-2", "enemy-3"],
+    "groundFloorImage": "floor-3",
+    "groundUnderImage": "underground-3",
     "backgroundImage": [
-        ["background-8",
-        "background-9",
-        "background-10"]
+        ["background-12",
+        "background-13",
+        "background-14"]
     ],
     "backgroundImageSpawner": ["random"],
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
-    "obstacleSprite": ["obstacle-4", "obstacle-5"],
+    "obstacleSprite": ["obstacle-3", "obstacle-4"],
     "obstacleSequence": [0, 1, 1, 0],
     "obstacleStartingXOffset": 16,
     "obstacleStartingYOffset": 0, 
