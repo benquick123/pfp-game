@@ -59,7 +59,7 @@ function Fight(environment) {
             healthLeft = 0.0;
         
         this.healthMeter.clear();
-        this.healthMeter.fillStyle(0x555555, 1);
+        this.healthMeter.fillStyle(0xffffff, 1);
         this.healthMeter.lineStyle(1, 0x000000, 1);
 
         if (healthLeft == 1.0)
