@@ -11,15 +11,22 @@ var currMode = -1;
 var prevMode = -1;
 var currModeInstance;
 var prevModeInstance;
+
+var shaders;
  
 function preload() {
     this.load.json("gameplay", "config/gameplay.json");
 
     // load settings and assets per level
-    for (var i = 0; i < 11; i++)
+    for (var i = 0; i < 12; i++)
         this.load.json("story-" + i, "config/story-" + i + ".json");
+    
     for (var i = 0; i < 16; i++)
         this.load.image("background-" + i, "img/background-" + i + ".png");
+    
+    this.load.spritesheet("obstacle-0", "img/obstacle-0.png", {frameWidth: 48, frameHeight: 24});
+    for (var i = 1; i < 10; i++)
+        this.load.image("obstacle-" + i, "img/obstacle-" + i + ".png"); 
 
     for (var i = 0; i < 10; i++) {
         this.load.json("level-" + i, "config/level-" + i + ".json");
@@ -84,6 +91,8 @@ function create() {
     Story.prototype = environment;
     Fight.prototype = environment;
 
+    shaders = new customShaders(this);
+
     currMode = MODEMENU;
     currModeInstance = new MainMenu(menu);
     currModeInstance.createMenu(gridHeight*ratio/2, gridHeight/2);
@@ -98,22 +107,25 @@ function create() {
  
 function update(time, delta) {
     // keep the floor under the player
-    if (!currModeInstance.grounds.isFull()) {
-        var groundChildren = currModeInstance.grounds.getChildren();
-        var lastChild = groundChildren[groundChildren.length-1];
-        var active = currModeInstance.grounds.countActive();
-        // var step = (gridHeight*ratio - 128) / 3;
-        for (var i=active; i < currModeInstance.grounds.maxSize; i+=3) {
-            currModeInstance.addGroundColumn(lastChild.x + (i-active+1)*8, currModeInstance.groundYOffset);
+    var groundChildren = currModeInstance.grounds.getChildren();
+    var lastChild = groundChildren[groundChildren.length-1];
+    if (lastChild.x < gridHeight*ratio + 16) {
+        while (lastChild.x < gridHeight*ratio + 16) {
+            currModeInstance.addGroundColumn(lastChild.x + lastChild.width, currModeInstance.groundYOffset);
+            groundChildren = currModeInstance.grounds.getChildren();
+            lastChild = groundChildren[groundChildren.length-1];
         }
     }
     // keep background behind player
-    if (!currModeInstance.backgrounds.isFull()) {
-        var backgroundChildren = currModeInstance.backgrounds.getChildren();
+    for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
+        var backgroundChildren = currModeInstance.backgrounds[i].getChildren();
         var lastChild = backgroundChildren[backgroundChildren.length-1];
-        var active = currModeInstance.backgrounds.countActive();
-        for (var i = active; i < currModeInstance.backgrounds.maxSize; i++) {
-            currModeInstance.addBackgroundColumn(lastChild.x + lastChild.width, 0);
+        if (lastChild.x < gridHeight*ratio + 16 && currModeInstance.parallaxScrollFactor > 0.0) {
+            while (lastChild.x < gridHeight*ratio + 16) {
+                currModeInstance.addBackgroundColumn(i, lastChild.x + lastChild.width, 0);
+                backgroundChildren = currModeInstance.backgrounds[i].getChildren();
+                lastChild = backgroundChildren[backgroundChildren.length-1]
+            }
         }
     }
 
@@ -124,25 +136,28 @@ function update(time, delta) {
         }
 
         if (currModeInstance.customBackgroundPipeline) {
-            backgroundChildren = currModeInstance.backgrounds.getChildren();
-            var stopBackground = false;
-            for (var i = 0; i < backgroundChildren.length; i++) {
-                if (backgroundChildren[i].frame.texture.key == currModeInstance.backgroundImage[0] && backgroundChildren[i].x <= 0.0) {
-                    stopBackground = true;
+            for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
+                backgroundChildren = currModeInstance.backgrounds[i].getChildren();
+                var stopBackground = false;
+                for (var j = 0; j < backgroundChildren.length; j++) {
+                    if (backgroundChildren[j].frame.texture.key == currModeInstance.backgroundImage[0] && backgroundChildren[j].x <= 0.0) {
+                        stopBackground = true;
+                    }
                 }
-            }
-            for (var i = 0; i < backgroundChildren.length; i++) {
-                if (stopBackground) {
-                    currModeInstance.parallaxScrollFactor = 0.0;
-                    backgroundChildren[i].setVelocityX(0.0);
-                    backgroundChildren[i].setX(0.0);
+                for (var j = 0; j < backgroundChildren.length; j++) {
+                    if (stopBackground) {
+                        currModeInstance.parallaxScrollFactor = 0.0;
+                        backgroundChildren[j].setVelocityX(0.0);
+                        backgroundChildren[j].setX(0.0);
+                    }
                 }
             }
 
-            var filter = currModeInstance.filter;
-            if (filter) {
-                filter.setFloat1("time", time/1000.0);
-                filter.setFloat2("resolution", gridHeight*ratio, gridHeight);                
+            if (shaders.backgroundShader1) {
+                shaders.backgroundShader1.setFloat1("time", shaders.shadersTime/1000.0);
+                shaders.backgroundShader1.setFloat2("resolution", gridHeight*ratio, gridHeight);
+                
+                shaders.shadersTime += delta;
             }
 
         }
@@ -249,7 +264,8 @@ function changeMode() {
         $(currModeInstance).attr(currModeInstance.scene.cache.json.get(newMode));
 
         currModeInstance.initializeStory(prevModeInstance);
-        currModeInstance.resumeGameplay(false, true);
+        if (prevMode != MODESTORY || (prevMode == MODESTORY && !prevModeInstance.remainStillAfterEnd))
+            currModeInstance.resumeGameplay(false, true);
     }
     else if (currMode == MODEFIGHT) {
         if (prevMode == MODELEVEL)

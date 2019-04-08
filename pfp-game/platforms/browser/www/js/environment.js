@@ -147,7 +147,7 @@ function Environment (scene) {
         background.body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
 
         if (this.customBackgroundPipeline) {
-            background.setPipeline("backgroundShader");
+            background.setPipeline("backgroundShader1");
         }
 
         this.backgrounds[i].add(background);

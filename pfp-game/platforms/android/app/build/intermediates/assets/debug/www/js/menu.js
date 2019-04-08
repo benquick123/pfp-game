@@ -52,7 +52,7 @@ function MainMenu(menu) {
             this.menuOptions.add(menuOption);
         }
         this.menu.environment.music = this.scene.sound.add(this.musicName, { loop: true });
-        // this.menu.environment.music.play();
+        this.menu.environment.music.play();
     }
 
     this.onButtonClick = function (pointer, localX, localY, event) {

@@ -153,9 +153,9 @@ function update(time, delta) {
                 }
             }
 
-            if (shaders.backgroundShader) {
-                shaders.backgroundShader.setFloat1("time", shaders.shadersTime/1000.0);
-                shaders.backgroundShader.setFloat2("resolution", gridHeight*ratio, gridHeight);
+            if (shaders.backgroundShader1) {
+                shaders.backgroundShader1.setFloat1("time", shaders.shadersTime/1000.0);
+                shaders.backgroundShader1.setFloat2("resolution", gridHeight*ratio, gridHeight);
                 
                 shaders.shadersTime += delta;
             }

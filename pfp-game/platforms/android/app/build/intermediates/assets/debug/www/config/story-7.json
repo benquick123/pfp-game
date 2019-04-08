@@ -1,16 +1,17 @@
 {
     "dialogues": [
-        [0, "Ca."],
-        [1, "We are matter, the better \npart of the universe."]
+        [0, "Jov."],
+        [1, "Sup. Jaz sem VASKO."]
     ],
     "nSpeakers": 2,
-    "speakersStartingPositionsOffsets": [[0, 0], [224, 0]],
-    "speakersEndingPositionsOffsets": [[0, 0], [-258, 0]],
-    "speakerSprites": ["character-3", "helper-3"],
-    "speakerFlipX": [false, false],
+    "speakersStartingPositionsOffsets": [[0, 0], [224, 28]],
+    "speakersEndingPositionsOffsets": [[0, 0], [-288, 0]],
+    "speakerSprites": ["character-2", "character-3"],
+    "speakerFlipX": [false, true],
+    "speakersDieImmediately": [false, false],
     "playerIsSpeaker0": true,
 
-    "stayingSpeaker": 0,
+    "stayingSpeaker": 1,
     "stayingSpeakerPosition": 1,
 
     "speed": -1,
