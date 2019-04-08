@@ -134,9 +134,11 @@ function Environment (scene) {
             objectA.destroy();
         }
 
+        // console.log(this.backgroundIndex);
         var backgroundImageI = Math.floor(Math.random() * this.backgroundImage[i].length);
         if (this.backgroundImageSpawner[i] == "sequential") {
             backgroundImageI = this.backgroundIndex[i] % this.backgroundImage[i].length;
+            console.log(backgroundImageI);
             this.backgroundIndex[i]++;
         }
         var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[i][backgroundImageI]);

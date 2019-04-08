@@ -60,6 +60,7 @@ function Level(environment) {
             while (this.environment.backgrounds.length != this.environment.backgroundImage.length) {
                 this.environment.backgroundIndex.push(this.environment.backgroundIndex[0]);
                 this.environment.addBackground(this.environment.backgrounds.length);
+                this.environment.backgroundIndex[this.environment.backgroundIndex.length-1] = this.environment.backgroundIndex[0];
             }
         }
 
