@@ -60,6 +60,7 @@ function Level(environment) {
             while (this.environment.backgrounds.length != this.environment.backgroundImage.length) {
                 this.environment.backgroundIndex.push(this.environment.backgroundIndex[0]);
                 this.environment.addBackground(this.environment.backgrounds.length);
+                this.environment.backgroundIndex[this.environment.backgroundIndex.length-1] = this.environment.backgroundIndex[0];
             }
         }
 
@@ -97,10 +98,10 @@ function Level(environment) {
     }
 
     this.addObstacle = function (x, y) {
-        if (!this.isStopped) {
+        if (!this.isStopped && this.obstacleSprite.length > 0) {
             var onOutOfBounds = function(objectA, objectB) {
                 if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn) {
-                    // restartGame();
+                    restartGame();
                 }
                 objectA.destroy();
             }
@@ -115,7 +116,7 @@ function Level(environment) {
             obstacle.setDepth(1);
             obstacle.isJumpedOn = false;
 
-            // this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
             
             if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }).length > 0) {
                 this.scene.anims.create({
@@ -182,7 +183,7 @@ function Level(environment) {
             }
             enemy.setDepth(-4);
             
-            // this.scene.physics.add.collider(this.player, enemy, restartGame);
+            this.scene.physics.add.collider(this.player, enemy, restartGame);
             // this.scene.physics.add.collider(this.grounds, enemy);
             this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
             this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
@@ -311,7 +312,7 @@ function Level(environment) {
             this.player.body.setVelocityY(-this.jumpVelocity); // jump up
         }
         else if (pointer.x >= gridHeight*ratio/3) {
-            if (pointer.y < this.groundYOffset - this.groundImageDimension/2)
+            if (pointer.y < this.groundYOffset - this.groundImageDimension/2 && this.weaponSprite != "")
                 this.shootWeapon(this.player.x + this.player.width/2, this.player.y - 4, pointer.x, pointer.y);
         }
     }

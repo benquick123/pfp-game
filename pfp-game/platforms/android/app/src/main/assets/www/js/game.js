@@ -18,34 +18,36 @@ function preload() {
     this.load.json("gameplay", "config/gameplay.json");
 
     // load settings and assets per level
+    // settings files for levels, stories and fights
+    for (var i = 0; i < 5; i++)
+        this.load.json("level-" + i, "config/level-" + i + ".json");
     for (var i = 0; i < 12; i++)
         this.load.json("story-" + i, "config/story-" + i + ".json");
+    for (var i = 0; i < 3; i++) 
+        this.load.json("fight-" + i, "config/fight-" + i + ".json");
     
     for (var i = 0; i < 16; i++)
         this.load.image("background-" + i, "img/background-" + i + ".png");
     
     this.load.spritesheet("obstacle-0", "img/obstacle-0.png", {frameWidth: 48, frameHeight: 24});
-    for (var i = 1; i < 10; i++)
+    for (var i = 1; i < 5; i++)
         this.load.image("obstacle-" + i, "img/obstacle-" + i + ".png"); 
 
-    for (var i = 0; i < 10; i++) {
-        this.load.json("level-" + i, "config/level-" + i + ".json");
-        this.load.json("fight-" + i, "config/fight-" + i + ".json");
-
-        this.load.image("floor-" + i, "img/floor-" + i + ".png");
-        this.load.image("underground-" + i, "img/underground-" + i + ".png");
-        
+    for (var i = 0; i < 5; i++) {
         this.load.spritesheet("character-" + i, "img/character-" + i + ".png", {frameWidth: 24, frameHeight: 48});
         this.load.spritesheet("character-" + i + "-walk", "img/character-" + i + "-walk.png", {frameWidth: 24, frameHeight: 48});
         this.load.spritesheet("character-" + i + "-jump", "img/character-" + i + "-jump.png", {frameWidth: 24, frameHeight: 48});
-        
-        this.load.image("obstacle-" + i, "img/obstacle-" + i + ".png");
-        this.load.spritesheet("enemy-" + i, "img/enemy-" + i + ".png", {frameWidth: 24, frameHeight: 24});
 
-        this.load.image("weapon-" + i, "img/weapon-" + i + ".png");
-
-        this.load.spritesheet("helper-" + i, "img/helper-" + i + ".png", {frameWidth: 48, frameHeight: 64});
+        this.load.image("floor-" + i, "img/floor-" + i + ".png");
+        this.load.image("underground-" + i, "img/underground-" + i + ".png");
     }
+
+    for (var i = 0; i < 4; i++) {
+        this.load.spritesheet("helper-" + i, "img/helper-" + i + ".png", {frameWidth: 48, frameHeight: 64});
+        this.load.spritesheet("enemy-" + i, "img/enemy-" + i + ".png", {frameWidth: 24, frameHeight: 24});
+        this.load.image("weapon-" + i, "img/weapon-" + i + ".png");
+    }
+
     this.load.spritesheet("boss-0", "img/boss-0.png", {frameWidth: 48, frameHeight: 64});
     this.load.spritesheet("boss-1", "img/boss-1.png", {frameWidth: 54, frameHeight: 105});
 
@@ -67,7 +69,6 @@ function preload() {
     this.load.spritesheet("enemy-placeholder", "img/enemy-placeholder.png", {frameWidth: 24, frameHeight: 24});
     this.load.image("weapon-placeholder", "img/weapon-placeholder.png");
     this.load.spritesheet("helper-placeholder", "img/helper-placeholder.png", {frameWidth: 48, frameHeight: 64});
-    this.load.spritesheet("boss-placeholder", "img/boss-placeholder.png", {frameWidth: 48, frameHeight: 64});
 }
  
 function create() {
@@ -130,10 +131,10 @@ function update(time, delta) {
     }
 
     if (currMode == MODELEVEL) {
-        currModeInstance.checkKeyboardEvents();
         if (currModeInstance.player.body.touching.down && !currModeInstance.player.anims.isPlaying) {
             currModeInstance.player.anims.play("playerwalk");
         }
+        currModeInstance.checkKeyboardEvents();
 
         if (currModeInstance.customBackgroundPipeline) {
             for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
@@ -183,6 +184,10 @@ function update(time, delta) {
             currModeInstance.conversate();
         }
         else if (!currModeInstance.inConversation && !currModeInstance.speakersPositioned) {
+            if (currModeInstance.player.body.touching.down && !currModeInstance.player.anims.isPlaying && !prevModeInstance.remainStillAfterEnd) {
+                currModeInstance.player.anims.play("playerwalk");
+            }
+
             var allSpeakersPositioned = true;
             if (currModeInstance.playerIsSpeaker0) {
                 allSpeakersPositioned = currModeInstance.player.x <= currModeInstance.speakerStartingPositionX - currModeInstance.playerXOffset + 

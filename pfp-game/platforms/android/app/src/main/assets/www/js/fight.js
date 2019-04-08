@@ -25,6 +25,10 @@ function Fight(environment) {
 
     this.weaponSprite = "weapon-placeholder";
 
+    this.healthMeter = this.scene.add.graphics();
+    this.healthMeterWidth = 72;
+    this.healthMeterHeight = 12;
+
     this.initializeFight = function (modeInstance) {
         this.environment.currSpeed = this.speed == -1 ? modeInstance.currSpeed : this.speed;
         this.parallaxScrollFactor = this.parallaxScrollFactor == -1 ? modeInstance.parallaxScrollFactor : this.parallaxScrollFactor;
@@ -44,9 +48,30 @@ function Fight(environment) {
         this.enemies = this.scene.add.group();
 
         this.addBoss();
+        this.addHealthMeter(1.0);
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.scene.input.on("pointerdown", this.onPointerDown, this);
+    }
+
+    this.addHealthMeter = function (healthLeft) {
+        if (healthLeft < 0.0)
+            healthLeft = 0.0;
+        
+        this.healthMeter.clear();
+        this.healthMeter.fillStyle(0xffffff, 1);
+        this.healthMeter.lineStyle(1, 0x000000, 1);
+
+        if (healthLeft == 1.0)
+            this.healthMeter.fillRoundedRect(gridHeight*ratio - this.healthMeterWidth - 10, 10, this.healthMeterWidth, this.healthMeterHeight, 3);
+        else {
+            this.healthMeter.fillRoundedRect(gridHeight*ratio - this.healthMeterWidth - 10, 10, this.healthMeterWidth*healthLeft, this.healthMeterHeight, { tl: 3, tr: 0, bl: 3, br: 0 });
+            this.healthMeter.fillStyle(0xB00005, 1);
+            this.healthMeter.fillRoundedRect(gridHeight*ratio - this.healthMeterWidth - 10 + this.healthMeterWidth*healthLeft, 10, this.healthMeterWidth*(1-healthLeft), this.healthMeterHeight, { tl: 0, tr: 3, bl: 0, br: 3 });
+        }
+        this.healthMeter.strokeRoundedRect(gridHeight*ratio - this.healthMeterWidth - 10, 10, this.healthMeterWidth, this.healthMeterHeight, 3);
+
+        this.healthMeter.setDepth(2);
     }
 
     this.addBoss = function() {
@@ -124,7 +149,7 @@ function Fight(environment) {
         enemy.anims.play("bossEnemy" + enemyI + "animation", true);
         enemy.setDepth(-4);
         
-        // this.scene.physics.add.collider(this.player, weapon, restartGame);
+        this.scene.physics.add.collider(this.player, enemy, restartGame);
         // this.scene.physics.add.collider(this.grounds, enemy);
         this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
         this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
@@ -171,6 +196,19 @@ function Fight(environment) {
         }
 
         currModeInstance.hitCount++;
+        if (currModeInstance.addHealthMeter) {
+            var newHealth = currModeInstance.bossPower < 0 ? 0.9 : 1 - currModeInstance.hitCount/currModeInstance.hitCountGoal;
+            currModeInstance.addHealthMeter(newHealth);
+            if (currModeInstance.bossPower < 0) {
+                currModeInstance.scene.time.addEvent({
+                    delay: 100,
+                    callback: currModeInstance.addHealthMeter,
+                    callbackScope: currModeInstance,
+                    args: [1.0],
+                    loop: false
+                })
+            }
+        }
 
         if (currModeInstance.hitCount >= currModeInstance.hitCountGoal && currModeInstance.bossPower > 0) {
             var onOutOfBounds = function (objectA, objectB) {
@@ -186,6 +224,8 @@ function Fight(environment) {
     }
 
     this.letGo = function (listeners, removeBoss) {
+        this.healthMeter.clear();
+
         if (this.boss.tween) {
             this.boss.tween.stop();
         }

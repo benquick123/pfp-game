@@ -14,8 +14,9 @@
     "groundFloorImage": "floor-0",
     "groundUnderImage": "underground-0",
     "backgroundImage": [
-        ["background-11"]
+        ["background-15"]
     ],
+    "backgroundImageSpawner": ["sequential"],
     "customBackgroundPipeline": true,
     "backgroundImageSpawner": ["random"],
     "parallaxScrollFactor": 0.8,

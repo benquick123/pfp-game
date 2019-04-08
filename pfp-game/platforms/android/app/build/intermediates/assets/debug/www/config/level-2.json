@@ -12,7 +12,7 @@
     "groundFloorImage": "floor-placeholder",
     "groundUnderImage": "underground-placeholder",
     "backgroundImage": [
-        ["background-2"]
+        ["background-placeholder"]
     ],
     "backgroundImageSpawner": ["random"],
     "bossSprite": "boss-1",
@@ -25,7 +25,7 @@
 
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
-    "obstacleSprite": ["obstacle-placeholder"],
+    "obstacleSprite": [],
     "obstacleSequence": [0, 1, 1, 0],
     "obstacleStartingXOffset": 16,
     "obstacleStartingYOffset": 0, 
