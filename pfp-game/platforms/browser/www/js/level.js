@@ -97,10 +97,10 @@ function Level(environment) {
     }
 
     this.addObstacle = function (x, y) {
-        if (!this.isStopped) {
+        if (!this.isStopped && this.obstacleSprite.length > 0) {
             var onOutOfBounds = function(objectA, objectB) {
                 if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn) {
-                    // restartGame();
+                    restartGame();
                 }
                 objectA.destroy();
             }
