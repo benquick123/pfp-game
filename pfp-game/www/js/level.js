@@ -100,7 +100,7 @@ function Level(environment) {
         if (!this.isStopped) {
             var onOutOfBounds = function(objectA, objectB) {
                 if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn) {
-                    // restartGame();
+                    restartGame();
                 }
                 objectA.destroy();
             }
