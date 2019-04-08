@@ -55,9 +55,7 @@ function Fight(environment) {
     }
 
     this.addHealthMeter = function (healthLeft) {
-        if (healthLeft < 0.6 && this.bossPower < 0)
-            healthLeft = 0.6;
-        else if (healthLeft < 0.0)
+        if (healthLeft < 0.0)
             healthLeft = 0.0;
         
         this.healthMeter.clear();
@@ -199,7 +197,8 @@ function Fight(environment) {
 
         currModeInstance.hitCount++;
         if (currModeInstance.addHealthMeter) {
-            currModeInstance.addHealthMeter(1 - currModeInstance.hitCount/currModeInstance.hitCountGoal);
+            var newHealth = currModeInstance.bossPower < 0 ? 0.9 : 1 - currModeInstance.hitCount/currModeInstance.hitCountGoal;
+            currModeInstance.addHealthMeter(newHealth);
             if (currModeInstance.bossPower < 0) {
                 currModeInstance.scene.time.addEvent({
                     delay: 100,
@@ -226,7 +225,7 @@ function Fight(environment) {
 
     this.letGo = function (listeners, removeBoss) {
         this.healthMeter.clear();
-        
+
         if (this.boss.tween) {
             this.boss.tween.stop();
         }
