@@ -6,11 +6,9 @@
 
     "playerSprite": "character-1",
     "playerAnimationFPS": 12,
-    "enemySprites": [
-        "enemy-placeholder"
-    ],
-    "groundFloorImage": "floor-placeholder",
-    "groundUnderImage": "underground-placeholder",
+    "enemySprites": [],
+    "groundFloorImage": "floor-1",
+    "groundUnderImage": "underground-1",
     "backgroundImage": [
         ["background-8"],
         ["background-0",
