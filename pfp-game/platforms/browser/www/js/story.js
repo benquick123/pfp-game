@@ -37,6 +37,7 @@ function Story(environment) {
     this.initializeStory = function (modeInstance) {
         this.environment.currSpeed = this.speed == -1 ? modeInstance.currSpeed : this.speed;
         this.parallaxScrollFactor = this.parallaxScrollFactor == -1 ? modeInstance.parallaxScrollFactor : this.parallaxScrollFactor;
+        this.environment.fastBackground = modeInstance.fastBackground;
 
         if (modeInstance.backgroundIndex)
             this.environment.backgroundIndex = modeInstance.backgroundIndex;

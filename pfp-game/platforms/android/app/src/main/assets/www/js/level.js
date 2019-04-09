@@ -116,7 +116,7 @@ function Level(environment) {
             obstacle.setDepth(1);
             obstacle.isJumpedOn = false;
 
-            this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            // this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
             
             if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }).length > 0) {
                 this.scene.anims.create({
