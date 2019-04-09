@@ -134,11 +134,9 @@ function Environment (scene) {
             objectA.destroy();
         }
 
-        // console.log(this.backgroundIndex);
         var backgroundImageI = Math.floor(Math.random() * this.backgroundImage[i].length);
         if (this.backgroundImageSpawner[i] == "sequential") {
             backgroundImageI = this.backgroundIndex[i] % this.backgroundImage[i].length;
-            console.log(backgroundImageI);
             this.backgroundIndex[i]++;
         }
         var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[i][backgroundImageI]);
@@ -189,7 +187,7 @@ function Environment (scene) {
             groundChildren[i].body.setVelocityX(0);
         }
         
-        for (var i = 0; i < this.backgrounds.length; i++) {
+        for (var i = 0; i < 1; i++) {
             var backgroundChildren = this.backgrounds[i].getChildren();
             for (var j = 0; j < backgroundChildren.length; j++) {
                 backgroundChildren[j].body.setVelocityX(0);

@@ -187,7 +187,7 @@ function Environment (scene) {
             groundChildren[i].body.setVelocityX(0);
         }
         
-        for (var i = 0; i < this.backgrounds.length; i++) {
+        for (var i = 0; i < 1; i++) {
             var backgroundChildren = this.backgrounds[i].getChildren();
             for (var j = 0; j < backgroundChildren.length; j++) {
                 backgroundChildren[j].body.setVelocityX(0);
