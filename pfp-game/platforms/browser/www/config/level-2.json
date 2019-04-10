@@ -12,9 +12,17 @@
     "groundFloorImage": "floor-placeholder",
     "groundUnderImage": "underground-placeholder",
     "backgroundImage": [
-        ["background-placeholder"]
+        ["background-placeholder"],
+        ["background-0",
+        "background-1",
+        "background-2",
+        "background-3",
+        "background-4",
+        "background-5",
+        "background-6",
+        "background-7"]
     ],
-    "backgroundImageSpawner": ["random"],
+    "backgroundImageSpawner": ["random", "sequential"],
     "bossSprite": "boss-1",
     "bossMovementRangeYOffset": [0, -64],
     "bossMovementXOffset": 8,

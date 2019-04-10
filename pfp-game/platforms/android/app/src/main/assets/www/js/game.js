@@ -229,7 +229,7 @@ function update(time, delta) {
 }
 
 function restartGame() {
-    currModeInstance.scene.scene.pause();
+    // currModeInstance.scene.scene.pause();
     console.log("GAME OVER");
 }
 

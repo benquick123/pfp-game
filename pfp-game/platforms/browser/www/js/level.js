@@ -56,7 +56,7 @@ function Level(environment) {
                 this.environment.backgrounds.splice(-1, 1);
             }
         }
-        else if (this.environment.backgrounds.length < this.environment.backgroundImage.length) {
+        if (this.environment.backgrounds.length < this.environment.backgroundImage.length) {
             while (this.environment.backgrounds.length != this.environment.backgroundImage.length) {
                 this.environment.backgroundIndex.push(this.environment.backgroundIndex[0]);
                 this.environment.addBackground(this.environment.backgrounds.length);
@@ -116,7 +116,7 @@ function Level(environment) {
             obstacle.setDepth(1);
             obstacle.isJumpedOn = false;
 
-            this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            // this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
             
             if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }).length > 0) {
                 this.scene.anims.create({

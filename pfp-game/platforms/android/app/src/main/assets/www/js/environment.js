@@ -143,7 +143,7 @@ function Environment (scene) {
         background.setOrigin(0);
         background.setDepth(-(i+1)*10);
         this.scene.physics.add.overlap(background, this.extraLeftCollider, onOutOfBounds);
-
+        
         background.body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
 
         if (this.customBackgroundPipeline) {
@@ -187,7 +187,7 @@ function Environment (scene) {
             groundChildren[i].body.setVelocityX(0);
         }
         
-        for (var i = 0; i < this.backgrounds.length; i++) {
+        for (var i = 0; i < 1; i++) {
             var backgroundChildren = this.backgrounds[i].getChildren();
             for (var j = 0; j < backgroundChildren.length; j++) {
                 backgroundChildren[j].body.setVelocityX(0);

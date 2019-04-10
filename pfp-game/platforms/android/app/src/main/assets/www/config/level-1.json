@@ -21,7 +21,7 @@
         "background-7"]
     ],
     "backgroundImageSpawner": ["random", "sequential"],
-    "parallaxScrollFactor": 0.8,
+    "parallaxScrollFactor": 0.9,
     "gravity": 500,
     "obstacleSprite": ["obstacle-1", "obstacle-2"],
     "obstacleSequence": [0, 1, 1, 0],

@@ -18,6 +18,8 @@ function Environment (scene) {
     this.backgroundImageSpawner = ["sequential"];
     this.backgroundIndex = [2];
     this.backgroundImageWidth = 128;
+    this.backgroundTrigger = "";
+    this.fastBackground = false;
     this.parallaxScrollFactor = 1.0;
     this.backgrounds = [];
     this.customBackgroundPipeline = false;
@@ -131,9 +133,23 @@ function Environment (scene) {
 
     this.addBackgroundColumn = function (i, x, y) {
         var onOutOfBounds = function(objectA, objectB) {
+            if (currModeInstance.backgrounds.length == 2 && currModeInstance.backgrounds[0].getChildren()[0].texture.key == currModeInstance.backgroundTrigger && !currModeInstance.fastBackground) {
+                currModeInstance.fastBackground = true;
+                var backgroundChildren = currModeInstance.backgrounds[1].getChildren();
+                for (var j = 0; j < backgroundChildren.length; j++) {
+                    backgroundChildren[j].body.setVelocityX(-currModeInstance.currSpeed * currModeInstance.parallaxScrollFactor * 1.5);
+                }
+            }
+            else if (currModeInstance.backgrounds.length == 2 && currModeInstance.backgrounds[0].getChildren()[currModeInstance.backgrounds[0].getLength()-2].texture.key != currModeInstance.backgroundTrigger && currModeInstance.fastBackground) {
+                currModeInstance.fastBackground = false;
+                var backgroundChildren = currModeInstance.backgrounds[1].getChildren();
+                for (var j = 0; j < backgroundChildren.length; j++) {
+                    backgroundChildren[j].body.setVelocityX(-currModeInstance.currSpeed * Math.pow(currModeInstance.parallaxScrollFactor, 2));
+                }
+            }
             objectA.destroy();
         }
-
+        
         var backgroundImageI = Math.floor(Math.random() * this.backgroundImage[i].length);
         if (this.backgroundImageSpawner[i] == "sequential") {
             backgroundImageI = this.backgroundIndex[i] % this.backgroundImage[i].length;
@@ -143,8 +159,10 @@ function Environment (scene) {
         background.setOrigin(0);
         background.setDepth(-(i+1)*10);
         this.scene.physics.add.overlap(background, this.extraLeftCollider, onOutOfBounds);
-
+        
         background.body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
+        if (i == 1 && this.fastBackground)
+            background.body.setVelocityX(-this.currSpeed * this.parallaxScrollFactor * 1.5);
 
         if (this.customBackgroundPipeline) {
             background.setPipeline("backgroundShader1");
@@ -187,7 +205,7 @@ function Environment (scene) {
             groundChildren[i].body.setVelocityX(0);
         }
         
-        for (var i = 0; i < this.backgrounds.length; i++) {
+        for (var i = 0; i < 1; i++) {
             var backgroundChildren = this.backgrounds[i].getChildren();
             for (var j = 0; j < backgroundChildren.length; j++) {
                 backgroundChildren[j].body.setVelocityX(0);
@@ -214,6 +232,8 @@ function Environment (scene) {
             var backgroundChildren = this.backgrounds[i].getChildren();
             for (var j = 0; j < backgroundChildren.length; j++) {
                 backgroundChildren[j].body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
+                if (i == 1 && this.fastBackground)
+                    backgroundChildren[j].body.setVelocityX(-this.currSpeed * this.parallaxScrollFactor * 1.5);
             }
         }
 
