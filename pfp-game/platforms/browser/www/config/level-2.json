@@ -12,7 +12,9 @@
     "groundFloorImage": "floor-placeholder",
     "groundUnderImage": "underground-placeholder",
     "backgroundImage": [
-        ["background-placeholder"],
+        ["background-9",
+        "background-10",
+        "background-11"],
         ["background-0",
         "background-1",
         "background-2",
