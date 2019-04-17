@@ -101,7 +101,7 @@ function Level(environment) {
         if (!this.isStopped && this.obstacleSprite.length > 0) {
             var onOutOfBounds = function(objectA, objectB) {
                 if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn) {
-                    restartGame();
+                    gameOver();
                 }
                 objectA.destroy();
             }
@@ -116,7 +116,7 @@ function Level(environment) {
             obstacle.setDepth(1);
             obstacle.isJumpedOn = false;
 
-            // this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
             
             if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }).length > 0) {
                 this.scene.anims.create({
@@ -183,7 +183,7 @@ function Level(environment) {
             }
             enemy.setDepth(-4);
             
-            this.scene.physics.add.collider(this.player, enemy, restartGame);
+            this.scene.physics.add.collider(this.player, enemy, gameOver);
             // this.scene.physics.add.collider(this.grounds, enemy);
             this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
             this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
@@ -277,7 +277,7 @@ function Level(environment) {
         weapon.setDepth(-5);
         this.scene.physics.add.overlap(weapon, this.rightCollider, onOutOfBounds);
         this.scene.physics.add.collider(weapon, this.enemies, onProjectileHit, function (objectA, objectB) { return true; }, this);
-        // this.scene.physics.add.collider(weapon, this.player, restartGame);
+        // this.scene.physics.add.collider(weapon, this.player, gameOver);
 
         weapon.body.setAllowRotation();
         weapon.body.setAngularVelocity(this.weaponAngularVelocity)
@@ -294,14 +294,14 @@ function Level(environment) {
 
     this.onObstacleCollision = function (objectA, objectB) {
         if (this.levelMode == LEVELMODEOVER) {
-            restartGame();
+            gameOver();
         }
         else if (this.levelMode == LEVELMODEON) {
             if (objectB.body.touching.up) {
                 objectB.isJumpedOn = true;
             }
             else {
-                restartGame();
+                gameOver();
             }
         }
     }

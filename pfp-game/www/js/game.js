@@ -228,9 +228,32 @@ function update(time, delta) {
     }
 }
 
-function restartGame() {
-    // currModeInstance.scene.scene.pause();
-    console.log("GAME OVER");
+function gameOver() {
+    currModeInstance.stopGameplay();
+
+    prevMode = currMode;
+    currMode = MODEGAMEOVER;
+    if (currModeInstance.obstacles) {
+        var obstacleChildren = currModeInstance.obstacles.getChildren();
+        for (var i = 0; i < obstacleChildren.length; i++) {
+            obstacleChildren[i].body.setVelocityX(0);
+            if (obstacleChildren.anims.isPlaying)
+                obstacleChildren[i].anims.stop();
+        }
+    }
+
+    if (currModeInstance.enemies) {
+        var enemyChildren = currModeInstance.enemies.getChildren();
+        for (var i = 0; i < enemyChildren.length; i++) {
+            if (enemyChildren[i].anims.isPlaying)
+                enemyChildren[i].anims.stop();
+
+            enemyChildren[i].tween.stop();
+            enemyChildren[i].setVelocity(0);
+        }
+    }
+    
+    
 }
 
 function changeMode() {
