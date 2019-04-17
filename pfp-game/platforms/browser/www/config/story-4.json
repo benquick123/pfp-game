@@ -2,10 +2,10 @@
     "dialogues": [
         [0, "Yo."],
         [1, "Suhh.."],
-        [0, "The panda people gave me\nthese eucalyptus cloves."],
-        [0, "You’re supposed to\nsmoke them, but\nI don’t smoke anymore."],
+        [0, "The panda people gave me\nthese Eucalyptus cloves."],
+        [0, "Youre supposed to\nsmoke them, but\nI don’t smoke anymore."],
         [0, "Do you want them?"],
-        [1, "Sure. "]
+        [1, "Sure."]
 
     ],
     "nSpeakers": 2,

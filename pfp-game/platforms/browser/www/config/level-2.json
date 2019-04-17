@@ -9,8 +9,8 @@
     "enemySprites": [
         "enemy-1"
     ],
-    "groundFloorImage": "floor-placeholder",
-    "groundUnderImage": "underground-placeholder",
+    "groundFloorImage": "floor-2",
+    "groundUnderImage": "underground-2",
     "backgroundImage": [
         ["background-9",
         "background-10",
