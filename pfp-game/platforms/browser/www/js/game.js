@@ -4,13 +4,17 @@ const MODELEVELTRANSITION = 2;
 const MODEMENU = 3;
 const MODEGAMEOVER = 4;
 const MODEFIGHT = 5;
+const STORYMODE = 6;
+const ARCADEMODE = 7;
 
 var gameplayModes;
 
+var initMenuLoad = "mainMenu";
 var currMode = -1;
 var prevMode = -1;
 var currModeInstance;
 var prevModeInstance;
+var gameplayMode = STORYMODE;
 
 var shaders;
  
@@ -75,7 +79,7 @@ function create() {
     this.physics.world.bounds.width = w;
     this.physics.world.bounds.height = h;
     
-    gameplayModes = this.cache.json.get("gameplay");
+    gameplayModes = this.cache.json.get("gameplay").slice(0);
 
     var environment = new Environment(this);
     environment.initializeEnv();
@@ -84,6 +88,7 @@ function create() {
     var menu = new Menu(environment);
 
     MainMenu.prototype = menu;
+    GameModeSelectionMenu.prototype = menu;
     LeaderboardMenu.prototype = menu;
     EnterLeaderboardName.prototype = menu;
     CreditsMenu.prototype = menu;
@@ -92,40 +97,47 @@ function create() {
     Story.prototype = environment;
     Fight.prototype = environment;
 
-    shaders = new customShaders(this);
+    shaders = new CustomShaders(this);
 
     currMode = MODEMENU;
-    currModeInstance = new MainMenu(menu);
-    currModeInstance.createMenu(gridHeight*ratio/2, gridHeight/2);
+    if (initMenuLoad == "mainMenu") {
+        currModeInstance = new MainMenu(menu);
+        currModeInstance.createMenu(gridHeight*ratio/2, gridHeight/2);
+    }
+    else if (initMenuLoad == "gameModeSelectionMenu") {
+        currModeInstance = new GameModeSelectionMenu(menu);
+        currModeInstance.createMenu();
+    }
     prevModeInstance = undefined;
     
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
-    this.cameras.main.setBackgroundColor('black'); 
-
-
+    this.cameras.main.setBackgroundColor('black');
 }
  
 function update(time, delta) {
     // keep the floor under the player
-    var groundChildren = currModeInstance.grounds.getChildren();
-    var lastChild = groundChildren[groundChildren.length-1];
-    if (lastChild.x < gridHeight*ratio + 16) {
-        while (lastChild.x < gridHeight*ratio + 16) {
-            currModeInstance.addGroundColumn(lastChild.x + lastChild.width, currModeInstance.groundYOffset);
-            groundChildren = currModeInstance.grounds.getChildren();
-            lastChild = groundChildren[groundChildren.length-1];
-        }
-    }
-    // keep background behind player
-    for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
-        var backgroundChildren = currModeInstance.backgrounds[i].getChildren();
-        var lastChild = backgroundChildren[backgroundChildren.length-1];
-        if (lastChild.x < gridHeight*ratio + 16 && currModeInstance.parallaxScrollFactor > 0.0) {
+    if (currMode != MODEMENU && currMode != MODEGAMEOVER) {
+        var groundChildren = currModeInstance.grounds.getChildren();
+        var lastChild = groundChildren[groundChildren.length-1];
+        if (lastChild.x < gridHeight*ratio + 16) {
             while (lastChild.x < gridHeight*ratio + 16) {
-                currModeInstance.addBackgroundColumn(i, lastChild.x + lastChild.width, 0);
-                backgroundChildren = currModeInstance.backgrounds[i].getChildren();
-                lastChild = backgroundChildren[backgroundChildren.length-1]
+                currModeInstance.addGroundColumn(lastChild.x + lastChild.width, currModeInstance.groundYOffset);
+                groundChildren = currModeInstance.grounds.getChildren();
+                lastChild = groundChildren[groundChildren.length-1];
+            }
+        }
+
+        // keep background behind player
+        for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
+            var backgroundChildren = currModeInstance.backgrounds[i].getChildren();
+            var lastChild = backgroundChildren[backgroundChildren.length-1];
+            if (lastChild.x < gridHeight*ratio + 16 && currModeInstance.parallaxScrollFactor > 0.0) {
+                while (lastChild.x < gridHeight*ratio + 16) {
+                    currModeInstance.addBackgroundColumn(i, lastChild.x + lastChild.width, 0);
+                    backgroundChildren = currModeInstance.backgrounds[i].getChildren();
+                    lastChild = backgroundChildren[backgroundChildren.length-1]
+                }
             }
         }
     }
@@ -157,7 +169,6 @@ function update(time, delta) {
             if (shaders.backgroundShader1) {
                 shaders.backgroundShader1.setFloat1("time", shaders.shadersTime/1000.0);
                 shaders.backgroundShader1.setFloat2("resolution", gridHeight*ratio, gridHeight);
-                
                 shaders.shadersTime += delta;
             }
 
@@ -230,25 +241,70 @@ function update(time, delta) {
 
 function gameOver() {
     currModeInstance.stopGameplay();
+    currModeInstance.music.stop();
+    currModeInstance.scene.physics.world.colliders.destroy();
+
+    currModeInstance.player.setGravity(0);
+    currModeInstance.player.setVelocity(0);
 
     prevMode = currMode;
     currMode = MODEGAMEOVER;
-    var obstacleChildren = currModeInstance.obstacles.getChildren();
-    for (var i = 0; i < obstacleChildren.length; i++) {
-        obstacleChildren[i].body.setVelocityX(0);
-        if (obstacleChildren.anims.isPlaying)
-            obstacleChildren[i].anims.stop();
+    if (currModeInstance.obstacles) {
+        var obstacleChildren = currModeInstance.obstacles.getChildren();
+        for (var i = 0; i < obstacleChildren.length; i++) {
+            obstacleChildren[i].body.setVelocityX(0);
+            if (obstacleChildren[i].anims.isPlaying)
+                obstacleChildren[i].anims.stop();
+        }
     }
 
-    var enemyChildren = currModeInstance.enemies.getChildren();
-    for (var i = 0; i < enemyChildren.length; i++) {
-        if (enemyChildren[i].anims.isPlaying)
-            enemyChildren[i].anims.stop();
-
-        enemyChildren[i].tween.stop();
-        enemyChildren[i].setVelocity(0);
+    if (prevModeInstance.obstacles) {
+        var obstacleChildren = prevModeInstance.obstacles.getChildren();
+        for (var i = 0; i < obstacleChildren.length; i++) {
+            obstacleChildren[i].body.setVelocityX(0);
+            if (obstacleChildren[i].anims.isPlaying)
+                obstacleChildren[i].anims.stop();
+        }
     }
-    console.log("GAME OVER");
+
+    if (currModeInstance.enemies) {
+        var enemyChildren = currModeInstance.enemies.getChildren();
+        for (var i = 0; i < enemyChildren.length; i++) {
+            if (enemyChildren[i].anims.isPlaying)
+                enemyChildren[i].anims.stop();
+
+            enemyChildren[i].tween.stop();
+            enemyChildren[i].setVelocity(0);
+            enemyChildren[i].timer.remove();
+        }
+    }
+
+    if (prevModeInstance.enemies) {
+        var enemyChildren = prevModeInstance.enemies.getChildren();
+        for (var i = 0; i < enemyChildren.length; i++) {
+            if (enemyChildren[i].anims.isPlaying)
+                enemyChildren[i].anims.stop();
+
+            enemyChildren[i].tween.stop();
+            enemyChildren[i].setVelocity(0);
+            enemyChildren[i].timer.remove();
+        }
+    }
+
+    if (currModeInstance.boss) {
+        currModeInstance.boss.tween.stop();
+        currModeInstance.boss.setVelocity(0);
+    }
+
+    if (currModeInstance.healthMeter) {
+        currModeInstance.healthMeter.clear();
+    }
+
+    prevModeInstance = currModeInstance;
+
+    var menu = new Menu(prevModeInstance.environment);
+    currModeInstance = new EnterLeaderboardName(menu);
+    currModeInstance.createMenu(currModeInstance.environment.score);
 }
 
 function changeMode() {
