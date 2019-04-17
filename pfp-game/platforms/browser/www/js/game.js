@@ -192,6 +192,7 @@ function update(time, delta) {
             
             currModeInstance.stopGameplay();
             currModeInstance.scene.input.on("pointerdown", currModeInstance.onPointerDown, currModeInstance);
+            currModeInstance.registerSkipButton();
             currModeInstance.conversate();
         }
         else if (!currModeInstance.inConversation && !currModeInstance.speakersPositioned) {

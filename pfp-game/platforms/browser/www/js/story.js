@@ -34,6 +34,8 @@ function Story(environment) {
     this.speakersPositioned = false;
     this.remainStillAfterEnd = false;
 
+    this.skipText;
+
     this.initializeStory = function (modeInstance) {
         this.environment.currSpeed = this.speed == -1 ? modeInstance.currSpeed : this.speed;
         this.parallaxScrollFactor = this.parallaxScrollFactor == -1 ? modeInstance.parallaxScrollFactor : this.parallaxScrollFactor;
@@ -70,12 +72,58 @@ function Story(environment) {
         this.speakers.add(speaker);
     }
 
+    this.registerSkipButton = function () {
+        var onButtonPressed = function (pointer, localX, localY, event) {
+            console.log(this);
+            event.stopPropagation();
+
+            // this.dialogueIndex = this.dialogues.length;
+            var timer = this.scene.time.addEvent({
+                delay: 32,
+                callback: function () {
+                    console.log(this);
+                    if (this.isTinted)
+                        this.clearTint();
+                    else
+                        this.setTintFill("black");
+                    
+                    if (this.timer.getRepeatCount() == 0) {
+                        this.off("pointerdown", NaN);
+                        this.removeAllListeners();
+                        this.destroy();
+                        currModeInstance.dialogueIndex = currModeInstance.dialogues.length;
+                        currModeInstance.conversate();
+                    }
+                },
+                callbackScope: this.skipText,
+                loop: false,
+                repeat: 7
+            });
+            this.skipText.timer = timer;
+        }
+
+        this.skipText = this.scene.make.bitmapText({
+            x: 0,
+            y: 0,
+            text: "Skip",
+            font: "font20"
+        });
+        this.skipText.setDepth(5);
+        this.skipText.setFontSize(24);
+        this.skipText.setLetterSpacing(2);
+        this.skipText.setX(gridHeight*ratio - this.skipText.width - 10);
+        this.skipText.setY(10);
+        this.skipText.setInteractive().on("pointerdown", onButtonPressed, this);
+    }
+
     this.conversate = function () {
         this.inConversation = true;
 
-        if (this.dialogueBox)
+        if (this.dialogueBox) {
             this.dialogueBox.destroy();
             this.graphics.clear();
+        }
+
         if (this.dialogueIndex < this.dialogues.length) {
             if (this.playerIsSpeaker0 && this.dialogues[this.dialogueIndex][0] == 0)
                 this.currSpeaker = this.player;
