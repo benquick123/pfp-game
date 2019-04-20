@@ -1,7 +1,8 @@
 {
-    "initSpeed": 120,
-    "levelDifficultyFactor": 1.0,
-    "levelEndScore": 300,
+    "initSpeed": 270,
+    "levelDifficultyFactor": 1.08,
+    "levelEndScore": 530,
+    "levelInitScore": 0,
     "levelMode": 0,
 
     "playerSprite": "character-2",
@@ -9,6 +10,8 @@
     "enemySprites": [
         "enemy-1"
     ],
+    "enemyTimeRange": [500, 1000],
+    "enemySpeedRange": [1000, 2000],
     "groundFloorImage": "floor-2",
     "groundUnderImage": "underground-2",
     "backgroundImage": [
@@ -34,7 +37,7 @@
     "bossMovementTime": 3000,
 
     "parallaxScrollFactor": 0.8,
-    "gravity": 500,
+    "gravity": 650,
     "obstacleSprite": [],
     "obstacleSequence": [0, 1, 1, 0],
     "obstacleStartingXOffset": 16,

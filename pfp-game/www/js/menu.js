@@ -142,7 +142,7 @@ function EnterLeaderboardName(menu) {
         this.newGameText = this.scene.make.bitmapText({
             x: 0,
             y: 0,
-            text: "New game",
+            text: "Restart",
             font: "font20"
         });
         this.newGameText.setFontSize(24);
@@ -160,7 +160,7 @@ function EnterLeaderboardName(menu) {
     }
 
     this.letGo = function(button) {
-        if (button.text == "New game") {
+        if (button.text == "Restart") {
             this.gameOverText.destroy();
             $("#highscore-text").css("visibility", "hidden");
             this.submitText.removeAllListeners();
@@ -170,6 +170,7 @@ function EnterLeaderboardName(menu) {
             this.scene.input.keyboard.off("keydown-ENTER");
             this.environment.scoreText.setText("");
             initMenuLoad = "gameModeSelectionMenu";
+            
             this.scene.scene.restart();
         }
         else {

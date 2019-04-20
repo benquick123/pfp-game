@@ -1,7 +1,8 @@
 {
-    "initSpeed": 100,
-    "levelDifficultyFactor": 1.0,
-    "levelEndScore": 100,
+    "initSpeed": 200,
+    "levelDifficultyFactor": 1.1,
+    "levelEndScore": 500,
+    "levelInitScore": 0,
     "levelMode": 0,
 
     "playerSprite": "character-0",
@@ -20,13 +21,14 @@
         "background-7"]
     ],
     "backgroundImageSpawner": ["sequential"],
-    "parallaxScrollFactor": 0.8,
-    "gravity": 500,
+    "parallaxScrollFactor": 0.7,
+    "gravity": 650,
     "obstacleSprite": ["obstacle-0"],
     "obstacleSequence": [],
     "obstacleStartingXOffset": 16,
     "obstacleStartingYOffset": 22, 
     "obstacleHeight": 24,
+    "obstacleTimeRange": [1000, 2000],
     "weaponSprite": "",
     "weaponAngularVelocity": 100,
     "musicName": "slshr"

@@ -33,6 +33,7 @@
 
     "speed": -1,
     "parallaxScrollFactor": -1,
+    "gravity": -1,
 
     "groundFloorImage": "floor-1",
     "groundUnderImage": "underground-1",

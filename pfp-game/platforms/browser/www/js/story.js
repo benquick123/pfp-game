@@ -39,6 +39,7 @@ function Story(environment) {
     this.initializeStory = function (modeInstance) {
         this.environment.currSpeed = this.speed == -1 ? modeInstance.currSpeed : this.speed;
         this.parallaxScrollFactor = this.parallaxScrollFactor == -1 ? modeInstance.parallaxScrollFactor : this.parallaxScrollFactor;
+        this.gravity = this.gravity == -1 ? modeInstance.gravity : this.gravity;
         this.environment.fastBackground = modeInstance.fastBackground;
 
         if (modeInstance.backgroundIndex)
@@ -74,14 +75,10 @@ function Story(environment) {
 
     this.registerSkipButton = function () {
         var onButtonPressed = function (pointer, localX, localY, event) {
-            console.log(this);
             event.stopPropagation();
-
-            // this.dialogueIndex = this.dialogues.length;
             var timer = this.scene.time.addEvent({
                 delay: 32,
                 callback: function () {
-                    console.log(this);
                     if (this.isTinted)
                         this.clearTint();
                     else
@@ -207,6 +204,9 @@ function Story(environment) {
             currModeInstance.speakersDead++;
             objectA.destroy();
         }
+
+        this.skipText.removeAllListeners();
+        this.skipText.destroy();
 
         this.player.finalPositionX = this.player.x;
         if (this.playerIsSpeaker0 && this.stayingSpeaker != 0 && this.stayingSpeakerPosition != 0) {

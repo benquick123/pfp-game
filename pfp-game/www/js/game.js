@@ -147,6 +147,7 @@ function update(time, delta) {
             currModeInstance.player.anims.play("playerwalk");
         }
         currModeInstance.checkKeyboardEvents();
+        currModeInstance.updateGameplayDifficulty();
 
         if (currModeInstance.customBackgroundPipeline) {
             for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
@@ -190,7 +191,7 @@ function update(time, delta) {
             if (prevMode == MODELEVEL || prevMode == MODEFIGHT)
                 prevModeInstance.letGo(true, true);
             
-            currModeInstance.stopGameplay();
+            currModeInstance.stopGameplay(false);
             currModeInstance.scene.input.on("pointerdown", currModeInstance.onPointerDown, currModeInstance);
             currModeInstance.registerSkipButton();
             currModeInstance.conversate();
@@ -241,7 +242,7 @@ function update(time, delta) {
 }
 
 function gameOver() {
-    currModeInstance.stopGameplay();
+    currModeInstance.stopGameplay(true);
     currModeInstance.music.stop();
     currModeInstance.scene.physics.world.colliders.destroy();
 
@@ -300,6 +301,14 @@ function gameOver() {
     if (currModeInstance.healthMeter) {
         currModeInstance.healthMeter.clear();
     }
+    
+    if (currModeInstance.speakers) {
+        var speakerChildren = currModeInstance.speakers.getChildren();
+        for (var i = 0; i < speakerChildren.length; i++) {
+            speakerChildren[i].setVelocity(0);
+        }
+    }
+
 
     prevModeInstance = currModeInstance;
 
@@ -319,13 +328,14 @@ function changeMode() {
     
     console.log("newMode", newMode);
     prevModeInstance = currModeInstance;
+    var newAttrs = JSON.parse(JSON.stringify(currModeInstance.scene.cache.json.get(newMode)));
     
     if (currMode == MODELEVEL) {
         if (prevMode == MODELEVEL)
             prevModeInstance.letGo(true);
 
         currModeInstance = new Level(prevModeInstance.environment);
-        $(currModeInstance).attr(currModeInstance.scene.cache.json.get(newMode));
+        $(currModeInstance).attr(newAttrs);
         
         currModeInstance.initializeLevel(currMode == prevMode ? prevModeInstance : undefined);
         currModeInstance.resumeGameplay(true);
@@ -341,7 +351,7 @@ function changeMode() {
         }
 
         currModeInstance = new Story(prevModeInstance.environment);
-        $(currModeInstance).attr(currModeInstance.scene.cache.json.get(newMode));
+        $(currModeInstance).attr(newAttrs);
 
         currModeInstance.initializeStory(prevModeInstance);
         if (prevMode != MODESTORY || (prevMode == MODESTORY && !prevModeInstance.remainStillAfterEnd))
@@ -352,7 +362,7 @@ function changeMode() {
             prevModeInstance.letGo(true);
         
         currModeInstance = new Fight(prevModeInstance.environment);
-        $(currModeInstance).attr(currModeInstance.scene.cache.json.get(newMode));
+        $(currModeInstance).attr(newAttrs);
 
         currModeInstance.initializeFight(prevModeInstance);
         currModeInstance.resumeGameplay(false, true);

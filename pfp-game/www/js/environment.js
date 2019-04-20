@@ -28,6 +28,7 @@ function Environment (scene) {
 
     this.gravity = 500;
     this.currSpeed = 0;
+    this.prevFactorT = 0;
     
     this.musicName = "";
     this.music = undefined;
@@ -197,15 +198,15 @@ function Environment (scene) {
         this.scoreText.setLetterSpacing(2);
     }
 
-    this.stopGameplay = function () {
+    this.stopGameplay = function (stopAll) {
         this.isStopped = true;
 
         var groundChildren = this.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
         }
-        
-        for (var i = 0; i < 1; i++) {
+        var toI = stopAll ? this.backgrounds.length : 1;
+        for (var i = 0; i < toI; i++) {
             var backgroundChildren = this.backgrounds[i].getChildren();
             for (var j = 0; j < backgroundChildren.length; j++) {
                 backgroundChildren[j].body.setVelocityX(0);
@@ -248,10 +249,35 @@ function Environment (scene) {
         
         this.player.anims.stop();
         this.player.anims.play("playerwalk", true);
+        this.player.setGravityY(this.gravity);
     }
 
     this.updateGameplayDifficulty = function () {
+        var s = this.score - this.levelInitScore;
+        var factorT = Math.log(10+s)/Math.log(this.levelDifficultyFactor) - Math.log(10)/Math.log(this.levelDifficultyFactor);
+        this.currSpeed = this.initSpeed + factorT;
+        this.obstacleTimeRange[0] -= (factorT - this.prevFactorT) * 4;
+        this.obstacleTimeRange[1] -= (factorT - this.prevFactorT) * 10;
+        // console.log(this.obstacleTimeRange);
+        this.updateBackgroundSpeeds();
+        this.prevFactorT = factorT;
 
+        this.enemyTimeRange[0] -= (factorT - this.prevFactorT) * 4;
+        this.enemyTimeRange[1] -= (factorT - this.prevFactorT) * 10;
+
+        this.enemySpeedRange[0] -= (factorT - this.prevFactorT) * 4;
+        this.enemySpeedRange[1] -= (factorT - this.prevFactorT) * 10;
+    }
+
+    this.updateBackgroundSpeeds = function () {
+        for (var i = 0; i < this.backgrounds.length; i++) {
+            var backgroundChildren = this.backgrounds[i].getChildren();
+            for (var j = 0; j < backgroundChildren.length; j++) {
+                backgroundChildren[j].body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
+                if (i == 1 && this.fastBackground)
+                    backgroundChildren[j].body.setVelocityX(-this.currSpeed * this.parallaxScrollFactor * 1.5);
+            }
+        }
     }
 }
 
