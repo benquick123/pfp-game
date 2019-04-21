@@ -113,13 +113,16 @@ function create() {
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('black');
+
+    var res = $.ajax({
+        type: "DELETE",
+        url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings",
+        async: false
+    });
+    console.log(res);
 }
  
 function update(time, delta) {
-    if (prevModeInstance && prevModeInstance.obstacles) {
-        console.log(prevModeInstance.obstacles.getLength(), prevModeInstance.obstacles.getChildren().length);
-        console.log(prevModeInstance.levelTimers.length);
-    }
     // keep the floor under the player
     if (currMode != MODEMENU && currMode != MODEGAMEOVER) {
         var groundChildren = currModeInstance.grounds.getChildren();

@@ -97,9 +97,9 @@ function Level(environment) {
             enemyChildren[i].timer.remove();
         }
 
-        /* for (var i = 0; i < this.levelTimers.length; i++) {
+        for (var i = 0; i < this.levelTimers.length; i++) {
             this.levelTimers[i].remove();
-        }*/
+        }
     }
 
     this.addObstacle = function (x, y) {
