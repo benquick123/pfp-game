@@ -6,6 +6,7 @@ function Level(environment) {
     this.environment = environment;
     this.levelEndScore = 0;
     this.levelMode = LEVELMODEOVER;
+    this.levelTimers = [];
 
     this.enemySprites = [];
     this.enemyDimension = 24;
@@ -95,6 +96,10 @@ function Level(environment) {
         for (var i = 0; i < enemyChildren.length; i++) {
             enemyChildren[i].timer.remove();
         }
+
+        for (var i = 0; i < this.levelTimers.length; i++) {
+            this.levelTimers[i].remove();
+        }
     }
 
     this.addObstacle = function (x, y) {
@@ -153,6 +158,7 @@ function Level(environment) {
                 loop: false
             });
             obstacle.timer = timer;
+            this.levelTimers.push(timer);
         }
     }
 
@@ -212,6 +218,7 @@ function Level(environment) {
                 loop: false
             });
             enemy.timer = timer;
+            this.levelTimers.push(timer);
         }
     }
 

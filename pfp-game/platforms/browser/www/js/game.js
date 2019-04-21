@@ -116,6 +116,10 @@ function create() {
 }
  
 function update(time, delta) {
+    if (prevModeInstance && prevModeInstance.obstacles) {
+        console.log(prevModeInstance.obstacles.getLength(), prevModeInstance.obstacles.getChildren().length);
+        console.log(prevModeInstance.levelTimers.length);
+    }
     // keep the floor under the player
     if (currMode != MODEMENU && currMode != MODEGAMEOVER) {
         var groundChildren = currModeInstance.grounds.getChildren();
