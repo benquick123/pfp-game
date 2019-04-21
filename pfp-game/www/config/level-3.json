@@ -11,9 +11,9 @@
     "groundFloorImage": "floor-3",
     "groundUnderImage": "underground-3",
     "backgroundImage": [
-        ["background-12",
-        "background-13",
-        "background-14"]
+        ["background-14",
+        "background-15",
+        "background-16"]
     ],
     "backgroundImageSpawner": ["random"],
     "parallaxScrollFactor": 0.8,
