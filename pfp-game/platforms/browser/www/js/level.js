@@ -106,7 +106,7 @@ function Level(environment) {
         if (!this.isStopped && this.obstacleSprite.length > 0) {
             console.log(-this.currSpeed);
             var onOutOfBounds = function(objectA, objectB) {
-                if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn) {
+                if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
                     gameOver();
                 }
                 objectA.destroy();
@@ -147,8 +147,7 @@ function Level(environment) {
             // Add velocity to the obstacle to make it move left
             obstacle.body.setVelocityX(-this.currSpeed);
 
-            if (collisionsOn)
-                this.scene.physics.add.overlap(obstacle, this.leftCollider, onOutOfBounds, function(objectA, objectB) { return true; }, this);
+            this.scene.physics.add.overlap(obstacle, this.leftCollider, onOutOfBounds, function(objectA, objectB) { return true; }, this);
 
             this.obstacles.add(obstacle);
             

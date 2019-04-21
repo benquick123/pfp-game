@@ -115,6 +115,11 @@ function Environment (scene) {
         floor.body.setImmovable();
         floor.body.setFriction(0);
 
+        
+        if (this.customBackgroundPipeline) {
+            floor.setPipeline("distortionShader");
+        }
+
         this.grounds.add(floor);
 
         for (var i=y+this.groundImageDimension; i<=gridHeight; i+=this.groundImageDimension) {
@@ -122,6 +127,11 @@ function Environment (scene) {
             this.scene.physics.add.overlap(underground, this.leftCollider, onOutOfBounds);
 
             underground.body.setVelocityX(-this.currSpeed);
+
+            if (this.customBackgroundPipeline) {
+                underground.setPipeline("distortionShader");
+            }
+
             this.grounds.add(underground);
         }
     }
