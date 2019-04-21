@@ -16,6 +16,8 @@ var currModeInstance;
 var prevModeInstance;
 var gameplayMode = STORYMODE;
 
+var collisionsOn = false;
+
 var shaders;
  
 function preload() {

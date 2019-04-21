@@ -16,6 +16,8 @@ var currModeInstance;
 var prevModeInstance;
 var gameplayMode = STORYMODE;
 
+var collisionsOn = false;
+
 var shaders;
  
 function preload() {
@@ -113,13 +115,6 @@ function create() {
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('black');
-
-    var res = $.ajax({
-        type: "DELETE",
-        url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings",
-        async: false
-    });
-    console.log(res);
 }
  
 function update(time, delta) {

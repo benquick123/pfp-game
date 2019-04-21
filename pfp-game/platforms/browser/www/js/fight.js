@@ -149,7 +149,8 @@ function Fight(environment) {
         enemy.anims.play("bossEnemy" + enemyI + "animation", true);
         enemy.setDepth(-4);
         
-        this.scene.physics.add.collider(this.player, enemy, gameOver);
+        if (collisionsOn)
+            this.scene.physics.add.collider(this.player, enemy, gameOver);
         // this.scene.physics.add.collider(this.grounds, enemy);
         this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
         this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
