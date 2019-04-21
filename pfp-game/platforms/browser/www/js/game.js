@@ -175,6 +175,10 @@ function update(time, delta) {
                 shaders.shadersTime += delta;
             }
 
+            if (shaders.distortionShader) {
+                shaders.distortionShader.setFloat1("time", shaders.shaderTime/1000.0);
+            }
+
         }
 
         // during regular gameplay, keep increasing score.
