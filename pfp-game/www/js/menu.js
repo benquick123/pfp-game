@@ -332,10 +332,14 @@ function GameModeSelectionMenu(menu) {
     this.menu = menu;
     this.arcadeModeText;
     this.storyModeText;
-    this.arcadeUnlocked = false;
+    this.arcadeUnlocked = true;
     this.musicName = "basic";
 
     this.createMenu = function () {
+        console.log(window.localStorage);
+        var unlocked = window.localStorage.getItem("arcadeUnlock");
+        console.log("unlocked:" + unlocked);
+
         this.storyModeText = this.scene.make.bitmapText({
             x: 0,
             y: 0,

@@ -148,7 +148,6 @@ function Fight(environment) {
         // add new target to scene.
         // play the animation.
         enemy.anims.play("bossEnemy" + enemyI + "animation", true);
-        console.log(enemy);
         enemy.setDepth(-4);
         
         if (collisionsOn)
