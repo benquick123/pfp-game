@@ -28,14 +28,14 @@ function Menu(environment) {
 
 function MainMenu(menu) {
     this.menu = menu;
-    this.menuOptionsText = ["New game", "Leaderboard", "Credits"];
+    this.menuOptionsText = ["New game", "Leaderboard", "Feed VASKO", "Credits"];
     this.menuOptionsTextSize = 24;
     this.menuOptions;
     this.musicName = "basic";
 
     this.createMenu = function (x, y) {
         this.menuOptions = this.scene.add.group();
-        y -= this.menuOptionsTextSize*this.menuOptionsText.length/2
+        y -= this.menuOptionsTextSize*this.menuOptionsText.length/4
         for (var i=0; i < this.menuOptionsText.length; i++) {
             var menuOption = this.scene.make.bitmapText({
                 x: 0,
@@ -78,11 +78,9 @@ function MainMenu(menu) {
         }
 
         if (button.text == this.menuOptionsText[0]) {
-            // button.fadeOutTimer.remove();
             prevModeInstance = currModeInstance;
             currModeInstance = new GameModeSelectionMenu(prevModeInstance.menu);
             currModeInstance.createMenu();
-            // changeMode();
         }
         
         else if (button.text == this.menuOptionsText[1]) {
@@ -92,6 +90,13 @@ function MainMenu(menu) {
         }
         
         else if (button.text == this.menuOptionsText[2]) {
+            prevModeInstance = currModeInstance;
+            currModeInstance = new MainMenu(prevModeInstance.menu);
+            currModeInstance.createMenu(gridHeight*ratio/2, gridHeight/2);
+            window.open("https://www.paypal.me/personsfromporlock", "_system");
+        }
+
+        else if (button.text == this.menuOptionsText[3]) {
             console.log(button.text);
         }
     }

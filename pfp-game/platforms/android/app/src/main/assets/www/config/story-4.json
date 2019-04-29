@@ -1,7 +1,12 @@
 {
     "dialogues": [
-        [0, "Jov."],
-        [1, "Sup."]
+        [0, "Yo."],
+        [1, "Suhh.."],
+        [0, "The panda people gave me\nthese Eucalyptus cloves."],
+        [0, "Youre supposed to\nsmoke them, but\nI don’t smoke anymore."],
+        [0, "Do you want them?"],
+        [1, "Sure."]
+
     ],
     "nSpeakers": 2,
     "speakersStartingPositionsOffsets": [[0, 0], [224, 28]],
@@ -18,5 +23,7 @@
     "parallaxScrollFactor": -1,
 
     "groundFloorImage": "floor-1",
-    "groundUnderImage": "underground-1"
+    "groundUnderImage": "underground-1",
+
+    "backgroundTrigger": "background-8"
 }

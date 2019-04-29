@@ -42,7 +42,7 @@ var app = {
         game = new Phaser.Game(config);
 
         $("#highscore-text").css("height", 12*h / gridHeight + "px");
-        $("#highscore-text").css("width", 96*h / gridHeight + "px");
+        $("#highscore-text").css("width", 112*h / gridHeight + "px");
         $("#highscore-text").css("border", h / gridHeight + "px solid black");
         $("#highscore-text").css("padding", 2*h / gridHeight + "px");
         $("#highscore-text").css("font-size", 12*h / gridHeight + "px");

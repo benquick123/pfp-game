@@ -1,7 +1,8 @@
 {
     "initSpeed": 160,
-    "levelDifficultyFactor": 1.0,
-    "levelEndScore": 700,
+    "levelDifficultyFactor": 1.1,
+    "levelEndScore": 2000,
+    "levelInitScore": 200,
     "levelMode": 0,
 
     "playerSprite": "character-3",
@@ -10,9 +11,9 @@
     "groundFloorImage": "floor-3",
     "groundUnderImage": "underground-3",
     "backgroundImage": [
-        ["background-12",
-        "background-13",
-        "background-14"]
+        ["background-14",
+        "background-15",
+        "background-16"]
     ],
     "backgroundImageSpawner": ["random"],
     "parallaxScrollFactor": 0.8,

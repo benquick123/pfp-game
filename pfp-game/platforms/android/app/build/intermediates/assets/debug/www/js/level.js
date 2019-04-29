@@ -6,6 +6,7 @@ function Level(environment) {
     this.environment = environment;
     this.levelEndScore = 0;
     this.levelMode = LEVELMODEOVER;
+    this.levelTimers = [];
 
     this.enemySprites = [];
     this.enemyDimension = 24;
@@ -22,6 +23,7 @@ function Level(environment) {
     this.bossTimeBetweenMovements = 2000;
     this.bossMovementTime = 4000;
     this.boss;
+    this.bossIsDone = false;
 
     this.obstacleSprite = [];
     this.obstacleSequence = [];
@@ -56,7 +58,7 @@ function Level(environment) {
                 this.environment.backgrounds.splice(-1, 1);
             }
         }
-        else if (this.environment.backgrounds.length < this.environment.backgroundImage.length) {
+        if (this.environment.backgrounds.length < this.environment.backgroundImage.length) {
             while (this.environment.backgrounds.length != this.environment.backgroundImage.length) {
                 this.environment.backgroundIndex.push(this.environment.backgroundIndex[0]);
                 this.environment.addBackground(this.environment.backgrounds.length);
@@ -95,13 +97,25 @@ function Level(environment) {
         for (var i = 0; i < enemyChildren.length; i++) {
             enemyChildren[i].timer.remove();
         }
+
+        if (this.bossSprite != "") {
+            var toX = gridHeight*ratio + this.bossEndingPositionOffset[0];
+            var toY = gridHeight/2 + this.bossEndingPositionOffset[1];
+            this.addBossMovement(toX, toY);
+            this.bossIsDone = true;
+        }
+
+        for (var i = 0; i < this.levelTimers.length; i++) {
+            this.levelTimers[i].remove();
+        }
     }
 
     this.addObstacle = function (x, y) {
         if (!this.isStopped && this.obstacleSprite.length > 0) {
+            console.log(-this.currSpeed);
             var onOutOfBounds = function(objectA, objectB) {
-                if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn) {
-                    restartGame();
+                if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
+                    gameOver();
                 }
                 objectA.destroy();
             }
@@ -116,7 +130,8 @@ function Level(environment) {
             obstacle.setDepth(1);
             obstacle.isJumpedOn = false;
 
-            this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            if (collisionsOn)
+                this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
             
             if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }).length > 0) {
                 this.scene.anims.create({
@@ -152,6 +167,7 @@ function Level(environment) {
                 loop: false
             });
             obstacle.timer = timer;
+            this.levelTimers.push(timer);
         }
     }
 
@@ -183,7 +199,8 @@ function Level(environment) {
             }
             enemy.setDepth(-4);
             
-            this.scene.physics.add.collider(this.player, enemy, restartGame);
+            if (collisionsOn)
+                this.scene.physics.add.collider(this.player, enemy, gameOver);
             // this.scene.physics.add.collider(this.grounds, enemy);
             this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
             this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
@@ -211,6 +228,7 @@ function Level(environment) {
                 loop: false
             });
             enemy.timer = timer;
+            this.levelTimers.push(timer);
         }
     }
 
@@ -227,39 +245,42 @@ function Level(environment) {
     }
 
     this.addBossMovement = function (toX, toY) {
-        if (this.boss.tween) {
-            this.boss.tween.stop();
-            this.boss.tween = undefined;
-        }
-        var tween = this.scene.tweens.add({
-            targets: this.boss,
-            x: toX,
-            y: toY,
-            duration: this.bossMovementTime,
-            onComplete: function () {
-                if (currMode == MODELEVEL) {
-                    if (currModeInstance.boss.betweenMovementTimer) {
-                        currModeInstance.boss.betweenMovementTimer.remove();
-                    }
-    
-                    var toX = gridHeight*ratio + currModeInstance.bossMovementXOffset;
-                    var toY = Math.random() * (gridHeight+currModeInstance.bossMovementRangeYOffset[1] - currModeInstance.bossMovementRangeYOffset[0]) + currModeInstance.bossMovementRangeYOffset[0];
-                    var betweenMovementTimer = currModeInstance.scene.time.addEvent({
-                        delay: currModeInstance.bossTimeBetweenMovements,
-                        callback: currModeInstance.addBossMovement,
-                        callbackScope: currModeInstance,
-                        args: [toX, toY],
-                        loop: false
-                    });
-                    currModeInstance.boss.betweenMovementTimer = betweenMovementTimer;
-                }
-                else if (currMode == MODESTORY && prevMode == MODELEVEL) {
-                    prevModeInstance.boss.destroy();
-                    prevModeInstance.boss = undefined;
-                }
+        if (this.boss) {
+            if (this.boss.tween) {
+                this.boss.tween.stop();
+                this.boss.tween = undefined;
             }
-        });
-        this.boss.tween = tween;
+            var tween = this.scene.tweens.add({
+                targets: this.boss,
+                x: toX,
+                y: toY,
+                duration: this.bossMovementTime,
+                onComplete: function () {
+                    if (currMode == MODELEVEL) {
+                        if (currModeInstance.boss && currModeInstance.boss.betweenMovementTimer) {
+                            currModeInstance.boss.betweenMovementTimer.remove();
+                        }
+        
+                        var toX = gridHeight*ratio + currModeInstance.bossMovementXOffset;
+                        var toY = Math.random() * (gridHeight+currModeInstance.bossMovementRangeYOffset[1] - currModeInstance.bossMovementRangeYOffset[0]) + currModeInstance.bossMovementRangeYOffset[0];
+                        var betweenMovementTimer = currModeInstance.scene.time.addEvent({
+                            delay: currModeInstance.bossTimeBetweenMovements,
+                            callback: currModeInstance.addBossMovement,
+                            callbackScope: currModeInstance,
+                            args: [toX, toY],
+                            loop: false
+                        });
+                        if (currModeInstance.boss)
+                            currModeInstance.boss.betweenMovementTimer = betweenMovementTimer;
+                    }
+                    else if ((currMode == MODESTORY && prevMode == MODELEVEL) || currModeInstance.bossIsDone || prevModeInstance.bossIsDone) {
+                        prevModeInstance.boss.destroy();
+                        prevModeInstance.boss = undefined;
+                    }
+                }
+            });
+            this.boss.tween = tween;
+        }
     }
 
     this.shootWeapon = function(x, y, targetX, targetY) {
@@ -277,7 +298,7 @@ function Level(environment) {
         weapon.setDepth(-5);
         this.scene.physics.add.overlap(weapon, this.rightCollider, onOutOfBounds);
         this.scene.physics.add.collider(weapon, this.enemies, onProjectileHit, function (objectA, objectB) { return true; }, this);
-        // this.scene.physics.add.collider(weapon, this.player, restartGame);
+        // this.scene.physics.add.collider(weapon, this.player, gameOver);
 
         weapon.body.setAllowRotation();
         weapon.body.setAngularVelocity(this.weaponAngularVelocity)
@@ -294,14 +315,14 @@ function Level(environment) {
 
     this.onObstacleCollision = function (objectA, objectB) {
         if (this.levelMode == LEVELMODEOVER) {
-            restartGame();
+            gameOver();
         }
         else if (this.levelMode == LEVELMODEON) {
             if (objectB.body.touching.up) {
                 objectB.isJumpedOn = true;
             }
             else {
-                restartGame();
+                gameOver();
             }
         }
     }

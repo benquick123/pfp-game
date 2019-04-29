@@ -18,6 +18,8 @@ function Environment (scene) {
     this.backgroundImageSpawner = ["sequential"];
     this.backgroundIndex = [2];
     this.backgroundImageWidth = 128;
+    this.backgroundTrigger = "";
+    this.fastBackground = false;
     this.parallaxScrollFactor = 1.0;
     this.backgrounds = [];
     this.customBackgroundPipeline = false;
@@ -26,6 +28,7 @@ function Environment (scene) {
 
     this.gravity = 500;
     this.currSpeed = 0;
+    this.prevFactorT = 0;
     
     this.musicName = "";
     this.music = undefined;
@@ -112,6 +115,11 @@ function Environment (scene) {
         floor.body.setImmovable();
         floor.body.setFriction(0);
 
+        
+        if (this.customBackgroundPipeline) {
+            floor.setPipeline("distortionShader");
+        }
+
         this.grounds.add(floor);
 
         for (var i=y+this.groundImageDimension; i<=gridHeight; i+=this.groundImageDimension) {
@@ -119,6 +127,11 @@ function Environment (scene) {
             this.scene.physics.add.overlap(underground, this.leftCollider, onOutOfBounds);
 
             underground.body.setVelocityX(-this.currSpeed);
+
+            if (this.customBackgroundPipeline) {
+                underground.setPipeline("distortionShader");
+            }
+
             this.grounds.add(underground);
         }
     }
@@ -131,9 +144,23 @@ function Environment (scene) {
 
     this.addBackgroundColumn = function (i, x, y) {
         var onOutOfBounds = function(objectA, objectB) {
+            if (currModeInstance.backgrounds.length == 2 && currModeInstance.backgrounds[0].getChildren()[0].texture.key == currModeInstance.backgroundTrigger && !currModeInstance.fastBackground) {
+                currModeInstance.fastBackground = true;
+                var backgroundChildren = currModeInstance.backgrounds[1].getChildren();
+                for (var j = 0; j < backgroundChildren.length; j++) {
+                    backgroundChildren[j].body.setVelocityX(-currModeInstance.currSpeed * currModeInstance.parallaxScrollFactor * 1.5);
+                }
+            }
+            else if (currModeInstance.backgrounds.length == 2 && currModeInstance.backgrounds[0].getChildren()[currModeInstance.backgrounds[0].getLength()-2].texture.key != currModeInstance.backgroundTrigger && currModeInstance.fastBackground) {
+                currModeInstance.fastBackground = false;
+                var backgroundChildren = currModeInstance.backgrounds[1].getChildren();
+                for (var j = 0; j < backgroundChildren.length; j++) {
+                    backgroundChildren[j].body.setVelocityX(-currModeInstance.currSpeed * Math.pow(currModeInstance.parallaxScrollFactor, 2));
+                }
+            }
             objectA.destroy();
         }
-
+        
         var backgroundImageI = Math.floor(Math.random() * this.backgroundImage[i].length);
         if (this.backgroundImageSpawner[i] == "sequential") {
             backgroundImageI = this.backgroundIndex[i] % this.backgroundImage[i].length;
@@ -145,6 +172,8 @@ function Environment (scene) {
         this.scene.physics.add.overlap(background, this.extraLeftCollider, onOutOfBounds);
         
         background.body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
+        if (i == 1 && this.fastBackground)
+            background.body.setVelocityX(-this.currSpeed * this.parallaxScrollFactor * 1.5);
 
         if (this.customBackgroundPipeline) {
             background.setPipeline("backgroundShader1");
@@ -179,15 +208,15 @@ function Environment (scene) {
         this.scoreText.setLetterSpacing(2);
     }
 
-    this.stopGameplay = function () {
+    this.stopGameplay = function (stopAll) {
         this.isStopped = true;
 
         var groundChildren = this.grounds.getChildren();
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
         }
-        
-        for (var i = 0; i < 1; i++) {
+        var toI = stopAll ? this.backgrounds.length : 1;
+        for (var i = 0; i < toI; i++) {
             var backgroundChildren = this.backgrounds[i].getChildren();
             for (var j = 0; j < backgroundChildren.length; j++) {
                 backgroundChildren[j].body.setVelocityX(0);
@@ -214,6 +243,8 @@ function Environment (scene) {
             var backgroundChildren = this.backgrounds[i].getChildren();
             for (var j = 0; j < backgroundChildren.length; j++) {
                 backgroundChildren[j].body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
+                if (i == 1 && this.fastBackground)
+                    backgroundChildren[j].body.setVelocityX(-this.currSpeed * this.parallaxScrollFactor * 1.5);
             }
         }
 
@@ -228,10 +259,35 @@ function Environment (scene) {
         
         this.player.anims.stop();
         this.player.anims.play("playerwalk", true);
+        this.player.setGravityY(this.gravity);
     }
 
     this.updateGameplayDifficulty = function () {
+        var s = this.score - this.levelInitScore;
+        var factorT = Math.log(10+s)/Math.log(this.levelDifficultyFactor) - Math.log(10)/Math.log(this.levelDifficultyFactor);
+        this.currSpeed = this.initSpeed + factorT;
+        this.obstacleTimeRange[0] -= (factorT - this.prevFactorT) * 4;
+        this.obstacleTimeRange[1] -= (factorT - this.prevFactorT) * 10;
+        // console.log(this.obstacleTimeRange);
+        this.updateBackgroundSpeeds();
+        this.prevFactorT = factorT;
 
+        this.enemyTimeRange[0] -= (factorT - this.prevFactorT) * 4;
+        this.enemyTimeRange[1] -= (factorT - this.prevFactorT) * 10;
+
+        this.enemySpeedRange[0] -= (factorT - this.prevFactorT) * 4;
+        this.enemySpeedRange[1] -= (factorT - this.prevFactorT) * 10;
+    }
+
+    this.updateBackgroundSpeeds = function () {
+        for (var i = 0; i < this.backgrounds.length; i++) {
+            var backgroundChildren = this.backgrounds[i].getChildren();
+            for (var j = 0; j < backgroundChildren.length; j++) {
+                backgroundChildren[j].body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
+                if (i == 1 && this.fastBackground)
+                    backgroundChildren[j].body.setVelocityX(-this.currSpeed * this.parallaxScrollFactor * 1.5);
+            }
+        }
     }
 }
 

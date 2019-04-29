@@ -377,6 +377,5 @@ function changeMode() {
 
     if (newMode == "level-4") {
         window.localStorage.setItem("arcadeUnlock", true);
-        console.log("set localStorage");
     }
 }

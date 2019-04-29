@@ -22,6 +22,7 @@ function Fight(environment) {
 
     this.bossStartingPositionX = gridHeight*ratio;
     this.bossStartingPositionY = gridHeight/2;
+    this.enemyAnimationFPS = 4;
 
     this.weaponSprite = "weapon-placeholder";
 
@@ -133,23 +134,24 @@ function Fight(environment) {
             objectA.destroy();
         }
         
+        var enemy = this.scene.physics.add.sprite(this.boss.x, this.boss.y, this.enemySprites[enemyI]);
         // randomly select first or the second asset name.
         var enemyI = Math.floor(Math.random()*this.enemySprites.length);
         // create new animation based on configuration in lines 114-117.
-        this.scene.anims.remove("bossEnemy" + enemyI + "animation")
+        this.scene.anims.remove("bossEnemy" + enemyI + "animation");
         this.scene.anims.create({
             key: "bossEnemy" + enemyI + "animation",
-            frames: this.scene.anims.generateFrameNumbers(this.enemySprites[enemyI], { start: 0, end: 3 }),
-            frameRate: 4,
+            frames: this.scene.anims.generateFrameNumbers(this.enemySprites[enemyI], { start: 0, end: 4 }),
+            frameRate: this.enemyAnimationFPS,
             repeat: -1
         });
         // add new target to scene.
-        var enemy = this.scene.physics.add.sprite(this.boss.x, this.boss.y, this.enemySprites[enemyI]);
         // play the animation.
         enemy.anims.play("bossEnemy" + enemyI + "animation", true);
         enemy.setDepth(-4);
         
-        this.scene.physics.add.collider(this.player, enemy, restartGame);
+        if (collisionsOn)
+            this.scene.physics.add.collider(this.player, enemy, gameOver);
         // this.scene.physics.add.collider(this.grounds, enemy);
         this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
         this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
