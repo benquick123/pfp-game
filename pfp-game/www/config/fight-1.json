@@ -8,7 +8,7 @@
     "bossMovementTime": 4000,
 
     "enemySprites": ["enemy-1"],
-    "enemyAnimationFPS": 4,
+    "enemyAnimationFPS": 10,
 
     "speed": -1,
     "parallaxScrollFactor": -1,
