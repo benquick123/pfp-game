@@ -32,7 +32,7 @@ function preload() {
     for (var i = 0; i < 3; i++) 
         this.load.json("fight-" + i, "config/fight-" + i + ".json");
     
-    for (var i = 0; i < 16; i++)
+    for (var i = 0; i < 18; i++)
         this.load.image("background-" + i, "img/background-" + i + ".png");
     
     this.load.spritesheet("obstacle-0", "img/obstacle-0.png", {frameWidth: 48, frameHeight: 24});
@@ -115,6 +115,7 @@ function create() {
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('black');
+    // this.cameras.main.setRenderToTexture(shaders.distortionShader);
 }
  
 function update(time, delta) {
@@ -172,12 +173,13 @@ function update(time, delta) {
             if (shaders.backgroundShader1) {
                 shaders.backgroundShader1.setFloat1("time", shaders.shadersTime/1000.0);
                 shaders.backgroundShader1.setFloat2("resolution", gridHeight*ratio, gridHeight);
-                shaders.shadersTime += delta;
             }
 
             if (shaders.distortionShader) {
                 shaders.distortionShader.setFloat1("time", shaders.shaderTime/1000.0);
+                shaders.distortionShader.setFloat2("resolution", 8.0, 8.0);
             }
+            shaders.shadersTime += delta;
 
         }
 
@@ -314,7 +316,6 @@ function gameOver() {
             speakerChildren[i].setVelocity(0);
         }
     }
-
 
     prevModeInstance = currModeInstance;
 

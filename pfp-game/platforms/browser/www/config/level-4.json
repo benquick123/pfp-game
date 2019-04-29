@@ -3,7 +3,7 @@
     "levelDifficultyFactor": 1.1,
     "levelEndScore": 10000,
     "levelMode": 0,
-    "levelInitScore": 2000,
+    "levelInitScore": 0,
 
     "playerSprite": "character-placeholder",
     "playerAnimationFPS": 12,
@@ -15,7 +15,7 @@
     "groundFloorImage": "floor-0",
     "groundUnderImage": "underground-0",
     "backgroundImage": [
-        ["background-15"]
+        ["background-17"]
     ],
     "backgroundImageSpawner": ["sequential"],
     "customBackgroundPipeline": true,
