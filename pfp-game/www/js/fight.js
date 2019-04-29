@@ -133,20 +133,21 @@ function Fight(environment) {
             objectA.destroy();
         }
         
+        var enemy = this.scene.physics.add.sprite(this.boss.x, this.boss.y, this.enemySprites[enemyI]);
         // randomly select first or the second asset name.
         var enemyI = Math.floor(Math.random()*this.enemySprites.length);
         // create new animation based on configuration in lines 114-117.
-        this.scene.anims.remove("bossEnemy" + enemyI + "animation")
+        this.scene.anims.remove("bossEnemy" + enemyI + "animation");
         this.scene.anims.create({
             key: "bossEnemy" + enemyI + "animation",
-            frames: this.scene.anims.generateFrameNumbers(this.enemySprites[enemyI], { start: 0, end: 3 }),
+            frames: this.scene.anims.generateFrameNumbers(this.enemySprites[enemyI], { start: 0, end: 4 }),
             frameRate: 4,
             repeat: -1
         });
         // add new target to scene.
-        var enemy = this.scene.physics.add.sprite(this.boss.x, this.boss.y, this.enemySprites[enemyI]);
         // play the animation.
         enemy.anims.play("bossEnemy" + enemyI + "animation", true);
+        console.log(enemy);
         enemy.setDepth(-4);
         
         if (collisionsOn)
