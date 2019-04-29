@@ -23,6 +23,7 @@ function Level(environment) {
     this.bossTimeBetweenMovements = 2000;
     this.bossMovementTime = 4000;
     this.boss;
+    this.bossIsDone = false;
 
     this.obstacleSprite = [];
     this.obstacleSequence = [];
@@ -95,6 +96,13 @@ function Level(environment) {
         var enemyChildren = this.enemies.getChildren();
         for (var i = 0; i < enemyChildren.length; i++) {
             enemyChildren[i].timer.remove();
+        }
+
+        if (this.bossSprite != "") {
+            var toX = gridHeight*ratio + this.bossEndingPositionOffset[0];
+            var toY = gridHeight/2 + this.bossEndingPositionOffset[1];
+            this.addBossMovement(toX, toY);
+            this.bossIsDone = true;
         }
 
         for (var i = 0; i < this.levelTimers.length; i++) {
@@ -237,39 +245,42 @@ function Level(environment) {
     }
 
     this.addBossMovement = function (toX, toY) {
-        if (this.boss.tween) {
-            this.boss.tween.stop();
-            this.boss.tween = undefined;
-        }
-        var tween = this.scene.tweens.add({
-            targets: this.boss,
-            x: toX,
-            y: toY,
-            duration: this.bossMovementTime,
-            onComplete: function () {
-                if (currMode == MODELEVEL) {
-                    if (currModeInstance.boss.betweenMovementTimer) {
-                        currModeInstance.boss.betweenMovementTimer.remove();
-                    }
-    
-                    var toX = gridHeight*ratio + currModeInstance.bossMovementXOffset;
-                    var toY = Math.random() * (gridHeight+currModeInstance.bossMovementRangeYOffset[1] - currModeInstance.bossMovementRangeYOffset[0]) + currModeInstance.bossMovementRangeYOffset[0];
-                    var betweenMovementTimer = currModeInstance.scene.time.addEvent({
-                        delay: currModeInstance.bossTimeBetweenMovements,
-                        callback: currModeInstance.addBossMovement,
-                        callbackScope: currModeInstance,
-                        args: [toX, toY],
-                        loop: false
-                    });
-                    currModeInstance.boss.betweenMovementTimer = betweenMovementTimer;
-                }
-                else if (currMode == MODESTORY && prevMode == MODELEVEL) {
-                    prevModeInstance.boss.destroy();
-                    prevModeInstance.boss = undefined;
-                }
+        if (this.boss) {
+            if (this.boss.tween) {
+                this.boss.tween.stop();
+                this.boss.tween = undefined;
             }
-        });
-        this.boss.tween = tween;
+            var tween = this.scene.tweens.add({
+                targets: this.boss,
+                x: toX,
+                y: toY,
+                duration: this.bossMovementTime,
+                onComplete: function () {
+                    if (currMode == MODELEVEL) {
+                        if (currModeInstance.boss && currModeInstance.boss.betweenMovementTimer) {
+                            currModeInstance.boss.betweenMovementTimer.remove();
+                        }
+        
+                        var toX = gridHeight*ratio + currModeInstance.bossMovementXOffset;
+                        var toY = Math.random() * (gridHeight+currModeInstance.bossMovementRangeYOffset[1] - currModeInstance.bossMovementRangeYOffset[0]) + currModeInstance.bossMovementRangeYOffset[0];
+                        var betweenMovementTimer = currModeInstance.scene.time.addEvent({
+                            delay: currModeInstance.bossTimeBetweenMovements,
+                            callback: currModeInstance.addBossMovement,
+                            callbackScope: currModeInstance,
+                            args: [toX, toY],
+                            loop: false
+                        });
+                        if (currModeInstance.boss)
+                            currModeInstance.boss.betweenMovementTimer = betweenMovementTimer;
+                    }
+                    else if ((currMode == MODESTORY && prevMode == MODELEVEL) || currModeInstance.bossIsDone || prevModeInstance.bossIsDone) {
+                        prevModeInstance.boss.destroy();
+                        prevModeInstance.boss = undefined;
+                    }
+                }
+            });
+            this.boss.tween = tween;
+        }
     }
 
     this.shootWeapon = function(x, y, targetX, targetY) {

@@ -7,7 +7,7 @@ const MODEFIGHT = 5;
 const STORYMODE = 6;
 const ARCADEMODE = 7;
 
-var gameplayModes;
+var gameplayModes, gameplayModesArcade;
 
 var initMenuLoad = "mainMenu";
 var currMode = -1;
@@ -22,6 +22,7 @@ var shaders;
  
 function preload() {
     this.load.json("gameplay", "config/gameplay.json");
+    this.load.json("gameplayArcade", "config/gameplay.arcade.json");
 
     // load settings and assets per level
     // settings files for levels, stories and fights
@@ -82,6 +83,7 @@ function create() {
     this.physics.world.bounds.height = h;
     
     gameplayModes = this.cache.json.get("gameplay").slice(0);
+    gameplayModesArcade = this.cache.json.get("gameplayArcade").slice(0);
 
     var environment = new Environment(this);
     environment.initializeEnv();
@@ -326,13 +328,17 @@ function gameOver() {
 
 function changeMode() {
     prevMode = currMode;
-    var newMode = gameplayModes.shift();
+    if (gameplayMode == STORYMODE)
+        var newMode = gameplayModes.shift();
+    else 
+        var newMode = gameplayModesArcade.shift();
+
     switch (newMode.split("-")[0]) {
         case "story": currMode = MODESTORY; break;
         case "level": currMode = MODELEVEL; break;
         case "fight": currMode = MODEFIGHT; break;
     }
-    
+
     console.log("newMode", newMode);
     prevModeInstance = currModeInstance;
     var newAttrs = JSON.parse(JSON.stringify(currModeInstance.scene.cache.json.get(newMode)));
@@ -351,12 +357,6 @@ function changeMode() {
         if (prevMode == MODELEVEL)
             prevModeInstance.letGo();
 
-        if (prevMode == MODELEVEL && prevModeInstance.bossSprite != "") {
-            var toX = gridHeight*ratio + prevModeInstance.bossEndingPositionOffset[0];
-            var toY = gridHeight/2 + prevModeInstance.bossEndingPositionOffset[1];
-            prevModeInstance.addBossMovement(toX, toY);
-        }
-
         currModeInstance = new Story(prevModeInstance.environment);
         $(currModeInstance).attr(newAttrs);
 
@@ -373,5 +373,9 @@ function changeMode() {
 
         currModeInstance.initializeFight(prevModeInstance);
         currModeInstance.resumeGameplay(false, true);
+    }
+
+    if (newMode == "level-4") {
+        window.localStorage.setItem("arcadeUnlock", true);
     }
 }
