@@ -22,6 +22,7 @@ function Fight(environment) {
 
     this.bossStartingPositionX = gridHeight*ratio;
     this.bossStartingPositionY = gridHeight/2;
+    this.enemyAnimationFPS = 4;
 
     this.weaponSprite = "weapon-placeholder";
 
@@ -141,7 +142,7 @@ function Fight(environment) {
         this.scene.anims.create({
             key: "bossEnemy" + enemyI + "animation",
             frames: this.scene.anims.generateFrameNumbers(this.enemySprites[enemyI], { start: 0, end: 4 }),
-            frameRate: 4,
+            frameRate: this.enemyAnimationFPS,
             repeat: -1
         });
         // add new target to scene.
