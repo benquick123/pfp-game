@@ -1,5 +1,5 @@
 {
-    "initSpeed": 160,
+    "initSpeed": 300,
     "levelDifficultyFactor": 1.1,
     "levelEndScore": 10000,
     "levelMode": 0,
@@ -27,5 +27,8 @@
     "obstacleHeight": 24,
     "weaponSprite": "weapon-placeholder",
     "weaponAngularVelocity": 500,
-    "musicName": "bff"
+    "musicName": "bff",
+
+    "cameraShakeScoreOffset": 200,
+    "cameraShakeScoreLength": 10
 }

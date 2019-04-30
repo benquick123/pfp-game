@@ -81,6 +81,10 @@ function Level(environment) {
         this.environment.music.stop();
         this.environment.music = this.scene.sound.add(this.musicName, { loop: true });
         this.environment.music.play();
+
+        /* if (this.cameraShakeScoreOffset) {
+            this.cameraShakeNext = this.cameraShakeScoreOffset + this.score;
+        }*/ 
     }
 
     this.letGo = function (listeners) {

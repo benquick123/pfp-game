@@ -352,8 +352,65 @@ function CustomShaders(scene) {
         this.backgroundShader1 = this.scene.game.renderer.addPipeline("backgroundShader1", customPipeline);
     }
 
-    if (false && this.scene.game.renderer.getPipeline("trailShader") == null) {
-        
+    if (this.scene.game.renderer.getPipeline("trailShader") == null) {
+        config = {
+            game: this.scene.game,
+            renderer: this.scene.game.renderer,
+            fragShader: [
+                "precision mediump float;",
+
+                //"in" attributes from our vertex shader
+                "varying vec4 outColor;",
+                "varying vec2 outTexCoord;",
+
+                //declare uniforms
+                "uniform sampler2D u_texture;",
+                "uniform float resolution;",
+                "uniform float radius;",
+                "uniform vec2 dir;",
+                "uniform float time;",
+
+                "void main() {",
+                //this will be our RGBA sum
+                "vec4 sum = vec4(0.0);",
+
+                //our original texcoord for this fragment
+                "vec2 tc = outTexCoord;",
+
+                //the amount to blur, i.e. how far off center to sample from 
+                //1.0 -> blur by one pixel
+                //2.0 -> blur by two pixels, etc.
+                "float blur = radius/resolution;",
+
+                //the direction of our blur
+                //(1.0, 0.0) -> x-axis blur
+                //(0.0, 1.0) -> y-axis blur
+                "float hstep = dir.x;",
+                "float vstep = dir.y;",
+
+                //apply blurring, using a 9-tap filter with predefined gaussian weights",
+
+                /* "sum += texture2D(u_texture, vec2(tc.x - 4.0*blur*hstep, tc.y - 4.0*blur*vstep)) * 0.0162162162;",
+                "sum += texture2D(u_texture, vec2(tc.x - 3.0*blur*hstep, tc.y - 3.0*blur*vstep)) * 0.0540540541;",
+                "sum += texture2D(u_texture, vec2(tc.x - 2.0*blur*hstep, tc.y - 2.0*blur*vstep)) * 0.1216216216;",
+                "sum += texture2D(u_texture, vec2(tc.x - 1.0*blur*hstep, tc.y - 1.0*blur*vstep)) * 0.1945945946;",*/
+
+                "sum += texture2D(u_texture, vec2(tc.x, tc.y)) * 0.6;",
+
+                "sum += texture2D(u_texture, vec2(tc.x + 1.0*blur*hstep, tc.y + 1.0*blur*vstep)) * 0.1945945946;",
+                "sum += texture2D(u_texture, vec2(tc.x + 2.0*blur*hstep, tc.y + 2.0*blur*vstep)) * 0.1216216216;",
+                "sum += texture2D(u_texture, vec2(tc.x + 3.0*blur*hstep, tc.y + 3.0*blur*vstep)) * 0.0540540541;",
+                "sum += texture2D(u_texture, vec2(tc.x + 4.0*blur*hstep, tc.y + 4.0*blur*vstep)) * 0.0162162162;",
+
+                "float c = 1.0 - cos(time) * radius;",
+                "float s = 0.0 + sin(time) * radius;",
+                "mat4 hueRotation = mat4(0.299, 0.587, 0.114, 0.0, 0.299, 0.587, 0.114, 0.0, 0.299, 0.587, 0.114, 0.0, 0.0, 0.0, 0.0, 1.0) + mat4(0.701, -0.587, -0.114, 0.0, -0.299, 0.413, -0.114, 0.0, -0.300, -0.588, 0.886, 0.0, 0.0, 0.0, 0.0, 0.0) * c + mat4(0.168, 0.330, -0.497, 0.0, -0.328, 0.035, 0.292, 0.0, 1.250, -1.050, -0.203, 0.0, 0.0, 0.0, 0.0, 0.0) * s;",
+                //discard alpha for our simple demo,return
+                "gl_FragColor = vec4(sum.rgb, 1.0) * hueRotation;",
+                "}"
+
+            ].join('\n')
+        };
 
         var customPipeline = new Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline(config);
 
