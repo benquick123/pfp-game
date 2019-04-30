@@ -196,7 +196,6 @@ function update(time, delta) {
                 var r = ((Math.sin(shaders.shadersTime/1000.0) * 5.0) + 5.0 - Math.random()*2.0 + 1.0) * currModeInstance.customBackgroundPipelineFadeIn;
                 if (currModeInstance.customBackgroundPipelineFadeIn < 1.0) {
                     currModeInstance.customBackgroundPipelineFadeIn += delta/100000.0;
-                    console.log(currModeInstance.customBackgroundPipelineFadeIn);
                 }
                 shaders.trailShader.setFloat1('radius', r);
                 shaders.trailShader.setFloat2('dir', 5.0, 0.0);

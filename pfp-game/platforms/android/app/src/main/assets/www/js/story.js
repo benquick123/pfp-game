@@ -105,7 +105,7 @@ function Story(environment) {
             text: "Skip",
             font: "font20"
         });
-        this.skipText.setDepth(5);
+        this.skipText.setDepth(-1);
         this.skipText.setFontSize(24);
         this.skipText.setLetterSpacing(2);
         this.skipText.setX(gridHeight*ratio - this.skipText.width - 10);

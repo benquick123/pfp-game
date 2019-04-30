@@ -2,7 +2,7 @@
     "initSpeed": 160,
     "levelDifficultyFactor": 1.1,
     "levelEndScore": 2000,
-    "levelInitScore": 200,
+    "levelInitScore": 1483,
     "levelMode": 0,
 
     "playerSprite": "character-3",
@@ -23,7 +23,7 @@
     "obstacleStartingXOffset": 16,
     "obstacleStartingYOffset": 0, 
     "obstacleHeight": 24,
-    "weaponSprite": "weapon-placeholder",
+    "weaponSprite": "weapon-2",
     "weaponAngularVelocity": 500,
     "musicName": "chuhapuha"
 }

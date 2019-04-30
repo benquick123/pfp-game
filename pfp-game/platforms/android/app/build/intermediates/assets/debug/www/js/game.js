@@ -85,6 +85,8 @@ function create() {
     gameplayModes = this.cache.json.get("gameplay").slice(0);
     gameplayModesArcade = this.cache.json.get("gameplayArcade").slice(0);
 
+    shaders = new CustomShaders(this);
+
     var environment = new Environment(this);
     environment.initializeEnv();
 
@@ -101,8 +103,6 @@ function create() {
     Story.prototype = environment;
     Fight.prototype = environment;
 
-    shaders = new CustomShaders(this);
-
     currMode = MODEMENU;
     if (initMenuLoad == "mainMenu") {
         currModeInstance = new MainMenu(menu);
@@ -117,7 +117,11 @@ function create() {
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('black');
-    // this.cameras.main.setRenderToTexture(shaders.distortionShader);
+    // this.cameras.main.setRenderToTexture(shaders.trailShader);
+
+    shaders.trailShader.setFloat1('resolution', gridHeight*ratio);
+    shaders.trailShader.setFloat1('radius', 0.0);
+    shaders.trailShader.setFloat2('dir', 0.0, 0.0);
 }
  
 function update(time, delta) {
@@ -155,19 +159,26 @@ function update(time, delta) {
         currModeInstance.updateGameplayDifficulty();
 
         if (currModeInstance.customBackgroundPipeline) {
-            for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
-                backgroundChildren = currModeInstance.backgrounds[i].getChildren();
-                var stopBackground = false;
-                for (var j = 0; j < backgroundChildren.length; j++) {
-                    if (backgroundChildren[j].frame.texture.key == currModeInstance.backgroundImage[0] && backgroundChildren[j].x <= 0.0) {
-                        stopBackground = true;
+            if (!currModeInstance.customShaderBackgroundsStopped) {
+                for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
+                    backgroundChildren = currModeInstance.backgrounds[i].getChildren();
+                    var stopBackground = false;
+                    for (var j = 0; j < backgroundChildren.length; j++) {
+                        if (backgroundChildren[j].frame.texture.key == currModeInstance.backgroundImage[0] && backgroundChildren[j].x <= 0.0) {
+                            stopBackground = true;
+                        }
                     }
-                }
-                for (var j = 0; j < backgroundChildren.length; j++) {
+                    for (var j = 0; j < backgroundChildren.length; j++) {
+                        if (stopBackground) {
+                            currModeInstance.parallaxScrollFactor = 0.0;
+                            backgroundChildren[j].setVelocityX(0.0);
+                            backgroundChildren[j].setX(0.0);
+                        }
+                    }
+    
                     if (stopBackground) {
-                        currModeInstance.parallaxScrollFactor = 0.0;
-                        backgroundChildren[j].setVelocityX(0.0);
-                        backgroundChildren[j].setX(0.0);
+                        currModeInstance.cameraShakeNext = currModeInstance.score;
+                        currModeInstance.customShaderBackgroundsStopped = true;
                     }
                 }
             }
@@ -177,11 +188,35 @@ function update(time, delta) {
                 shaders.backgroundShader1.setFloat2("resolution", gridHeight*ratio, gridHeight);
             }
 
-            if (shaders.distortionShader) {
-                shaders.distortionShader.setFloat1("time", shaders.shaderTime/1000.0);
-                shaders.distortionShader.setFloat2("resolution", 8.0, 8.0);
+            if (shaders.trailShader) {
+                if (stopBackground)
+                    currModeInstance.scene.cameras.main.setRenderToTexture(shaders.trailShader);
+                // shaders.distortionShader.setFloat1("time", shaders.shaderTime/1000.0);
+                // shaders.distortionShader.setFloat2("resolution", 8.0, 8.0);
+                var r = ((Math.sin(shaders.shadersTime/1000.0) * 5.0) + 5.0 - Math.random()*2.0 + 1.0) * currModeInstance.customBackgroundPipelineFadeIn;
+                if (currModeInstance.customBackgroundPipelineFadeIn < 1.0) {
+                    currModeInstance.customBackgroundPipelineFadeIn += delta/100000.0;
+                    console.log(currModeInstance.customBackgroundPipelineFadeIn);
+                }
+                shaders.trailShader.setFloat1('radius', r);
+                shaders.trailShader.setFloat2('dir', 5.0, 0.0);
+                shaders.trailShader.setFloat1("time", shaders.shadersTime/1000.0);
             }
             shaders.shadersTime += delta;
+
+            if (currModeInstance.isCameraShaking) {
+                currModeInstance.scene.cameras.main.shake();
+                if (currModeInstance.score > currModeInstance.cameraShakeNext + currModeInstance.cameraShakeScoreLength) {
+                    currModeInstance.isCameraShaking = false;
+                    currModeInstance.cameraShakeNext = currModeInstance.score + currModeInstance.cameraShakeScoreOffset + (Math.random() * 100 - 50);
+                }
+
+            }
+            else {
+                if (currModeInstance.score > currModeInstance.cameraShakeNext) {
+                    currModeInstance.isCameraShaking = true;
+                }
+            }
 
         }
 

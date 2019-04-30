@@ -23,6 +23,11 @@ function Environment (scene) {
     this.parallaxScrollFactor = 1.0;
     this.backgrounds = [];
     this.customBackgroundPipeline = false;
+    this.customBackgroundPipelineFadeIn = 0.0;
+    this.cameraShakeScoreOffset = 500;
+    this.cameraShakeScoreLength = 10;
+    this.cameraShakeNext;
+    this.customShaderBackgroundsStopped = false;
 
     this.isStopped = true;
 
@@ -66,6 +71,10 @@ function Environment (scene) {
         this.player.setBounce(this.playerBounce);
         this.player.setGravityY(this.gravity);
         this.player.body.setSize(this.player.body.width-6, this.player.body.height);
+
+        /* this.player.setPipeline("trailShader");
+        this.player.setBlendMode("SCREEN");
+        console.log(this.player);*/ 
     }
 
     this.addAnimations = function () {
@@ -114,7 +123,7 @@ function Environment (scene) {
         floor.body.setVelocityX(-this.currSpeed);
         floor.body.setImmovable();
         floor.body.setFriction(0);
-
+        floor.setDepth(-2);
         
         if (this.customBackgroundPipeline) {
             floor.setPipeline("distortionShader");
@@ -127,6 +136,7 @@ function Environment (scene) {
             this.scene.physics.add.overlap(underground, this.leftCollider, onOutOfBounds);
 
             underground.body.setVelocityX(-this.currSpeed);
+            underground.setDepth(-2);
 
             if (this.customBackgroundPipeline) {
                 underground.setPipeline("distortionShader");
