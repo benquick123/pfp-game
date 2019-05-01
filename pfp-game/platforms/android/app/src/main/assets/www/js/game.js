@@ -117,11 +117,8 @@ function create() {
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('black');
-    // this.cameras.main.setRenderToTexture(shaders.trailShader);
-
-    shaders.trailShader.setFloat1('resolution', gridHeight*ratio);
-    shaders.trailShader.setFloat1('radius', 0.0);
-    shaders.trailShader.setFloat2('dir', 0.0, 0.0);
+    // this.cameras.main.setRenderToTexture(shaders.blackHoleShader);
+    
 }
  
 function update(time, delta) {

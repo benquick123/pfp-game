@@ -115,7 +115,7 @@ function Level(environment) {
     }
 
     this.addObstacle = function (x, y) {
-        if (!this.isStopped && this.obstacleSprite.length > 0) {
+        if (!this.isStopped && this.obstacleSprite.length > 0 && this.score + 24 < this.levelEndScore) {
             console.log(-this.currSpeed);
             var onOutOfBounds = function(objectA, objectB) {
                 if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {

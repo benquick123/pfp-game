@@ -419,6 +419,9 @@ function CustomShaders(scene) {
         var customPipeline = new Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline(config);
 
         this.trailShader = this.scene.game.renderer.addPipeline("trailShader", customPipeline);
+        this.trailShader.setFloat1('resolution', gridHeight*ratio);
+        this.trailShader.setFloat1('radius', 0.0);
+        this.trailShader.setFloat2('dir', 0.0, 0.0);
     }
 
     this.distortionShader = this.scene.game.renderer.getPipeline("distortionShader");
@@ -444,5 +447,92 @@ function CustomShaders(scene) {
         var customPipeline = new Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline(config);
 
         this.distortionShader = this.scene.game.renderer.addPipeline("distortionShader", customPipeline);
+    }
+
+    this.blackHoleShader = this.scene.game.renderer.getPipeline("blackHoleShader");
+    if (this.blackHoleShader == null) {
+        var blackHoleCoordDef = "";
+        for (var i = 0; i < 30; i++) {
+            blackHoleCoordDef += "uniform vec2 hole_coord" + i + ";"
+        }
+
+        var blackHoleCalculationDef = "";
+        for (var i = 0; i < 30; i++) {
+            blackHoleCalculationDef += `
+                if (hole_coord` + i + `.x != 0.0 && hole_coord` + i + `.y != 0.0) {
+                    vec2 hole_coord = vec2(resolution.x - hole_coord` + i + `.x, hole_coord` + i + `.y);
+                    mt = hole_coord` + i + `.xy/resolution;
+                    mt_sum += mt;
+                    dx = st.x - mt.x;
+                    dy = (st.y - mt.y) / (resolution.x / resolution.y);
+                    dist = sqrt(dx * dx + dy * dy);
+                    pull = pull + mass / (dist * dist);
+                }
+                
+                `
+        }
+
+        config = {
+            game: this.scene.game,
+            renderer: this.scene.game.renderer,
+            fragShader:
+            `#ifdef GL_ES
+            precision mediump float;
+            #endif
+
+            #define PI 3.14159265359
+
+            uniform sampler2D u_image;
+            varying vec2 v_texCoord;
+
+            uniform vec2 resolution;` + 
+            blackHoleCoordDef + 
+            `uniform float mass;
+            uniform float time;
+            uniform float n_holes;
+
+            vec2 rotate(vec2 mt, vec2 st, float angle){
+                float c = cos(angle * 0.5); // try replacing * 1.0 with * PI
+                float s = sin(angle * 0.0); // try removing the * 0.0
+
+                float nx = (c * (st.x - mt.x)) + (s * (st.y - mt.y)) + mt.x;
+                float ny = (c * (st.y - mt.y)) - (s * (st.x - mt.x)) + mt.y;
+                return vec2(nx, ny);
+            }
+
+            void main() {
+                float pull = 0.0;
+                float ratio = resolution.x / resolution.y;
+                vec2 mt_sum = vec2(0.0, 0.0);
+                vec2 coord = vec2(gl_FragCoord.x, resolution.y - gl_FragCoord.y);
+                vec2 st = coord / resolution; // calculate just once
+                vec2 mt = vec2(0.0, 0.0);
+                float dx = 0.0;
+                float dy = 0.0;
+                float dist = 0.0;` + 
+
+                blackHoleCalculationDef +
+            
+                `vec3 color = vec3(0.0);
+                
+                vec2 r = rotate(mt_sum/n_holes, st, pull);
+                vec4 imgcolor = texture2D(u_image, r);
+                color = vec3(
+                    (imgcolor.x - (pull * 0.25)),
+                    (imgcolor.y - (pull * 0.25)), 
+                    (imgcolor.z - (pull * 0.25))
+                );
+                
+                gl_FragColor = vec4(color,1.);
+            }`
+        }
+        var customPipeline = new Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline(config);
+        this.blackHoleShader = this.scene.game.renderer.addPipeline("blackHoleShader", customPipeline);
+        this.blackHoleShader.setFloat2("resolution", gridHeight*ratio, gridHeight);
+        this.blackHoleShader.setFloat1("mass", 0.002);
+        this.blackHoleShader.setFloat2("hole_coord0", 54.0, 48.0);
+        this.blackHoleShader.setFloat1("n_holes", 1);
+        for (var i = 1; i < 30; i++)
+            this.blackHoleShader.setFloat2("hole_coord" + i, 0.0, 0.0);
     }
 }
