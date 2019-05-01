@@ -115,7 +115,7 @@ function create() {
     prevModeInstance = undefined;
     
     // cameras
-    this.cameras.main.setBounds(0, 0, h, w);     
+    this.cameras.main.setBounds(0, 0, w, h);     
     this.cameras.main.setBackgroundColor('black');
     this.cameras.main.setRenderToTexture(shaders.blackHoleShader);
     
