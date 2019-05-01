@@ -1,9 +1,9 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "pfp-game",
-  "short_name": "pfp-game",
-  "version": "pfp.pfpgame",
+  "name": "VASKO",
+  "short_name": "VASKO",
+  "version": "pfp.vasko",
   "description": "A persons from Porlock game.",
   "author": "Persons from Porlock",
   "icons": [],
