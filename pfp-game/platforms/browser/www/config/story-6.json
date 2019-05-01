@@ -1,7 +1,12 @@
 {
     "dialogues": [
-        [0, "Jov."],
-        [1, "Pokazi mi vrticek."]
+        [0, "Why did the amps attack me?"],
+        [1, "The amps did not attack you..."]
+        [1, "We were merely playing a show..."]
+        [1, "And you ingested bad koala grass..."]
+        [1, "And in your intoxication ascribed\nanthropomorphic qualities to\nour musical equipment."]
+        [0, "Oh haha what a comical misunderstanding."]
+        [0, "Yes."]
     ],
     "nSpeakers": 2,
     "speakersStartingPositionsOffsets": [[0, 0], [64, 0]],
