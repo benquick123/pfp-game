@@ -25,7 +25,7 @@
     "speakerSprites": ["character-0", "boss-0", "helper-0"],
     "speakerFlipX": [false, false, false],
     "speakersDieImmediately": [false, true, true],
-    "speakersImmediateDeathDirection": [0, -200, 200],
+    "speakersImmediateDeathDirection": [0, 200, -200],
     "playerIsSpeaker0": true,
 
     "stayingSpeaker": 0,
