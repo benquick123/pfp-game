@@ -1,9 +1,9 @@
 {
-    "initSpeed": 300,
-    "levelDifficultyFactor": 1.1,
-    "levelEndScore": 10000,
+    "initSpeed": 310,
+    "levelDifficultyFactor": 1.08,
+    "levelEndScore": 1000000000,
     "levelMode": 0,
-    "levelInitScore": 0,
+    "levelInitScore": 2000,
 
     "playerSprite": "character-placeholder",
     "playerAnimationFPS": 12,
@@ -12,6 +12,8 @@
         "enemy-1",
         "enemy-placeholder"
     ],
+    "enemyTimeRange": [1000, 1500],
+    "enemySpeedRange": [1700, 2000],
     "groundFloorImage": "floor-0",
     "groundUnderImage": "underground-0",
     "backgroundImage": [
@@ -22,8 +24,9 @@
     "parallaxScrollFactor": 0.8,
     "gravity": 500,
     "obstacleSprite": ["obstacle-4", "obstacle-5", "obstacle-placeholder"],
-    "obstacleStartingXOffset": 16,
-    "obstacleStartingYOffset": 0, 
+    "obstacleStartingXOffset": 64,
+    "obstacleStartingYOffset": 0,
+    "obstacleTimeRange": [1200, 2000], 
     "obstacleHeight": 24,
     "weaponSprite": "weapon-placeholder",
     "weaponAngularVelocity": 500,

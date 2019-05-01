@@ -2,7 +2,9 @@
 function CustomShaders(scene) {
     this.scene = scene;
     this.shadersTime = 0;
-    if (this.scene.game.renderer.getPipeline("backgroundShader0") == null) {
+
+    this.backgroundShader0 = this.scene.game.renderer.getPipeline("backgroundShader0");
+    if (this.backgroundShader0 == null) {
         var config = {
             game: this.scene.game,
             renderer: this.scene.game.renderer,
@@ -214,7 +216,8 @@ function CustomShaders(scene) {
         this.backgroundShader0 = this.scene.game.renderer.addPipeline("backgroundShader0", customPipeline);
     }
 
-    if (this.scene.game.renderer.getPipeline("backgroundShader1") == null) {
+    this.backgroundShader1 = this.scene.game.renderer.getPipeline("backgroundShader1");
+    if (this.backgroundShader1 == null) {
         var config = {
             game: this.scene.game,
             renderer: this.scene.game.renderer,
@@ -352,7 +355,8 @@ function CustomShaders(scene) {
         this.backgroundShader1 = this.scene.game.renderer.addPipeline("backgroundShader1", customPipeline);
     }
 
-    if (this.scene.game.renderer.getPipeline("trailShader") == null) {
+    this.trailShader = this.scene.game.renderer.getPipeline("trailShader");
+    if (this.trailShader == null) {
         config = {
             game: this.scene.game,
             renderer: this.scene.game.renderer,
@@ -417,7 +421,8 @@ function CustomShaders(scene) {
         this.trailShader = this.scene.game.renderer.addPipeline("trailShader", customPipeline);
     }
 
-    if (this.scene.game.renderer.getPipeline("distortionShader") == null) {
+    this.distortionShader = this.scene.game.renderer.getPipeline("distortionShader");
+    if (this.distortionShader == null) {
         config = {
             game: this.scene.game,
             renderer: this.scene.game.renderer,

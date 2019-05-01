@@ -260,13 +260,13 @@ function LeaderboardMenu(menu) {
             if (i == this.currPlayerRank-1) {
                 textScore.timer = this.scene.time.addEvent({
                     delay: 500,
-                    callback: currMenu.tintButton,
+                    callback: currModeInstance.menu.tintButton,
                     callbackScope: textScore,
                     repeat: 1000
                 });
                 textName.timer = this.scene.time.addEvent({
                     delay: 500,
-                    callback: currMenu.tintButton,
+                    callback: currModeInstance.menu.tintButton,
                     callbackScope: textName,
                     repeat: 1000
                 })
