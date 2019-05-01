@@ -1,12 +1,12 @@
 {
     "dialogues": [
         [0, "Why did the amps attack me?"],
-        [1, "The amps did not attack you..."]
-        [1, "We were merely playing a show..."]
-        [1, "And you ingested bad koala grass..."]
-        [1, "And in your intoxication ascribed\nanthropomorphic qualities to\nour musical equipment."]
-        [0, "Oh haha what a comical misunderstanding."]
-        [0, "Yes."]
+        [1, "The amps did not\nattack you..."],
+        [1, "We were merely\nplaying a show..."],
+        [1, "And you ingested\nbad koala grass..."],
+        [1, "And in your intoxication\nascribed anthropomorphic\nqualities to our musical\nequipment."],
+        [0, "Oh haha, what a\ncomical misunderstanding."],
+        [1, "Yes."]
     ],
     "nSpeakers": 2,
     "speakersStartingPositionsOffsets": [[0, 0], [64, 0]],
