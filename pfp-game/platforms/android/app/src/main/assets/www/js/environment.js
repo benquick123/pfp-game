@@ -29,6 +29,8 @@ function Environment (scene) {
     this.cameraShakeNext;
     this.customShaderBackgroundsStopped = false;
 
+    this.cameraAdditional;
+
     this.isStopped = true;
 
     this.gravity = 500;
@@ -74,9 +76,7 @@ function Environment (scene) {
         this.player.setGravityY(this.gravity);
         this.player.body.setSize(this.player.body.width-6, this.player.body.height);
 
-        /* this.player.setPipeline("trailShader");
-        this.player.setBlendMode("SCREEN");
-        console.log(this.player);*/ 
+        this.cameraAdditional.ignore(this.player);
     }
 
     this.addAnimations = function () {
@@ -126,6 +126,7 @@ function Environment (scene) {
         floor.body.setImmovable();
         floor.body.setFriction(0);
         floor.setDepth(-2);
+        this.cameraAdditional.ignore(floor);
         
         if (this.customBackgroundPipeline) {
             floor.setPipeline("distortionShader");
@@ -139,6 +140,7 @@ function Environment (scene) {
 
             underground.body.setVelocityX(-this.currSpeed);
             underground.setDepth(-2);
+            this.cameraAdditional.ignore(underground);
 
             if (this.customBackgroundPipeline) {
                 underground.setPipeline("distortionShader");
@@ -183,19 +185,12 @@ function Environment (scene) {
         background.setDepth(-(i+1)*10);
 
         this.scene.physics.add.overlap(background, this.extraLeftCollider, onOutOfBounds);
+
+        this.cameraAdditional.ignore(background);
         
         background.body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
         if (i == 1 && this.fastBackground)
             background.body.setVelocityX(-this.currSpeed * this.parallaxScrollFactor * 1.5);
-
-        // if (i == 0 && this.enemySpecial) {
-        background.resetPipeline();
-        background.setPipeline("blackHoleShader");
-        background.initPipeline();
-        // background.resetPipeline();
-        // background.setPipeline("blackHoleShader");
-        // background.setFlip(true, true);
-        // }
 
         if (this.customBackgroundPipeline) {
             background.setPipeline("backgroundShader1");
@@ -217,6 +212,7 @@ function Environment (scene) {
     }
 
     this.initializeEnv = function () {
+        this.cameraAdditional = this.scene.cameras.add();
         this.addPlayer(gridHeight*ratio - this.playerXOffset, -this.playerHeight);
         for (var i = 0; i < this.backgroundImage.length; i++) {
             this.addBackground(i);

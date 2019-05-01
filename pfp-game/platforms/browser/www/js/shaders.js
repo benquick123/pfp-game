@@ -1,3 +1,5 @@
+const glsl = x => x;
+
 
 function CustomShaders(scene) {
     this.scene = scene;
@@ -8,7 +10,7 @@ function CustomShaders(scene) {
         var config = {
             game: this.scene.game,
             renderer: this.scene.game.renderer,
-            fragShader: `
+            fragShader: glsl`
             /*
             * Original shader from: https://www.shadertoy.com/view/4dGGRK
             */
@@ -221,7 +223,7 @@ function CustomShaders(scene) {
         var config = {
             game: this.scene.game,
             renderer: this.scene.game.renderer,
-            fragShader: `
+            fragShader: glsl`
             /*
             * Original shader from: https://www.shadertoy.com/view/ltSGDh
             */
@@ -429,7 +431,7 @@ function CustomShaders(scene) {
         config = {
             game: this.scene.game,
             renderer: this.scene.game.renderer,
-            fragShader: `
+            fragShader: glsl`
             precision mediump float;
             uniform float     time;
             uniform vec2      resolution;
@@ -476,7 +478,7 @@ function CustomShaders(scene) {
             game: this.scene.game,
             renderer: this.scene.game.renderer,
             fragShader:
-            `#ifdef GL_ES
+            glsl`#ifdef GL_ES
             precision mediump float;
             #endif
 
@@ -487,13 +489,13 @@ function CustomShaders(scene) {
 
             uniform vec2 resolution;` + 
             blackHoleCoordDef + 
-            `uniform float mass;
+            glsl`uniform float mass;
             uniform float time;
             uniform float n_holes;
 
             vec2 rotate(vec2 mt, vec2 st, float angle){
                 float c = cos(angle * 0.5); // try replacing * 1.0 with * PI
-                float s = sin(angle * 0.2); // try removing the * 0.0
+                float s = sin(angle * 0.0); // try removing the * 0.0
 
                 float nx = (c * (st.x - mt.x)) + (s * (st.y - mt.y)) + mt.x;
                 float ny = (c * (st.y - mt.y)) - (s * (st.x - mt.x)) + mt.y;
@@ -529,7 +531,7 @@ function CustomShaders(scene) {
         var customPipeline = new Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline(config);
         this.blackHoleShader = this.scene.game.renderer.addPipeline("blackHoleShader", customPipeline);
         this.blackHoleShader.setFloat2("resolution", gridHeight*ratio, gridHeight);
-        this.blackHoleShader.setFloat1("mass", 0.001);
+        this.blackHoleShader.setFloat1("mass", 0.002);
         this.blackHoleShader.setFloat2("hole_coord0", 54.0, 48.0);
         this.blackHoleShader.setFloat1("n_holes", 1);
         for (var i = 1; i < 30; i++)

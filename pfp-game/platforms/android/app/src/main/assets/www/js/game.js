@@ -117,7 +117,7 @@ function create() {
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('black');
-    // this.cameras.main.setRenderToTexture(shaders.blackHoleShader);
+    this.cameras.main.setRenderToTexture(shaders.blackHoleShader);
     
 }
  
@@ -279,6 +279,33 @@ function update(time, delta) {
         if (currModeInstance.player.body.touching.down && !currModeInstance.player.anims.isPlaying) {
             currModeInstance.player.anims.play("playerwalk");
         }
+    }
+
+    var enemyChildren = [];
+    if (currModeInstance.enemySpecial) {
+        enemyChildren = currModeInstance.enemies.getChildren();
+    }
+    else if (prevModeInstance && prevModeInstance.enemySpecial) {
+        enemyChildren = prevModeInstance.enemies.getChildren();
+    }
+    if (enemyChildren.length > 0 && (currModeInstance.enemySpecial || (prevModeInstance && prevModeInstance.enemySpecial))) {
+        shaders.blackHoleShader.setFloat1("n_holes", enemyChildren.length);
+        var i = 0;
+        for (; i < enemyChildren.length; i++) {
+            shaders.blackHoleShader.setFloat2("hole_coord" + i, enemyChildren[i].x, enemyChildren[i].y);
+        }
+        for (; i < 30; i++) {
+            shaders.blackHoleShader.setFloat2("hole_coord" + i, 0, 0);
+        }
+        shaders.blackHoleReset = false;
+    }
+    else if (!shaders.blackHoleReset) {
+        shaders.blackHoleShader.setFloat1("n_holes", 1);
+        shaders.blackHoleShader.setFloat2("hole_coord0", -1000, 54);
+        for (var i = 1; i < 30; i++) {
+            shaders.blackHoleShader.setFloat2("hole_coord" + i, 0, 0);
+        }
+        shaders.blackHoleReset = true;
     }
 }
 

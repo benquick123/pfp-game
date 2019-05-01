@@ -24,7 +24,8 @@
     "speakersEndingPositionsOffsets": [[0, 0], [0, 0], [-80, 0]],
     "speakerSprites": ["character-0", "boss-0", "helper-0"],
     "speakerFlipX": [false, false, false],
-    "speakersDieImmediately": [false, false, false],
+    "speakersDieImmediately": [false, true, true],
+    "speakersImmediateDeathDirection": [0, -200, 200],
     "playerIsSpeaker0": true,
 
     "stayingSpeaker": 0,
