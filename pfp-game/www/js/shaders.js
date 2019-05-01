@@ -531,9 +531,9 @@ function CustomShaders(scene) {
         var customPipeline = new Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline(config);
         this.blackHoleShader = this.scene.game.renderer.addPipeline("blackHoleShader", customPipeline);
         this.blackHoleShader.setFloat2("resolution", gridHeight*ratio, gridHeight);
-        this.blackHoleShader.setFloat1("mass", 0.002);
-        this.blackHoleShader.setFloat2("hole_coord0", 54.0, 48.0);
-        this.blackHoleShader.setFloat1("n_holes", 1);
+        this.blackHoleShader.setFloat1("mass", 0.0);
+        this.blackHoleShader.setFloat2("hole_coord0", 0.0, 0.0);
+        this.blackHoleShader.setFloat1("n_holes", 1.0);
         for (var i = 1; i < 30; i++)
             this.blackHoleShader.setFloat2("hole_coord" + i, 0.0, 0.0);
     }
