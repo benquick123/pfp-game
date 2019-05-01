@@ -76,9 +76,7 @@ function Environment (scene) {
         this.player.setGravityY(this.gravity);
         this.player.body.setSize(this.player.body.width-6, this.player.body.height);
 
-        /* this.player.setPipeline("trailShader");
-        this.player.setBlendMode("SCREEN");
-        console.log(this.player);*/ 
+        this.cameraAdditional.ignore(this.player); 
     }
 
     this.addAnimations = function () {
