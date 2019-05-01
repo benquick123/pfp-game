@@ -23,6 +23,13 @@ function Environment (scene) {
     this.parallaxScrollFactor = 1.0;
     this.backgrounds = [];
     this.customBackgroundPipeline = false;
+    this.customBackgroundPipelineFadeIn = 0.0;
+    this.cameraShakeScoreOffset = 500;
+    this.cameraShakeScoreLength = 10;
+    this.cameraShakeNext;
+    this.customShaderBackgroundsStopped = false;
+
+    this.cameraAdditional;
 
     this.isStopped = true;
 
@@ -35,6 +42,8 @@ function Environment (scene) {
 
     this.score = 0;
     this.scoreText = undefined;
+
+    this.enemySpecial = false;
 
     this.colliderMagicNumber = 16
     this.leftCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, -this.colliderMagicNumber).setOrigin(0, 0);
@@ -66,6 +75,8 @@ function Environment (scene) {
         this.player.setBounce(this.playerBounce);
         this.player.setGravityY(this.gravity);
         this.player.body.setSize(this.player.body.width-6, this.player.body.height);
+
+        this.cameraAdditional.ignore(this.player);
     }
 
     this.addAnimations = function () {
@@ -114,7 +125,8 @@ function Environment (scene) {
         floor.body.setVelocityX(-this.currSpeed);
         floor.body.setImmovable();
         floor.body.setFriction(0);
-
+        floor.setDepth(-2);
+        this.cameraAdditional.ignore(floor);
         
         if (this.customBackgroundPipeline) {
             floor.setPipeline("distortionShader");
@@ -127,6 +139,8 @@ function Environment (scene) {
             this.scene.physics.add.overlap(underground, this.leftCollider, onOutOfBounds);
 
             underground.body.setVelocityX(-this.currSpeed);
+            underground.setDepth(-2);
+            this.cameraAdditional.ignore(underground);
 
             if (this.customBackgroundPipeline) {
                 underground.setPipeline("distortionShader");
@@ -169,7 +183,10 @@ function Environment (scene) {
         var background = this.scene.physics.add.sprite(x, y, this.backgroundImage[i][backgroundImageI]);
         background.setOrigin(0);
         background.setDepth(-(i+1)*10);
+
         this.scene.physics.add.overlap(background, this.extraLeftCollider, onOutOfBounds);
+
+        this.cameraAdditional.ignore(background);
         
         background.body.setVelocityX(-this.currSpeed * Math.pow(this.parallaxScrollFactor, i+1));
         if (i == 1 && this.fastBackground)
@@ -195,6 +212,7 @@ function Environment (scene) {
     }
 
     this.initializeEnv = function () {
+        this.cameraAdditional = this.scene.cameras.add();
         this.addPlayer(gridHeight*ratio - this.playerXOffset, -this.playerHeight);
         for (var i = 0; i < this.backgroundImage.length; i++) {
             this.addBackground(i);
@@ -290,49 +308,3 @@ function Environment (scene) {
         }
     }
 }
-
-/* 
-#ifdef GL_ES
-                precision mediump float;
-                #endif
-                
-                #extension GL_OES_standard_derivatives : enable
-                
-                uniform float time;
-                uniform vec2 resolution;
-    
-                void main( void ) {
-    
-                    vec2 position = ( gl_FragCoord.xy / resolution.xy ) - vec2(0.5, 0.5);
-                    gl_FragColor = vec4(position, 1, 2);
-                    float t = 3e1 + sin(time)*10.; // reminds me of Starry Night
-                    for( int i = 0; i < 7; i++) {
-                        gl_FragColor += vec4(sin(gl_FragColor.y*t/ 50.0), sin(gl_FragColor.x*11.3+cos(time)), 0., 1.0);
-                    }
-                    gl_FragColor = length(gl_FragColor)*0.01+0.1*gl_FragColor;
-                }
-
-                #ifdef GL_ES
-                precision mediump float;
-                #endif
-
-                #extension GL_OES_standard_derivatives : enable
-
-                uniform float time;
-                uniform vec2 mouse;
-                uniform vec2 resolution;
-
-                void main( void ) {
-
-                    vec2 position = ( gl_FragCoord.xy / resolution.xy ) + mouse / 4.0;
-
-                    float color = 0.0;
-                    color += sin( position.x * cos( time / 15.0 ) * 80.0 ) + cos( position.y * cos( time / 15.0 ) * 10.0 );
-                    color += sin( position.y * sin( time / 10.0 ) * 40.0 ) + cos( position.x * sin( time / 25.0 ) * 40.0 );
-                    color += sin( position.x * sin( time / 5.0 ) * 10.0 ) + sin( position.y * sin( time / 35.0 ) * 80.0 );
-                    color *= sin( time / 10.0 ) * 0.5;
-
-                    gl_FragColor = vec4( vec3( color, color * 0.5, sin( color + time / 3.0 ) * 0.75 ), 1.0 );
-                    //   
-                }
-*/ 

@@ -1,13 +1,15 @@
 {
-    "initSpeed": 160,
-    "levelDifficultyFactor": 1.1,
+    "initSpeed": 270,
+    "levelDifficultyFactor": 1.08,
     "levelEndScore": 2000,
-    "levelInitScore": 200,
+    "levelInitScore": 1483,
     "levelMode": 0,
 
     "playerSprite": "character-3",
     "playerAnimationFPS": 12,
     "enemySprites": ["enemy-2", "enemy-3"],
+    "enemyTimeRange": [1000, 1500],
+    "enemySpeedRange": [1700, 2000],
     "groundFloorImage": "floor-3",
     "groundUnderImage": "underground-3",
     "backgroundImage": [
@@ -17,13 +19,14 @@
     ],
     "backgroundImageSpawner": ["random"],
     "parallaxScrollFactor": 0.8,
-    "gravity": 500,
+    "gravity": 650,
     "obstacleSprite": ["obstacle-3", "obstacle-4"],
     "obstacleSequence": [0, 1, 1, 0],
-    "obstacleStartingXOffset": 16,
-    "obstacleStartingYOffset": 0, 
+    "obstacleStartingXOffset": 64,
+    "obstacleStartingYOffset": 0,
+    "obstacleTimeRange": [1200, 2000],
     "obstacleHeight": 24,
-    "weaponSprite": "weapon-placeholder",
+    "weaponSprite": "weapon-2",
     "weaponAngularVelocity": 500,
     "musicName": "chuhapuha"
 }

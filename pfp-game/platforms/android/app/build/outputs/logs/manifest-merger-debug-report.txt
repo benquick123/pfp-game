@@ -9,19 +9,19 @@ INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\ap
 INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
 INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
 	package
-		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:102-123
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:100-119
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 	android:versionName
-		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:74-101
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:72-99
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 	android:hardwareAccelerated
 		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:11-45
 	xmlns:android
-		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:124-182
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:120-178
 	android:versionCode
-		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:46-73
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:46-71
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 supports-screens
@@ -52,7 +52,7 @@ ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\s
 		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:5:18-52
 	android:icon
 		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:5:53-80
-activity#pfp.pfpgame.MainActivity
+activity#pfp.vasko.MainActivity
 ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:6:9-11:20
 	android:screenOrientation
 		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:6:194-231

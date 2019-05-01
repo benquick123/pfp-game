@@ -176,6 +176,7 @@ function EnterLeaderboardName(menu) {
             this.environment.scoreText.setText("");
             initMenuLoad = "gameModeSelectionMenu";
             
+            prevModeInstance = undefined;
             this.scene.scene.restart();
         }
         else {
@@ -260,13 +261,13 @@ function LeaderboardMenu(menu) {
             if (i == this.currPlayerRank-1) {
                 textScore.timer = this.scene.time.addEvent({
                     delay: 500,
-                    callback: currMenu.tintButton,
+                    callback: currModeInstance.menu.tintButton,
                     callbackScope: textScore,
                     repeat: 1000
                 });
                 textName.timer = this.scene.time.addEvent({
                     delay: 500,
-                    callback: currMenu.tintButton,
+                    callback: currModeInstance.menu.tintButton,
                     callbackScope: textName,
                     repeat: 1000
                 })
@@ -309,6 +310,7 @@ function LeaderboardMenu(menu) {
         if (this.backRestart) {
             this.music.stop();
             initMenuLoad = "mainMenu";
+            prevModeInstance = undefined;
             this.scene.scene.restart();
         }
     }
@@ -341,7 +343,6 @@ function GameModeSelectionMenu(menu) {
     this.musicName = "basic";
 
     this.createMenu = function () {
-        console.log(window.localStorage);
         var unlocked = window.localStorage.getItem("arcadeUnlock");
         console.log("unlocked:" + unlocked);
 

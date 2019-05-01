@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package pfp.pfpgame;
+package pfp.vasko;
 
 public final class R {
   public static final class drawable {

@@ -17,7 +17,7 @@
        under the License.
  */
 
-package pfp.pfpgame;
+package pfp.vasko;
 
 import android.os.Bundle;
 import org.apache.cordova.*;

@@ -1,8 +1,8 @@
 {
     "initSpeed": 270,
     "levelDifficultyFactor": 1.08,
-    "levelEndScore": 200,
-    "levelInitScore": 0,
+    "levelEndScore": 1483,
+    "levelInitScore": 983,
     "levelMode": 0,
 
     "playerSprite": "character-2",
@@ -10,7 +10,7 @@
     "enemySprites": [
         "enemy-1"
     ],
-    "enemyTimeRange": [500, 1000],
+    "enemyTimeRange": [500, 900],
     "enemySpeedRange": [1000, 2000],
     "groundFloorImage": "floor-2",
     "groundUnderImage": "underground-2",

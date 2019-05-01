@@ -73,6 +73,8 @@ function Fight(environment) {
         this.healthMeter.strokeRoundedRect(gridHeight*ratio - this.healthMeterWidth - 10, 10, this.healthMeterWidth, this.healthMeterHeight, 3);
 
         this.healthMeter.setDepth(2);
+
+        this.scene.cameras.main.ignore(this.healthMeter);
     }
 
     this.addBoss = function() {
@@ -83,6 +85,10 @@ function Fight(environment) {
         var toX = this.bossStartingPositionX + Math.random()*(this.bossMovementBB[1][0] - this.bossMovementBB[0][0]) + this.bossMovementBB[0][0];
         var toY = Math.random()*(this.bossMovementBB[1][1] - this.bossMovementBB[0][1]) + this.bossMovementBB[0][1];
         this.addBossMovement(toX, toY);
+
+        if (this.enemySpecial) {
+            this.scene.cameras.main.ignore(this.boss);
+        }
 
         this.shootEnemy();
         
@@ -99,7 +105,8 @@ function Fight(environment) {
             y: toY,
             duration: this.bossMovementTime,
             onComplete: function () {
-                if (currModeInstance.boss.betweenMovementTimer) {
+                if (currModeInstance.boss) {
+                    if (currModeInstance.boss.betweenMovementTimer) {
                     currModeInstance.boss.betweenMovementTimer.remove();
                 }
 
@@ -124,6 +131,7 @@ function Fight(environment) {
                         currModeInstance.letGo();
                         changeMode();
                     }
+                }
             }
         });
         this.boss.tween = tween;

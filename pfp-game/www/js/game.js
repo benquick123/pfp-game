@@ -16,7 +16,7 @@ var currModeInstance;
 var prevModeInstance;
 var gameplayMode = STORYMODE;
 
-var collisionsOn = false;
+var collisionsOn = true;
 
 var shaders;
  
@@ -85,6 +85,8 @@ function create() {
     gameplayModes = this.cache.json.get("gameplay").slice(0);
     gameplayModesArcade = this.cache.json.get("gameplayArcade").slice(0);
 
+    shaders = new CustomShaders(this);
+
     var environment = new Environment(this);
     environment.initializeEnv();
 
@@ -101,8 +103,6 @@ function create() {
     Story.prototype = environment;
     Fight.prototype = environment;
 
-    shaders = new CustomShaders(this);
-
     currMode = MODEMENU;
     if (initMenuLoad == "mainMenu") {
         currModeInstance = new MainMenu(menu);
@@ -117,7 +117,8 @@ function create() {
     // cameras
     this.cameras.main.setBounds(0, 0, h, w);     
     this.cameras.main.setBackgroundColor('black');
-    // this.cameras.main.setRenderToTexture(shaders.distortionShader);
+    this.cameras.main.setRenderToTexture(shaders.blackHoleShader);
+    
 }
  
 function update(time, delta) {
@@ -155,19 +156,26 @@ function update(time, delta) {
         currModeInstance.updateGameplayDifficulty();
 
         if (currModeInstance.customBackgroundPipeline) {
-            for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
-                backgroundChildren = currModeInstance.backgrounds[i].getChildren();
-                var stopBackground = false;
-                for (var j = 0; j < backgroundChildren.length; j++) {
-                    if (backgroundChildren[j].frame.texture.key == currModeInstance.backgroundImage[0] && backgroundChildren[j].x <= 0.0) {
-                        stopBackground = true;
+            if (!currModeInstance.customShaderBackgroundsStopped) {
+                for (var i = 0; i < currModeInstance.backgrounds.length; i++) {
+                    backgroundChildren = currModeInstance.backgrounds[i].getChildren();
+                    var stopBackground = false;
+                    for (var j = 0; j < backgroundChildren.length; j++) {
+                        if (backgroundChildren[j].frame.texture.key == currModeInstance.backgroundImage[0] && backgroundChildren[j].x <= 0.0) {
+                            stopBackground = true;
+                        }
                     }
-                }
-                for (var j = 0; j < backgroundChildren.length; j++) {
+                    for (var j = 0; j < backgroundChildren.length; j++) {
+                        if (stopBackground) {
+                            currModeInstance.parallaxScrollFactor = 0.0;
+                            backgroundChildren[j].setVelocityX(0.0);
+                            backgroundChildren[j].setX(0.0);
+                        }
+                    }
+    
                     if (stopBackground) {
-                        currModeInstance.parallaxScrollFactor = 0.0;
-                        backgroundChildren[j].setVelocityX(0.0);
-                        backgroundChildren[j].setX(0.0);
+                        currModeInstance.cameraShakeNext = currModeInstance.score;
+                        currModeInstance.customShaderBackgroundsStopped = true;
                     }
                 }
             }
@@ -177,11 +185,34 @@ function update(time, delta) {
                 shaders.backgroundShader1.setFloat2("resolution", gridHeight*ratio, gridHeight);
             }
 
-            if (shaders.distortionShader) {
-                shaders.distortionShader.setFloat1("time", shaders.shaderTime/1000.0);
-                shaders.distortionShader.setFloat2("resolution", 8.0, 8.0);
+            if (shaders.trailShader) {
+                if (stopBackground)
+                    currModeInstance.scene.cameras.main.setRenderToTexture(shaders.trailShader);
+                // shaders.distortionShader.setFloat1("time", shaders.shaderTime/1000.0);
+                // shaders.distortionShader.setFloat2("resolution", 8.0, 8.0);
+                var r = ((Math.sin(shaders.shadersTime/1000.0) * 5.0) + 5.0 - Math.random()*2.0 + 1.0) * currModeInstance.customBackgroundPipelineFadeIn;
+                if (currModeInstance.customBackgroundPipelineFadeIn < 1.0) {
+                    currModeInstance.customBackgroundPipelineFadeIn += delta/100000.0;
+                }
+                shaders.trailShader.setFloat1('radius', r);
+                shaders.trailShader.setFloat2('dir', 5.0, 0.0);
+                shaders.trailShader.setFloat1("time", shaders.shadersTime/1000.0);
             }
             shaders.shadersTime += delta;
+
+            if (currModeInstance.isCameraShaking) {
+                currModeInstance.scene.cameras.main.shake();
+                if (currModeInstance.score > currModeInstance.cameraShakeNext + currModeInstance.cameraShakeScoreLength) {
+                    currModeInstance.isCameraShaking = false;
+                    currModeInstance.cameraShakeNext = currModeInstance.score + currModeInstance.cameraShakeScoreOffset + (Math.random() * 100 - 50);
+                }
+
+            }
+            else {
+                if (currModeInstance.score > currModeInstance.cameraShakeNext) {
+                    currModeInstance.isCameraShaking = true;
+                }
+            }
 
         }
 
@@ -248,6 +279,33 @@ function update(time, delta) {
         if (currModeInstance.player.body.touching.down && !currModeInstance.player.anims.isPlaying) {
             currModeInstance.player.anims.play("playerwalk");
         }
+    }
+
+    var enemyChildren = [];
+    if (currModeInstance.enemySpecial) {
+        enemyChildren = currModeInstance.enemies.getChildren();
+    }
+    else if (prevModeInstance && prevModeInstance.enemySpecial) {
+        enemyChildren = prevModeInstance.enemies.getChildren();
+    }
+    if (enemyChildren.length > 0 && (currModeInstance.enemySpecial || (prevModeInstance && prevModeInstance.enemySpecial))) {
+        shaders.blackHoleShader.setFloat1("n_holes", enemyChildren.length);
+        var i = 0;
+        for (; i < enemyChildren.length; i++) {
+            shaders.blackHoleShader.setFloat2("hole_coord" + i, enemyChildren[i].x, enemyChildren[i].y);
+        }
+        for (; i < 30; i++) {
+            shaders.blackHoleShader.setFloat2("hole_coord" + i, 0, 0);
+        }
+        shaders.blackHoleReset = false;
+    }
+    else if (!shaders.blackHoleReset) {
+        shaders.blackHoleShader.setFloat1("n_holes", 1);
+        shaders.blackHoleShader.setFloat2("hole_coord0", -1000, 54);
+        for (var i = 1; i < 30; i++) {
+            shaders.blackHoleShader.setFloat2("hole_coord" + i, 0, 0);
+        }
+        shaders.blackHoleReset = true;
     }
 }
 

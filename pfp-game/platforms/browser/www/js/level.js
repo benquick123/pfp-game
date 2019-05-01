@@ -81,6 +81,10 @@ function Level(environment) {
         this.environment.music.stop();
         this.environment.music = this.scene.sound.add(this.musicName, { loop: true });
         this.environment.music.play();
+
+        /* if (this.cameraShakeScoreOffset) {
+            this.cameraShakeNext = this.cameraShakeScoreOffset + this.score;
+        }*/ 
     }
 
     this.letGo = function (listeners) {
@@ -111,7 +115,7 @@ function Level(environment) {
     }
 
     this.addObstacle = function (x, y) {
-        if (!this.isStopped && this.obstacleSprite.length > 0) {
+        if (!this.isStopped && this.obstacleSprite.length > 0 && this.score + 24 < this.levelEndScore) {
             console.log(-this.currSpeed);
             var onOutOfBounds = function(objectA, objectB) {
                 if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
