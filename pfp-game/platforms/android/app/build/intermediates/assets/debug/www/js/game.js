@@ -131,10 +131,15 @@ function update(time, delta) {
             }
         }, currModeInstance);
     }
-    /* else if (prevModeInstance && prevModeInstance.enemies) {
-        console.log("enemies: " + prevModeInstance.enemies.getLength() + prevModeInstance.enemies);
-        console.log(prevModeInstance.enemies.getChildren());
-    }*/ 
+    else if (prevModeInstance && prevModeInstance.enemies) {
+        // console.log("prev enemies: " + prevModeInstance.enemies.getLength());
+        // console.log(prevModeInstance.enemies.getChildren());
+        Phaser.Actions.Call(prevModeInstance.enemies.getChildren(), function (o) {
+            if (o.x < -20 || o.y < -20 || o.x > gridHeight*ratio+40 || o.y > gridHeight+40) {
+                o.destroy();
+            }
+        }, prevModeInstance);
+    }
 
     // keep the floor under the player
     if (currMode != MODEMENU && currMode != MODEGAMEOVER) {

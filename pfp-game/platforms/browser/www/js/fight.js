@@ -39,12 +39,16 @@ function Fight(environment) {
         this.parallaxScrollFactor = this.parallaxScrollFactor == -1 ? modeInstance.parallaxScrollFactor : this.parallaxScrollFactor;
         this.jumpVelocity = this.jumpVelocity == -1 ? modeInstance.jumpVelocity : this.jumpVelocity;
 
-        /* if (modeInstance.enemies) {
+        if (modeInstance.enemies) {
             this.prevEnemies = modeInstance.enemies;
             var prevEnemiesChildren = this.prevEnemies.getChildren();
-            for (var i = 0; i < prevEnemiesChildren.length; i++)
+            for (var i = 0; i < prevEnemiesChildren.length; i++) {
                 prevEnemiesChildren[i].timer.remove();
-        }*/ 
+                this.prevEnemies.remove(prevEnemiesChildren[i]);
+                this.enemies.add(prevEnemiesChildren[i]);
+            }
+        }
+
         if (modeInstance.weaponAngularVelocity && this.weaponAngularVelocity == -1)
             this.weaponAngularVelocity = modeInstance.weaponAngularVelocity;
         if (modeInstance.backgroundIndex)
