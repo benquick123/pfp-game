@@ -98,6 +98,7 @@ function create() {
     LeaderboardMenu.prototype = menu;
     EnterLeaderboardName.prototype = menu;
     CreditsMenu.prototype = menu;
+    ScrollingIntroText.prototype = menu;
 
     Level.prototype = environment;
     Story.prototype = environment;
@@ -123,17 +124,13 @@ function create() {
  
 function update(time, delta) {
     if (currModeInstance.enemies) {
-        // console.log("enemies: " + currModeInstance.enemies.getLength());
-        // console.log(currModeInstance.enemies.getChildren());
         Phaser.Actions.Call(currModeInstance.enemies.getChildren(), function (o) {
-            if (o.x < -20 || o.y < -20 || o.x > gridHeight*ratio+20 || o.y > gridHeight+20) {
+            if (o.x < -20 || o.y < -20 || o.x > gridHeight*ratio+40 || o.y > gridHeight+40) {
                 o.destroy();
             }
         }, currModeInstance);
     }
     else if (prevModeInstance && prevModeInstance.enemies) {
-        // console.log("prev enemies: " + prevModeInstance.enemies.getLength());
-        // console.log(prevModeInstance.enemies.getChildren());
         Phaser.Actions.Call(prevModeInstance.enemies.getChildren(), function (o) {
             if (o.x < -20 || o.y < -20 || o.x > gridHeight*ratio+40 || o.y > gridHeight+40) {
                 o.destroy();
