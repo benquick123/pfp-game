@@ -16,7 +16,7 @@ var currModeInstance;
 var prevModeInstance;
 var gameplayMode = STORYMODE;
 
-var collisionsOn = true;
+var collisionsOn = false;
 
 var shaders;
  
@@ -115,7 +115,7 @@ function create() {
     prevModeInstance = undefined;
     
     // cameras
-    this.cameras.main.setBounds(0, 0, h, w);     
+    this.cameras.main.setBounds(0, 0, w, h);     
     this.cameras.main.setBackgroundColor('black');
     this.cameras.main.setRenderToTexture(shaders.blackHoleShader);
     
@@ -289,6 +289,7 @@ function update(time, delta) {
         enemyChildren = prevModeInstance.enemies.getChildren();
     }
     if (enemyChildren.length > 0 && (currModeInstance.enemySpecial || (prevModeInstance && prevModeInstance.enemySpecial))) {
+        shaders.blackHoleShader.setFloat1("mass", 0.002);
         shaders.blackHoleShader.setFloat1("n_holes", enemyChildren.length);
         var i = 0;
         for (; i < enemyChildren.length; i++) {
@@ -300,10 +301,11 @@ function update(time, delta) {
         shaders.blackHoleReset = false;
     }
     else if (!shaders.blackHoleReset) {
-        shaders.blackHoleShader.setFloat1("n_holes", 1);
-        shaders.blackHoleShader.setFloat2("hole_coord0", -1000, 54);
+        shaders.blackHoleShader.setFloat1("n_holes", 1.0);
+        shaders.blackHoleShader.setFloat1("mass", 0.0);
+        shaders.blackHoleShader.setFloat2("hole_coord0", 0.0, 0.0);
         for (var i = 1; i < 30; i++) {
-            shaders.blackHoleShader.setFloat2("hole_coord" + i, 0, 0);
+            shaders.blackHoleShader.setFloat2("hole_coord" + i, 0.0, 0.0);
         }
         shaders.blackHoleReset = true;
     }
