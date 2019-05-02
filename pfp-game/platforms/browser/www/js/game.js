@@ -123,18 +123,18 @@ function create() {
  
 function update(time, delta) {
     if (currModeInstance.enemies) {
-        console.log("enemies: " + currModeInstance.enemies.getLength());
-        console.log(currModeInstance.enemies.getChildren());
-        Phaser.Actions.Call(currModeInstance.enemies.getChildren(), function (obj) {
-            if (obj.x < -20 || obj.y < -20 || obj.x > gridHeight*ratio+20 || obj.y > gridHeight+20) {
-                obj.destroy();
+        // console.log("enemies: " + currModeInstance.enemies.getLength());
+        // console.log(currModeInstance.enemies.getChildren());
+        Phaser.Actions.Call(currModeInstance.enemies.getChildren(), function (o) {
+            if (o.x < -20 || o.y < -20 || o.x > gridHeight*ratio+20 || o.y > gridHeight+20) {
+                o.destroy();
             }
         }, currModeInstance);
     }
-    else if (prevModeInstance && prevModeInstance.enemies) {
+    /* else if (prevModeInstance && prevModeInstance.enemies) {
         console.log("enemies: " + prevModeInstance.enemies.getLength() + prevModeInstance.enemies);
         console.log(prevModeInstance.enemies.getChildren());
-    }
+    }*/ 
 
     // keep the floor under the player
     if (currMode != MODEMENU && currMode != MODEGAMEOVER) {
