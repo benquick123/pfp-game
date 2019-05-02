@@ -421,14 +421,15 @@ function ScrollingIntroText (menu) {
             align: 1
         });
         this.scrollingText.setX(gridHeight*ratio/2 - this.scrollingText.width/2);
-        this.scrollingText.setY(gridHeight);
+        this.scrollingText.setY(gridHeight-8);
 
         this.scrollingText.setInteractive().on("pointerdown", this.letGo, this);
+        // this.scene.input.on("pointerdown", this.letGo, this);
 
         var timer = this.scene.time.addEvent({
             delay: 1000/60,
             callback: function () {
-                this.setY(this.y - 0.4);
+                this.setY(this.y - 0.5);
                 if (this.y < -this.width + gridHeight/2) {
                     this.timer.remove();
                     currModeInstance.letGo(this.scrollingText);
@@ -442,6 +443,7 @@ function ScrollingIntroText (menu) {
 
     this.letGo = function (button) {
         // console.log("Let go intro text");
+        // this.scene.input.off("pointerdown");
         this.scrollingText.timer.remove();
         this.scrollingText.off("pointerdown");
         this.scrollingText.removeAllListeners();
