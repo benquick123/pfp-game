@@ -4,7 +4,7 @@
     "bossStartingPositionOffset": [192, 0],
     "bossMovementBB": [[-72, -16], [0, 96]],
     "bossEndingPositionOffset": [-112, 36],
-    "bossTimeBetweenMovements": 2000,
+    "bossTimeBetweenMovements": 200,
     "bossMovementTime": 4000,
 
     "enemySprites": ["enemy-0"],
