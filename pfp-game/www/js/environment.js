@@ -235,6 +235,10 @@ function Environment (scene) {
         for (var i = 0; i < groundChildren.length; i++) {
             groundChildren[i].body.setVelocityX(0);
         }
+        
+        if (this.stopBackgroundsAtEnd)
+            stopAll = this.stopBackgroundsAtEnd;
+        
         var toI = stopAll ? this.backgrounds.length : 1;
         for (var i = 0; i < toI; i++) {
             var backgroundChildren = this.backgrounds[i].getChildren();

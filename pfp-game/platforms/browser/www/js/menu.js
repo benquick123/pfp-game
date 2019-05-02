@@ -394,11 +394,59 @@ function GameModeSelectionMenu(menu) {
 
         if (button.text == "Story mode") {
             gameplayMode = STORYMODE;
-            changeMode();
+            prevModeInstance = currModeInstance;
+            currModeInstance = new ScrollingIntroText(prevModeInstance.menu);
+            currModeInstance.createMenu();
+            // changeMode();
         }
         else if (button.text == "Arcade mode") {
             gameplayMode = ARCADEMODE;
             changeMode();
         }
+    }
+}
+
+function ScrollingIntroText (menu) {
+    this.menu = menu;
+
+    this.scrollingText;
+    this.scrollingTextString = "It is the year 2020\n\nThe distant future\n\nCrime and poverty have been eliminated\n\nThe tecnhological singularity has\nPushed humanity into\nA perfect symbiotic cybernetic co-existence\nWith its digital other.\n\nnew micro-prosthetic mechanisms of control emergent\nfrom advanced bio-molecular techniques and media networks.\n\nPharmaco post-pornographic xenofeminist hypercapitalism\n\nIn this brave new world\n\nFour young wanderers in search of meaning are\nOn their way to the dystopian megacity known as “Lyublianaah”,\nWhen their paths intersect.\n\nOr, in so many less words…\n\nThe boys were back in town.";
+
+    this.createMenu = function () {
+        this.scrollingText = this.scene.make.bitmapText({
+            x: 0,
+            y: 0,
+            text: this.scrollingTextString,
+            font: "font12",
+            align: 1
+        });
+        this.scrollingText.setX(gridHeight*ratio/2 - this.scrollingText.width/2);
+        this.scrollingText.setY(gridHeight);
+
+        this.scrollingText.setInteractive().on("pointerdown", this.letGo, this);
+
+        var timer = this.scene.time.addEvent({
+            delay: 1000/60,
+            callback: function () {
+                this.setY(this.y - 0.4);
+                if (this.y < -this.width + gridHeight/2) {
+                    this.timer.remove();
+                    currModeInstance.letGo(this.scrollingText);
+                }
+            },
+            callbackScope: this.scrollingText,
+            loop: true,
+        });
+        this.scrollingText.timer = timer;
+    }
+
+    this.letGo = function (button) {
+        // console.log("Let go intro text");
+        this.scrollingText.timer.remove();
+        this.scrollingText.off("pointerdown");
+        this.scrollingText.removeAllListeners();
+        this.scrollingText.destroy();
+
+        changeMode();
     }
 }
