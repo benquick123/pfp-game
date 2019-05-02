@@ -14,7 +14,7 @@
     "parallaxScrollFactor": -1,
 
     "weaponSprite": "weapon-1",
-    "weaponAngularVelocity": -1,
+    "weaponAngularVelocity": 200,
 
     "hitCountGoal": 5,
 
