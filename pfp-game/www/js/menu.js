@@ -410,7 +410,7 @@ function ScrollingIntroText (menu) {
     this.menu = menu;
 
     this.scrollingText;
-    this.scrollingTextString = "It is the year 2020\n\nThe distant future\n\nCrime and poverty have been eliminated\n\nThe tecnhological singularity has\nPushed humanity into\nA perfect symbiotic cybernetic co-existence\nWith its digital other.\n\nnew micro-prosthetic mechanisms of control emergent\nfrom advanced bio-molecular techniques and media networks.\n\nPharmaco post-pornographic xenofeminist hypercapitalism\n\nIn this brave new world\n\nFour young wanderers in search of meaning are\nOn their way to the dystopian megacity known as “Lyublianaah”,\nWhen their paths intersect.\n\nOr, in so many less words…\n\nThe boys were back in town.";
+    this.scrollingTextString = "\n\n\n\nIt is the year 2020\n\nThe distant future\n\nCrime and poverty have been eliminated\n\nThe tecnhological singularity has\nPushed humanity into\nA perfect symbiotic cybernetic co-existence\nWith its digital other.\n\nnew micro-prosthetic mechanisms of control emergent\nfrom advanced bio-molecular techniques and media networks.\n\nPharmaco post-pornographic xenofeminist hypercapitalism\n\nIn this brave new world\n\nFour young wanderers in search of meaning are\nOn their way to the dystopian megacity known as “Lyublianaah”,\nWhen their paths intersect.\n\nOr, in so many less words…\n\nThe boys were back in town.";
 
     this.createMenu = function () {
         this.scrollingText = this.scene.make.bitmapText({
@@ -421,7 +421,7 @@ function ScrollingIntroText (menu) {
             align: 1
         });
         this.scrollingText.setX(gridHeight*ratio/2 - this.scrollingText.width/2);
-        this.scrollingText.setY(gridHeight-8);
+        this.scrollingText.setY(gridHeight-48);
 
         this.scrollingText.setInteractive().on("pointerdown", this.letGo, this);
         // this.scene.input.on("pointerdown", this.letGo, this);
@@ -430,7 +430,7 @@ function ScrollingIntroText (menu) {
             delay: 1000/60,
             callback: function () {
                 this.setY(this.y - 0.5);
-                if (this.y < -this.width + gridHeight/2) {
+                if (this.y < -this.width) {
                     this.timer.remove();
                     currModeInstance.letGo(this.scrollingText);
                 }
