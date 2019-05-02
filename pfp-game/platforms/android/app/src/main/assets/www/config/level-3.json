@@ -15,7 +15,8 @@
     "backgroundImage": [
         ["background-14",
         "background-15",
-        "background-16"]
+        "background-16"],
+        ["background-18"]
     ],
     "backgroundImageSpawner": ["random"],
     "parallaxScrollFactor": 0.8,

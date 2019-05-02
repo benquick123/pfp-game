@@ -13,6 +13,8 @@
     "speakersDieImmediately": [false, false, false, false, false],
     "playerIsSpeaker0": true,
 
+    "stopBackgroundsAtEnd": true,
+
     "stayingSpeaker": 4,
     "stayingSpeakerPosition": 1,
 

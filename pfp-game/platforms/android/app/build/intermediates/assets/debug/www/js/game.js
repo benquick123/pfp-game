@@ -33,7 +33,7 @@ function preload() {
     for (var i = 0; i < 3; i++) 
         this.load.json("fight-" + i, "config/fight-" + i + ".json");
     
-    for (var i = 0; i < 18; i++)
+    for (var i = 0; i < 19; i++)
         this.load.image("background-" + i, "img/background-" + i + ".png");
     
     this.load.spritesheet("obstacle-0", "img/obstacle-0.png", {frameWidth: 48, frameHeight: 24});
@@ -98,6 +98,7 @@ function create() {
     LeaderboardMenu.prototype = menu;
     EnterLeaderboardName.prototype = menu;
     CreditsMenu.prototype = menu;
+    ScrollingIntroText.prototype = menu;
 
     Level.prototype = environment;
     Story.prototype = environment;
@@ -123,17 +124,13 @@ function create() {
  
 function update(time, delta) {
     if (currModeInstance.enemies) {
-        // console.log("enemies: " + currModeInstance.enemies.getLength());
-        // console.log(currModeInstance.enemies.getChildren());
         Phaser.Actions.Call(currModeInstance.enemies.getChildren(), function (o) {
-            if (o.x < -20 || o.y < -20 || o.x > gridHeight*ratio+20 || o.y > gridHeight+20) {
+            if (o.x < -20 || o.y < -20 || o.x > gridHeight*ratio+40 || o.y > gridHeight+40) {
                 o.destroy();
             }
         }, currModeInstance);
     }
     else if (prevModeInstance && prevModeInstance.enemies) {
-        // console.log("prev enemies: " + prevModeInstance.enemies.getLength());
-        // console.log(prevModeInstance.enemies.getChildren());
         Phaser.Actions.Call(prevModeInstance.enemies.getChildren(), function (o) {
             if (o.x < -20 || o.y < -20 || o.x > gridHeight*ratio+40 || o.y > gridHeight+40) {
                 o.destroy();
