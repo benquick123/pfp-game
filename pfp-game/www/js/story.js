@@ -38,6 +38,10 @@ function Story(environment) {
     this.skipText;
 
     this.initializeStory = function (modeInstance) {
+        var onOutOfBounds = function(objectA, objectB) {
+            objectA.destroy();
+        }
+        
         this.environment.currSpeed = this.speed == -1 ? modeInstance.currSpeed : this.speed;
         this.parallaxScrollFactor = this.parallaxScrollFactor == -1 ? modeInstance.parallaxScrollFactor : this.parallaxScrollFactor;
         this.gravity = this.gravity == -1 ? modeInstance.gravity : this.gravity;
@@ -60,6 +64,9 @@ function Story(environment) {
                                 this.speakerSprites[i], 
                                 this.speakerFlipX[i]);
         }
+
+        this.scene.physics.add.collider(this.player, this.grounds);
+        this.scene.physics.add.overlap(this.grounds, this.leftCollider, onOutOfBounds);
     }
 
     this.createSpeaker = function (xOffset, yOffset, xOffsetEnd, yOffsetEnd, speakerSprite, flipX) {

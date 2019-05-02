@@ -44,6 +44,10 @@ function Level(environment) {
     this.cursors;
 
     this.initializeLevel = function (modeInstance) {
+        var onOutOfBounds = function(objectA, objectB) {
+            objectA.destroy();
+        }
+
         this.addAnimations();
 
         this.obstacles = modeInstance ? modeInstance.obstacles : this.scene.add.group();
@@ -75,12 +79,25 @@ function Level(environment) {
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.scene.input.on("pointerdown", this.onPointerDown, this);
-        // this.scene.input.keyboard.on("keydown-SPACE", function () { this.scene.scene.pause(); }, this);
         this.scoreText.setVisible(true);
 
         this.environment.music.stop();
         this.environment.music = this.scene.sound.add(this.musicName, { loop: true });
         this.environment.music.play();
+
+        this.scene.physics.add.overlap(this.enemies, this.leftCollider, onOutOfBounds);
+        this.scene.physics.add.overlap(this.enemies, this.rightCollider, onOutOfBounds);
+        this.scene.physics.add.overlap(this.enemies, this.bottomCollider, onOutOfBounds);
+
+        this.scene.physics.add.overlap(this.obstacles, this.leftCollider, onOutOfBounds, function(objectA, objectB) { return true; }, this);
+
+        if (collisionsOn) {
+            this.scene.physics.add.collider(this.player, this.obstacles, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
+            this.scene.physics.add.collider(this.player, this.enemies, gameOver);
+        }
+
+        this.scene.physics.add.collider(this.player, this.grounds);
+        this.scene.physics.add.overlap(this.grounds, this.leftCollider, onOutOfBounds);
 
         /* if (this.cameraShakeScoreOffset) {
             this.cameraShakeNext = this.cameraShakeScoreOffset + this.score;
@@ -133,9 +150,6 @@ function Level(environment) {
             obstacle.setFrictionX(0);
             obstacle.setDepth(1);
             obstacle.isJumpedOn = false;
-
-            if (collisionsOn)
-                this.scene.physics.add.collider(this.player, obstacle, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
             
             if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }).length > 0) {
                 this.scene.anims.create({
@@ -159,8 +173,6 @@ function Level(environment) {
             // Add velocity to the obstacle to make it move left
             obstacle.body.setVelocityX(-this.currSpeed);
 
-            this.scene.physics.add.overlap(obstacle, this.leftCollider, onOutOfBounds, function(objectA, objectB) { return true; }, this);
-
             this.obstacles.add(obstacle);
             
             var timer = this.scene.time.addEvent({
@@ -177,10 +189,6 @@ function Level(environment) {
 
     this.addEnemyObject = function (x, y) {
         if (!this.isStopped && this.enemySprites.length > 0 && currMode == MODELEVEL) {
-            var onOutOfBounds = function(objectA, objectB) {
-                objectA.destroy();
-            }
-
             if (this.bossSprite != "") {
                 x = this.boss.x;
                 y = this.boss.y;
@@ -203,12 +211,7 @@ function Level(environment) {
             }
             enemy.setDepth(-4);
             
-            if (collisionsOn)
-                this.scene.physics.add.collider(this.player, enemy, gameOver);
             // this.scene.physics.add.collider(this.grounds, enemy);
-            this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
-            this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
-            this.scene.physics.add.overlap(enemy, this.bottomCollider, onOutOfBounds);
             this.enemies.add(enemy);
     
             var tween = this.scene.tweens.add({
