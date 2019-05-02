@@ -114,13 +114,9 @@ function Environment (scene) {
     }
 
     this.addGroundColumn = function (x, y) {
-        var onOutOfBounds = function(objectA, objectB) {
-            objectA.destroy();
-        }
-
         var floor = this.scene.physics.add.image(x, y, this.groundFloorImage);
-        this.scene.physics.add.collider(this.player, floor);
-        this.scene.physics.add.overlap(floor, this.leftCollider, onOutOfBounds);
+        // this.scene.physics.add.collider(this.player, floor);
+        // this.scene.physics.add.overlap(floor, this.leftCollider, onOutOfBounds);
 
         floor.body.setVelocityX(-this.currSpeed);
         floor.body.setImmovable();
@@ -136,7 +132,7 @@ function Environment (scene) {
 
         for (var i=y+this.groundImageDimension; i<=gridHeight; i+=this.groundImageDimension) {
             var underground = this.scene.physics.add.sprite(x, i, this.groundUnderImage);
-            this.scene.physics.add.overlap(underground, this.leftCollider, onOutOfBounds);
+            // this.scene.physics.add.overlap(underground, this.leftCollider, onOutOfBounds);
 
             underground.body.setVelocityX(-this.currSpeed);
             underground.setDepth(-2);
@@ -212,6 +208,9 @@ function Environment (scene) {
     }
 
     this.initializeEnv = function () {
+        var onOutOfBounds = function(objectA, objectB) {
+            objectA.destroy();
+        }
         this.cameraAdditional = this.scene.cameras.add();
         this.addPlayer(gridHeight*ratio - this.playerXOffset, -this.playerHeight);
         for (var i = 0; i < this.backgroundImage.length; i++) {
@@ -224,6 +223,9 @@ function Environment (scene) {
         this.scoreText.setVisible(false);
         this.scoreText.setFontSize(24);
         this.scoreText.setLetterSpacing(2);
+
+        this.scene.physics.add.collider(this.player, this.grounds);
+        this.scene.physics.add.overlap(this.grounds, this.leftCollider, onOutOfBounds);
     }
 
     this.stopGameplay = function (stopAll) {

@@ -454,12 +454,12 @@ function CustomShaders(scene) {
     this.blackHoleShader = this.scene.game.renderer.getPipeline("blackHoleShader");
     if (this.blackHoleShader == null) {
         var blackHoleCoordDef = "";
-        for (var i = 0; i < 30; i++) {
+        for (var i = 0; i < 15; i++) {
             blackHoleCoordDef += "uniform vec2 hole_coord" + i + ";"
         }
 
         var blackHoleCalculationDef = "";
-        for (var i = 0; i < 30; i++) {
+        for (var i = 0; i < 15; i++) {
             blackHoleCalculationDef += `
                 if (hole_coord` + i + `.x != 0.0 && hole_coord` + i + `.y != 0.0) {
                     vec2 hole_coord = vec2(resolution.x - hole_coord` + i + `.x, hole_coord` + i + `.y);
@@ -534,7 +534,7 @@ function CustomShaders(scene) {
         this.blackHoleShader.setFloat1("mass", 0.0);
         this.blackHoleShader.setFloat2("hole_coord0", 0.0, 0.0);
         this.blackHoleShader.setFloat1("n_holes", 1.0);
-        for (var i = 1; i < 30; i++)
+        for (var i = 1; i < 15; i++)
             this.blackHoleShader.setFloat2("hole_coord" + i, 0.0, 0.0);
     }
 }

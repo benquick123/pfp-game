@@ -122,6 +122,20 @@ function create() {
 }
  
 function update(time, delta) {
+    if (currModeInstance.enemies) {
+        // console.log("enemies: " + currModeInstance.enemies.getLength());
+        // console.log(currModeInstance.enemies.getChildren());
+        Phaser.Actions.Call(currModeInstance.enemies.getChildren(), function (o) {
+            if (o.x < -20 || o.y < -20 || o.x > gridHeight*ratio+20 || o.y > gridHeight+20) {
+                o.destroy();
+            }
+        }, currModeInstance);
+    }
+    /* else if (prevModeInstance && prevModeInstance.enemies) {
+        console.log("enemies: " + prevModeInstance.enemies.getLength() + prevModeInstance.enemies);
+        console.log(prevModeInstance.enemies.getChildren());
+    }*/ 
+
     // keep the floor under the player
     if (currMode != MODEMENU && currMode != MODEGAMEOVER) {
         var groundChildren = currModeInstance.grounds.getChildren();
@@ -213,7 +227,6 @@ function update(time, delta) {
                     currModeInstance.isCameraShaking = true;
                 }
             }
-
         }
 
         // during regular gameplay, keep increasing score.
@@ -295,7 +308,7 @@ function update(time, delta) {
         for (; i < enemyChildren.length; i++) {
             shaders.blackHoleShader.setFloat2("hole_coord" + i, enemyChildren[i].x, enemyChildren[i].y);
         }
-        for (; i < 30; i++) {
+        for (; i < 15; i++) {
             shaders.blackHoleShader.setFloat2("hole_coord" + i, 0, 0);
         }
         shaders.blackHoleReset = false;
@@ -304,7 +317,7 @@ function update(time, delta) {
         shaders.blackHoleShader.setFloat1("n_holes", 1.0);
         shaders.blackHoleShader.setFloat1("mass", 0.0);
         shaders.blackHoleShader.setFloat2("hole_coord0", 0.0, 0.0);
-        for (var i = 1; i < 30; i++) {
+        for (var i = 1; i < 15; i++) {
             shaders.blackHoleShader.setFloat2("hole_coord" + i, 0.0, 0.0);
         }
         shaders.blackHoleReset = true;

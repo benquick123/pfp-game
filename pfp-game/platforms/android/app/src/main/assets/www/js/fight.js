@@ -31,16 +31,20 @@ function Fight(environment) {
     this.healthMeterHeight = 12;
 
     this.initializeFight = function (modeInstance) {
+        var onOutOfBounds = function(objectA, objectB) {
+            objectA.destroy();
+        }
+
         this.environment.currSpeed = this.speed == -1 ? modeInstance.currSpeed : this.speed;
         this.parallaxScrollFactor = this.parallaxScrollFactor == -1 ? modeInstance.parallaxScrollFactor : this.parallaxScrollFactor;
         this.jumpVelocity = this.jumpVelocity == -1 ? modeInstance.jumpVelocity : this.jumpVelocity;
 
-        if (modeInstance.enemies) {
+        /* if (modeInstance.enemies) {
             this.prevEnemies = modeInstance.enemies;
             var prevEnemiesChildren = this.prevEnemies.getChildren();
             for (var i = 0; i < prevEnemiesChildren.length; i++)
                 prevEnemiesChildren[i].timer.remove();
-        }
+        }*/ 
         if (modeInstance.weaponAngularVelocity && this.weaponAngularVelocity == -1)
             this.weaponAngularVelocity = modeInstance.weaponAngularVelocity;
         if (modeInstance.backgroundIndex)
@@ -50,6 +54,15 @@ function Fight(environment) {
 
         this.addBoss();
         this.addHealthMeter(1.0);
+
+        this.scene.physics.add.overlap(this.enemies, this.leftCollider, onOutOfBounds);
+        this.scene.physics.add.overlap(this.enemies, this.rightCollider, onOutOfBounds);
+        this.scene.physics.add.overlap(this.enemies, this.bottomCollider, onOutOfBounds);
+        if (collisionsOn)
+            this.scene.physics.add.collider(this.player, this.enemies, gameOver);
+        
+        this.scene.physics.add.collider(this.player, this.grounds);
+        this.scene.physics.add.overlap(this.grounds, this.leftCollider, onOutOfBounds);
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.scene.input.on("pointerdown", this.onPointerDown, this);
@@ -91,7 +104,6 @@ function Fight(environment) {
         }
 
         this.shootEnemy();
-        
     }
 
     this.addBossMovement = function (toX, toY) {
@@ -107,8 +119,8 @@ function Fight(environment) {
             onComplete: function () {
                 if (currModeInstance.boss) {
                     if (currModeInstance.boss.betweenMovementTimer) {
-                    currModeInstance.boss.betweenMovementTimer.remove();
-                }
+                        currModeInstance.boss.betweenMovementTimer.remove();
+                    }
 
                 if (currModeInstance.hitCount < currModeInstance.hitCountGoal) {
                     var toX = currModeInstance.bossStartingPositionX + Math.random()*(currModeInstance.bossMovementBB[1][0] - currModeInstance.bossMovementBB[0][0]) + currModeInstance.bossMovementBB[0][0];
@@ -137,11 +149,7 @@ function Fight(environment) {
         this.boss.tween = tween;
     }
 
-    this.shootEnemy = function () {
-        var onOutOfBounds = function(objectA, objectB) {
-            objectA.destroy();
-        }
-        
+    this.shootEnemy = function () {       
         var enemy = this.scene.physics.add.sprite(this.boss.x, this.boss.y, this.enemySprites[enemyI]);
         // randomly select first or the second asset name.
         var enemyI = Math.floor(Math.random()*this.enemySprites.length);
@@ -158,12 +166,8 @@ function Fight(environment) {
         enemy.anims.play("bossEnemy" + enemyI + "animation", true);
         enemy.setDepth(-4);
         
-        if (collisionsOn)
-            this.scene.physics.add.collider(this.player, enemy, gameOver);
         // this.scene.physics.add.collider(this.grounds, enemy);
-        this.scene.physics.add.overlap(enemy, this.leftCollider, onOutOfBounds);
-        this.scene.physics.add.overlap(enemy, this.rightCollider, onOutOfBounds);
-        this.scene.physics.add.overlap(enemy, this.bottomCollider, onOutOfBounds);
+        
         this.enemies.add(enemy);
 
         var tween = this.scene.tweens.add({
