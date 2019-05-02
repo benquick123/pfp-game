@@ -33,7 +33,7 @@ function preload() {
     for (var i = 0; i < 3; i++) 
         this.load.json("fight-" + i, "config/fight-" + i + ".json");
     
-    for (var i = 0; i < 18; i++)
+    for (var i = 0; i < 19; i++)
         this.load.image("background-" + i, "img/background-" + i + ".png");
     
     this.load.spritesheet("obstacle-0", "img/obstacle-0.png", {frameWidth: 48, frameHeight: 24});
