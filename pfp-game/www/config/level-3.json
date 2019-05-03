@@ -2,7 +2,7 @@
     "initSpeed": 270,
     "levelDifficultyFactor": 1.08,
     "levelEndScore": 2000,
-    "levelInitScore": 0,
+    "levelInitScore": 1485,
     "levelMode": 0,
 
     "playerSprite": "character-3",
