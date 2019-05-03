@@ -427,7 +427,7 @@ function ScrollingIntroText (menu) {
         // this.scene.input.on("pointerdown", this.letGo, this);
 
         var timer = this.scene.time.addEvent({
-            delay: 1000/60,
+            delay: 1000/30,
             callback: function () {
                 this.setY(this.y - 0.5);
                 if (this.y < -this.width) {
