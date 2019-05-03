@@ -3,9 +3,10 @@
     "levelDifficultyFactor": 1.08,
     "levelEndScore": 100000000000,
     "levelMode": 0,
-    "levelInitScore": 2000,
+    "levelInitScore": 500,
 
     "playerSprite": "character-4",
+    "playerHeight": 64,
     "playerAnimationFPS": 12,
     "enemySprites": [
         "enemy-2",

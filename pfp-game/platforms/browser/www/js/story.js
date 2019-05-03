@@ -27,6 +27,7 @@ function Story(environment) {
     this.speakersDead = 0;
     this.stayingSpeaker = 0;
     this.stayingSpeakerPosition = 0;
+    this.stayingSpeakerHeight = 48;
     this.speakersDieImmediately = [];
     this.speakersImmediateDeathDirection = [];
     this.playerIsSpeaker0 = true;
@@ -242,7 +243,7 @@ function Story(environment) {
                 var finalPlayerPositionX = this.player.x;
 
                 this.environment.playerSprite = this.speakerSprites[i];
-                this.environment.addPlayer(speakerChildren[i-this.playerIsSpeaker0].x, speakerChildren[i-this.playerIsSpeaker0].y);
+                this.environment.addPlayer(speakerChildren[i-this.playerIsSpeaker0].x, speakerChildren[i-this.playerIsSpeaker0].y + this.player.height - this.stayingSpeakerHeight);
 
                 speakerChildren[i-this.playerIsSpeaker0].destroy();
                 
