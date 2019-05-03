@@ -1,11 +1,11 @@
 {
     "dialogues": [
         [0, "G..Grand Wizards?"],
-        [1, "A cloak of shame covers this man."],
-        [1, "And only supreme light will wash his body clean"],
+        [1, "A cloak of shame\ncovers this man."],
+        [1, "And only supreme light\nwill wash his body clean."],
         [0, "..."],
-        [1, "You shall find nothing but sweaty devestated loneliness here..."],
-        [1, "And a thousand judging eyes gazing back at you..."]
+        [1, "You shall find nothing\nbut sweaty devestated\nloneliness here..."],
+        [1, "And a thousand \nudging eyes gazing\nback at you..."]
     ],
     "nSpeakers": 2,
     "speakersStartingPositionsOffsets": [[0, 0], [224, 0]],

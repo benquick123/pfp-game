@@ -410,11 +410,7 @@ function ScrollingIntroText (menu) {
     this.menu = menu;
 
     this.scrollingText;
-<<<<<<< HEAD
     this.scrollingTextString = "It is the year 2020\n\nThe distant future\n\nCrime and poverty have been eliminated\n\nThe tecnhological singularity has\npushed humanity into\na perfect symbiotic cybernetic\nco-existence with its digital other.\n\nNew micro-prosthetic mechanisms\nof control emergent\nfrom advanced bio-molecular techniques\nand media networks.\n\nPharmaco post-pornographic xenofeminist\nhypercapitalism\n\nIn this brave new world\n\nFour young wanderers\nin search of meaning are\non their way to the dystopian megacity\nknown as “Lyublianaah”,\nWhen their paths intersect.\n\nOr, in so many less words…\n\n\n\n\n\nThe boys were back in town.";
-=======
-    this.scrollingTextString = "\n\n\n\nIt is the year 2020\n\nThe distant future\n\nCrime and poverty have been eliminated\n\nThe tecnhological singularity has\nPushed humanity into\nA perfect symbiotic cybernetic co-existence\nWith its digital other.\n\nnew micro-prosthetic mechanisms of control emergent\nfrom advanced bio-molecular techniques and media networks.\n\nPharmaco post-pornographic xenofeminist hypercapitalism\n\nIn this brave new world\n\nFour young wanderers in search of meaning are\nOn their way to the dystopian megacity known as “Lyublianaah”,\nWhen their paths intersect.\n\nOr, in so many less words…\n\nThe boys were back in town.";
->>>>>>> 202d3aeb1751f4d84daee5552ecd45065a1d8357
 
     this.createMenu = function () {
         this.scrollingText = this.scene.make.bitmapText({
