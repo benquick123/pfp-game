@@ -5,7 +5,7 @@
     "levelMode": 0,
     "levelInitScore": 2000,
 
-    "playerSprite": "character-placeholder",
+    "playerSprite": "character-4",
     "playerAnimationFPS": 12,
     "enemySprites": [
         "enemy-2",

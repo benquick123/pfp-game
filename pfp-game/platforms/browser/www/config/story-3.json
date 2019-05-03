@@ -1,11 +1,11 @@
 {
     "dialogues": [
         [0, "Ooh, a fluffy panda."],
-        [1, "Koala!"],
+        [1, "Koala."],
         [0, "Whatever."],
         [1, "We were just floatin by,\ngathering some\nEucalyptus cloves..."],
-        [1, "when we heard that\nglourious SOUND, man!"],
-        [0, "Pshyaa, thx brah!"],
+        [1, "when we heard that\nglourious SOUND, man."],
+        [0, "Pshyaa, thx brah."],
         [1, "We are the\nVoice of the Australiabear."],
         [1, "We watch over this train\nin search of the worthy\nand the RIGHTEOUS Ones\non their way to\nLyublianahh."],
         [1, "We seek to aid you by\nsharing in these magical\ncloves that we gather..."],
