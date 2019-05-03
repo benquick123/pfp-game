@@ -408,9 +408,10 @@ function GameModeSelectionMenu(menu) {
 
 function ScrollingIntroText (menu) {
     this.menu = menu;
+    this.scrollSpeed = 0.6;
 
     this.scrollingText;
-    this.scrollingTextString = "It is the year 2020\n\nThe distant future\n\nCrime and poverty have been eliminated\n\nThe tecnhological singularity has\npushed humanity into\na perfect symbiotic cybernetic\nco-existence with its digital other.\n\nNew micro-prosthetic mechanisms\nof control emergent\nfrom advanced bio-molecular techniques\nand media networks.\n\nPharmaco post-pornographic xenofeminist\nhypercapitalism\n\nIn this brave new world\n\nFour young wanderers\nin search of meaning are\non their way to the dystopian megacity\nknown as “Lyublianaah”,\nWhen their paths intersect.\n\nOr, in so many less words…\n\n\n\n\n\nThe boys were back in town.";
+    this.scrollingTextString = "It is the year 2020\n\nThe distant future\n\nCrime and poverty have been eliminated\n\nThe tecnhological singularity has\npushed humanity into\na perfect symbiotic cybernetic\nco-existence with its digital other.\n\nNew micro-prosthetic mechanisms\nof control emergent\nfrom advanced bio-molecular techniques\nand media networks.\n\nPharmaco post-pornographic xenofeminist\nhypercapitalism\n\nIn this brave new world\n\nFour young wanderers\nin search of meaning are\non their way to the dystopian megacity\nknown as “Lyublianaah”,\nWhen their paths intersect.\n\nOr, in so many less words…\n\n\nThe boys were back in town.";
 
     this.createMenu = function () {
         this.scrollingText = this.scene.make.bitmapText({
@@ -421,16 +422,19 @@ function ScrollingIntroText (menu) {
             align: 1
         });
         this.scrollingText.setX(gridHeight*ratio/2 - this.scrollingText.width/2);
-        this.scrollingText.setY(gridHeight-48);
+        this.scrollingText.setY(gridHeight);
+
+        this.scrollingText.scrollSpeed = this.scrollSpeed;
 
         this.scrollingText.setInteractive().on("pointerdown", this.letGo, this);
+
         // this.scene.input.on("pointerdown", this.letGo, this);
 
         var timer = this.scene.time.addEvent({
             delay: 1000/30,
             callback: function () {
-                this.setY(this.y - 0.5);
-                if (this.y < -this.width) {
+                this.setY(this.y - this.scrollSpeed);
+                if (this.y < -this.height + 24) {
                     this.timer.remove();
                     currModeInstance.letGo(this.scrollingText);
                 }
