@@ -35,8 +35,8 @@
     "bossMovementXOffset": 8,
     "bossStartingPositionOffset": [54, 0],
     "bossEndingPositionOffset": [54, 0],
-	"bossTimeBetweenMovements": 0,
-    "bossMovementTime": 3000,
+	"bossTimeBetweenMovements": 1000,
+    "bossMovementTime": 1000,
 
     "parallaxScrollFactor": 0.8,
     "gravity": 650,

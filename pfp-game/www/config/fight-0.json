@@ -4,8 +4,8 @@
     "bossStartingPositionOffset": [24, 0],
     "bossMovementBB": [[-72, -16], [0, 96]],
     "bossEndingPositionOffset": [-96, 56],
-    "bossTimeBetweenMovements": 2000,
-    "bossMovementTime": 4000,
+    "bossTimeBetweenMovements": 1000,
+    "bossMovementTime": 2500,
 
     "enemySprites": ["enemy-0"],
     "enemySpecial": true,
@@ -16,7 +16,7 @@
     "weaponSprite": "weapon-0",
     "weaponAngularVelocity": -1,
 
-    "hitCountGoal": 3,
+    "hitCountGoal": 10,
 
     "jumpVelocity": -1,
 
