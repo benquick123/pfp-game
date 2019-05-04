@@ -11,17 +11,18 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
-        w = document.documentElement.clientWidth
-        h = document.documentElement.clientHeight
-        ratio = w / h
+        w = document.documentElement.clientWidth;
+        h = document.documentElement.clientHeight;
+        ratio = w / h;
         var config = {
             type: Phaser.AUTO,
             crisp: true,
             pixelArt: true,
+            parent: "main-game-window",
             scale: {
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH,
-                width: gridHeight * ratio,
+                width: Math.floor(gridHeight * ratio),
                 height: gridHeight
             },
             physics: {
@@ -39,6 +40,13 @@ var app = {
             }
         };
         game = new Phaser.Game(config);
+
+        $("#highscore-text").css("height", 12*h / gridHeight + "px");
+        $("#highscore-text").css("width", 112*h / gridHeight + "px");
+        $("#highscore-text").css("border", h / gridHeight + "px solid black");
+        $("#highscore-text").css("padding", 2*h / gridHeight + "px");
+        $("#highscore-text").css("font-size", 12*h / gridHeight + "px");
+        $("#highscore-text").attr("placeholder", "@instagram_handle");
     }
 };
 

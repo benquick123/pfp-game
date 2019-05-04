@@ -1,0 +1,37 @@
+{
+    "initSpeed": 235,
+    "levelDifficultyFactor": 1.11,
+    "levelEndScore": 983,
+    "levelInitScore": 500,
+    "levelMode": 1,
+
+    "playerSprite": "character-1",
+    "playerAnimationFPS": 12,
+    "enemySprites": [],
+    "groundFloorImage": "floor-1",
+    "groundUnderImage": "underground-1",
+    "backgroundImage": [
+        ["background-8"],
+        ["background-0",
+        "background-1",
+        "background-2",
+        "background-3",
+        "background-4",
+        "background-5",
+        "background-6",
+        "background-7"]
+    ],
+    "backgroundImageSpawner": ["random", "sequential"],
+    "backgroundTrigger": "background-8",
+    "parallaxScrollFactor": 0.9,
+    "gravity": 800,
+    "obstacleSprite": ["obstacle-1", "obstacle-2"],
+    "obstacleSequence": [0, 1, 1, 0],
+    "obstacleStartingXOffset": 64,
+    "obstacleTimeRange": [1500, 2500],
+    "obstacleStartingYOffset": -0, 
+    "obstacleHeight": 22,
+    "weaponSprite": "",
+    "weaponAngularVelocity": 500,
+    "musicName": "bff"
+}

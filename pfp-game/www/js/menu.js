@@ -30,6 +30,7 @@ function MainMenu(menu) {
     this.menu = menu;
     this.menuOptionsText = ["New game", "Leaderboard", "Feed VASKO", "Credits"];
     this.menuOptionsTextSize = 24;
+    this.appVersion;
     this.menuOptions;
     this.musicName = "basic";
 
@@ -55,6 +56,13 @@ function MainMenu(menu) {
             this.menu.environment.music = this.scene.sound.add(this.musicName, { loop: true });
             this.menu.environment.music.play();
         }
+
+        this.appVersion = this.scene.make.bitmapText({
+            x: 2,
+            y: 0,
+            text: "0.9.0",
+            font: "font12"
+        })
     }
 
     /* this.onButtonClick = function (pointer, localX, localY, event) {
@@ -97,13 +105,62 @@ function MainMenu(menu) {
         }
 
         else if (button.text == this.menuOptionsText[3]) {
-            console.log(button.text);
+            prevModeInstance = currModeInstance;
+            currModeInstance = new CreditsMenu(prevModeInstance.menu);
+            currModeInstance.createMenu();
         }
     }
 } 
 
-function CreditsMenu() {
+function CreditsMenu(menu) {
+    this.menu = menu;
+    this.scrollSpeed = 0.6;
 
+    this.creditsText;
+    this.creditsTextString = "\n\n\nCredits\n\nCredits\n\nCredits\n\nCredits\nCredits\nCredits\nCredits\n\nCredits\nCredits\nCredits\nCredits\n\nCredits\nCredits\n\nCredits\n\nCredits\nCredits\nCredits\nCredits\nCredits\n\nCredits\n\n\n\n\nCredits\n\n\n";
+
+    this.createMenu = function () {
+        this.creditsText = this.scene.make.bitmapText({
+            x: 0,
+            y: 0,
+            text: this.creditsTextString,
+            font: "font12",
+            align: 1
+        });
+        this.creditsText.setX(gridHeight*ratio/2 - this.creditsText.width/2);
+        this.creditsText.setY(gridHeight-40);
+
+        this.creditsText.scrollSpeed = this.scrollSpeed;
+
+        this.creditsText.setInteractive().on("pointerdown", this.letGo, this);
+
+        // this.scene.input.on("pointerdown", this.letGo, this);
+
+        var timer = this.scene.time.addEvent({
+            delay: 1000/30,
+            callback: function () {
+                this.setY(this.y - this.scrollSpeed);
+                if (this.y < -this.height + 64) {
+                    this.timer.remove();
+                    currModeInstance.letGo(this);
+                }
+            },
+            callbackScope: this.creditsText,
+            loop: true,
+        });
+        this.creditsText.timer = timer;
+    }
+
+    this.letGo = function (button) {
+        this.creditsText.timer.remove();
+        this.creditsText.off("pointerdown");
+        this.creditsText.removeAllListeners();
+        this.creditsText.destroy();
+
+        prevModeInstance = currModeInstance;
+        currModeInstance = new MainMenu(prevModeInstance.menu);
+        currModeInstance.createMenu(gridHeight*ratio/2, gridHeight/2);
+    }
 }
 
 function EnterLeaderboardName(menu) {
@@ -436,7 +493,7 @@ function ScrollingIntroText (menu) {
                 this.setY(this.y - this.scrollSpeed);
                 if (this.y < -this.height + 64) {
                     this.timer.remove();
-                    currModeInstance.letGo(this.scrollingText);
+                    currModeInstance.letGo(this);
                 }
             },
             callbackScope: this.scrollingText,

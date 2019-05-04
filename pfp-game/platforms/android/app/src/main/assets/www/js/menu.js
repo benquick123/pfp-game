@@ -97,13 +97,62 @@ function MainMenu(menu) {
         }
 
         else if (button.text == this.menuOptionsText[3]) {
-            console.log(button.text);
+            prevModeInstance = currModeInstance;
+            currModeInstance = new CreditsMenu(prevModeInstance.menu);
+            currModeInstance.createMenu();
         }
     }
 } 
 
-function CreditsMenu() {
+function CreditsMenu(menu) {
+    this.menu = menu;
+    this.scrollSpeed = 0.6;
 
+    this.creditsText;
+    this.creditsTextString = "\n\n\nCredits\n\nCredits\n\nCredits\n\nCredits\nCredits\nCredits\nCredits\n\nCredits\nCredits\nCredits\nCredits\n\nCredits\nCredits\n\nCredits\n\nCredits\nCredits\nCredits\nCredits\nCredits\n\nCredits\n\n\n\n\nCredits\n\n\n";
+
+    this.createMenu = function () {
+        this.creditsText = this.scene.make.bitmapText({
+            x: 0,
+            y: 0,
+            text: this.creditsTextString,
+            font: "font12",
+            align: 1
+        });
+        this.creditsText.setX(gridHeight*ratio/2 - this.creditsText.width/2);
+        this.creditsText.setY(gridHeight-40);
+
+        this.creditsText.scrollSpeed = this.scrollSpeed;
+
+        this.creditsText.setInteractive().on("pointerdown", this.letGo, this);
+
+        // this.scene.input.on("pointerdown", this.letGo, this);
+
+        var timer = this.scene.time.addEvent({
+            delay: 1000/30,
+            callback: function () {
+                this.setY(this.y - this.scrollSpeed);
+                if (this.y < -this.height + 64) {
+                    this.timer.remove();
+                    currModeInstance.letGo(this);
+                }
+            },
+            callbackScope: this.creditsText,
+            loop: true,
+        });
+        this.creditsText.timer = timer;
+    }
+
+    this.letGo = function (button) {
+        this.creditsText.timer.remove();
+        this.creditsText.off("pointerdown");
+        this.creditsText.removeAllListeners();
+        this.creditsText.destroy();
+
+        prevModeInstance = currModeInstance;
+        currModeInstance = new MainMenu(prevModeInstance.menu);
+        currModeInstance.createMenu(gridHeight*ratio/2, gridHeight/2);
+    }
 }
 
 function EnterLeaderboardName(menu) {
@@ -408,9 +457,10 @@ function GameModeSelectionMenu(menu) {
 
 function ScrollingIntroText (menu) {
     this.menu = menu;
+    this.scrollSpeed = 0.6;
 
     this.scrollingText;
-    this.scrollingTextString = "It is the year 2020\n\nThe distant future\n\nCrime and poverty have been eliminated\n\nThe tecnhological singularity has\nPushed humanity into\nA perfect symbiotic cybernetic co-existence\nWith its digital other.\n\nnew micro-prosthetic mechanisms of control emergent\nfrom advanced bio-molecular techniques and media networks.\n\nPharmaco post-pornographic xenofeminist hypercapitalism\n\nIn this brave new world\n\nFour young wanderers in search of meaning are\nOn their way to the dystopian megacity known as “Lyublianaah”,\nWhen their paths intersect.\n\nOr, in so many less words…\n\nThe boys were back in town.";
+    this.scrollingTextString = "\n\n\nIt is the year 2020\n\nThe distant future\n\nCrime and poverty have been eliminated\n\nThe tecnhological singularity has\npushed humanity into\na perfect symbiotic cybernetic\nco-existence with its digital other.\n\nNew micro-prosthetic mechanisms\nof control emergent\nfrom advanced bio-molecular techniques\nand media networks.\n\nPharmaco post-pornographic xenofeminist\nhypercapitalism\n\nIn this brave new world\n\nFour young wanderers\nin search of meaning are\non their way to the dystopian megacity\nknown as “Lyublianaah”,\nWhen their paths intersect.\n\nOr, in so many less words…\n\n\n\n\nThe boys were back in town.\n\n\n";
 
     this.createMenu = function () {
         this.scrollingText = this.scene.make.bitmapText({
@@ -421,18 +471,21 @@ function ScrollingIntroText (menu) {
             align: 1
         });
         this.scrollingText.setX(gridHeight*ratio/2 - this.scrollingText.width/2);
-        this.scrollingText.setY(gridHeight-8);
+        this.scrollingText.setY(gridHeight-40);
+
+        this.scrollingText.scrollSpeed = this.scrollSpeed;
 
         this.scrollingText.setInteractive().on("pointerdown", this.letGo, this);
+
         // this.scene.input.on("pointerdown", this.letGo, this);
 
         var timer = this.scene.time.addEvent({
-            delay: 1000/60,
+            delay: 1000/30,
             callback: function () {
-                this.setY(this.y - 0.5);
-                if (this.y < -this.width + gridHeight/2) {
+                this.setY(this.y - this.scrollSpeed);
+                if (this.y < -this.height + 64) {
                     this.timer.remove();
-                    currModeInstance.letGo(this.scrollingText);
+                    currModeInstance.letGo(this);
                 }
             },
             callbackScope: this.scrollingText,

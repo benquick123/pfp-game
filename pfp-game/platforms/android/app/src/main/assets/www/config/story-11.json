@@ -6,9 +6,9 @@
         [3, "jaz sem nikolaj"]
     ],
     "nSpeakers": 5,
-    "speakersStartingPositionsOffsets": [[0, 0], [224, 28], [224, 28], [224, 28], [224, 28]],
+    "speakersStartingPositionsOffsets": [[0, 0], [224, 28], [224, 28], [224, 28], [224, 20]],
     "speakersEndingPositionsOffsets": [[0, 0], [-336, 0], [-304, 0], [-272, 0], [-208, 0]],
-    "speakerSprites": ["character-3", "character-0", "character-1", "character-2", "character-placeholder"],
+    "speakerSprites": ["character-3", "character-0", "character-1", "character-2", "character-4"],
     "speakerFlipX": [false, true, true, true, true],
     "speakersDieImmediately": [false, false, false, false, false],
     "playerIsSpeaker0": true,
@@ -17,6 +17,7 @@
 
     "stayingSpeaker": 4,
     "stayingSpeakerPosition": 1,
+    "stayingSpeakerHeight": 64,
 
     "speed": -1,
     "parallaxScrollFactor": -1,
