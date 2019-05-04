@@ -243,7 +243,7 @@ function Story(environment) {
                 var finalPlayerPositionX = this.player.x;
 
                 this.environment.playerSprite = this.speakerSprites[i];
-                this.environment.addPlayer(speakerChildren[i-this.playerIsSpeaker0].x, speakerChildren[i-this.playerIsSpeaker0].y + this.player.height - this.stayingSpeakerHeight);
+                this.environment.addPlayer(speakerChildren[i-this.playerIsSpeaker0].x, speakerChildren[i-this.playerIsSpeaker0].y);
 
                 speakerChildren[i-this.playerIsSpeaker0].destroy();
                 

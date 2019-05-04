@@ -1,7 +1,7 @@
 {
     "initSpeed": 270,
     "levelDifficultyFactor": 1.08,
-    "levelEndScore": 500,
+    "levelEndScore": 200,
     "levelInitScore": 0,
     "levelMode": 0,
 
