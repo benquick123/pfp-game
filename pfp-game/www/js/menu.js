@@ -79,6 +79,8 @@ function MainMenu(menu) {
 
     this.letGo = function (button) {
         var menuChildren = this.menuOptions.getChildren();
+        this.appVersion.destroy();
+        
         for (var i=0; i < menuChildren.length; i++) {
             menuChildren[i].off("pointerdown", NaN);
             menuChildren[i].removeAllListeners();
