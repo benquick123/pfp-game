@@ -40,7 +40,7 @@ function preload() {
     for (var i = 1; i < 5; i++)
         this.load.image("obstacle-" + i, "img/obstacle-" + i + ".png"); 
 
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 4; i++) {
         this.load.spritesheet("character-" + i, "img/character-" + i + ".png", {frameWidth: 24, frameHeight: 48});
         this.load.spritesheet("character-" + i + "-walk", "img/character-" + i + "-walk.png", {frameWidth: 24, frameHeight: 48});
         this.load.spritesheet("character-" + i + "-jump", "img/character-" + i + "-jump.png", {frameWidth: 24, frameHeight: 48});
@@ -48,6 +48,9 @@ function preload() {
         this.load.image("floor-" + i, "img/floor-" + i + ".png");
         this.load.image("underground-" + i, "img/underground-" + i + ".png");
     }
+    this.load.spritesheet("character-4", "img/character-4.png", {frameWidth: 32, frameHeight: 64});
+    this.load.spritesheet("character-4-walk", "img/character-4-walk.png", {frameWidth: 32, frameHeight: 64});
+    this.load.spritesheet("character-4-jump", "img/character-4-jump.png", {frameWidth: 32, frameHeight: 64});
 
     for (var i = 0; i < 4; i++) {
         this.load.spritesheet("helper-" + i, "img/helper-" + i + ".png", {frameWidth: 48, frameHeight: 64});

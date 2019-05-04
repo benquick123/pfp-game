@@ -27,6 +27,7 @@ function Story(environment) {
     this.speakersDead = 0;
     this.stayingSpeaker = 0;
     this.stayingSpeakerPosition = 0;
+    this.stayingSpeakerHeight = 48;
     this.speakersDieImmediately = [];
     this.speakersImmediateDeathDirection = [];
     this.playerIsSpeaker0 = true;

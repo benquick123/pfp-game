@@ -1,9 +1,9 @@
 {
     "dialogues": [
-        [1, "Your alligeance has been recognized."],
-        [1, "Your purity has been witnessed."],
-        [1, "Panini bonino frke za blokom."],
-        [1, "O fak zimbabwe, banana banana Pička ti materna."],
+        [1, "Your alligeance\nhas been recognized."],
+        [1, "Your purity\nhas been witnessed."],
+        [1, "Panini bonino\nfrke za blokom."],
+        [1, "O fak zimbabwe,\nbanana banana\npicka ti materna."],
         [0, "Pardon?"],
         [1, "Zen, baby, zen..."],
         [1, "It’s only a game."],
