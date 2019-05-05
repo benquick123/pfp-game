@@ -119,7 +119,7 @@ function CreditsMenu(menu) {
     this.scrollSpeed = 0.6;
 
     this.creditsText;
-    this.creditsTextString = "\n\n\nDesign\nNina Kosednar\n\n\nCloud Soulutions Engineering\nBlaz Blokar\n\n\nEVERYTHING ELSE\nYOURS TRULY\npersons from porlock\n\n:^)";
+    this.creditsTextString = "\n\n\nDesign\nNina Kosednar\n\n\nCloud Soulutions Engineering\nBlaz Blokar\n\n\nEVERYTHING ELSE\n\nYours trully,\npersons from porlock\n\nd:^)";
 
     this.createMenu = function () {
         this.creditsText = this.scene.make.bitmapText({
