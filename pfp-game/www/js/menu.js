@@ -79,6 +79,8 @@ function MainMenu(menu) {
 
     this.letGo = function (button) {
         var menuChildren = this.menuOptions.getChildren();
+        this.appVersion.destroy();
+
         for (var i=0; i < menuChildren.length; i++) {
             menuChildren[i].off("pointerdown", NaN);
             menuChildren[i].removeAllListeners();
@@ -101,7 +103,7 @@ function MainMenu(menu) {
             prevModeInstance = currModeInstance;
             currModeInstance = new MainMenu(prevModeInstance.menu);
             currModeInstance.createMenu(gridHeight*ratio/2, gridHeight/2);
-            window.open("https://www.paypal.me/personsfromporlock", "_system");
+            window.open("https://paypal.me/vasko420blazeit69", "_system");
         }
 
         else if (button.text == this.menuOptionsText[3]) {
