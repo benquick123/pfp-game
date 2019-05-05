@@ -2,7 +2,7 @@
 
 platform :ios, '9.0'
 
-target 'C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\ios\VASKO' do
-	project 'C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\ios\VASKO.xcodeproj'
+target 'VASKO' do
+	project 'VASKO.xcodeproj'
 
 end

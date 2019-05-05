@@ -30,6 +30,7 @@ function MainMenu(menu) {
     this.menu = menu;
     this.menuOptionsText = ["New game", "Leaderboard", "Feed VASKO", "Credits"];
     this.menuOptionsTextSize = 24;
+    this.appVersion;
     this.menuOptions;
     this.musicName = "basic";
 
@@ -55,6 +56,13 @@ function MainMenu(menu) {
             this.menu.environment.music = this.scene.sound.add(this.musicName, { loop: true });
             this.menu.environment.music.play();
         }
+
+        this.appVersion = this.scene.make.bitmapText({
+            x: 2,
+            y: 0,
+            text: "0.9.0",
+            font: "font12"
+        })
     }
 
     /* this.onButtonClick = function (pointer, localX, localY, event) {
