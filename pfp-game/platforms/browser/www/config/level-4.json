@@ -3,7 +3,7 @@
     "levelDifficultyFactor": 1.08,
     "levelEndScore": 100000000000,
     "levelMode": 0,
-    "levelInitScore": 100,
+    "levelInitScore": 2000,
 
     "playerSprite": "character-4",
     "playerHeight": 64,
