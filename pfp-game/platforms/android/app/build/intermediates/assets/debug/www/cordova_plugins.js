@@ -190,11 +190,12 @@ module.exports = [
     ]
   },
   {
-    "id": "cordova-plugin-appversion.RareloopAppVersion",
-    "file": "plugins/cordova-plugin-appversion/www/app-version.js",
-    "pluginId": "cordova-plugin-appversion",
+    "id": "cordova-plugin-inappbrowser.inappbrowser",
+    "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+    "pluginId": "cordova-plugin-inappbrowser",
     "clobbers": [
-      "AppVersion"
+      "cordova.InAppBrowser.open",
+      "window.open"
     ]
   }
 ];
@@ -204,7 +205,7 @@ module.exports.metadata =
   "cordova-plugin-whitelist": "1.3.3",
   "cordova-plugin-file": "6.0.1",
   "cordova-plugin-media": "5.0.2",
-  "cordova-plugin-appversion": "1.0.0"
+  "cordova-plugin-inappbrowser": "3.0.0"
 };
 // BOTTOM OF METADATA
 });
