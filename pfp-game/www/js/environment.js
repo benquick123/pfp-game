@@ -212,6 +212,7 @@ function Environment (scene) {
             objectA.destroy();
         }
         this.cameraAdditional = this.scene.cameras.add();
+        this.cameraAdditional.setRoundPixels(true);
         this.addPlayer(gridHeight*ratio - this.playerXOffset, -this.playerHeight);
         for (var i = 0; i < this.backgroundImage.length; i++) {
             this.addBackground(i);
