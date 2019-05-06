@@ -404,6 +404,7 @@ function GameModeSelectionMenu(menu) {
     this.createMenu = function () {
         var unlocked = window.localStorage.getItem("arcadeUnlock");
         console.log("unlocked:" + unlocked);
+        this.arcadeUnlocked = unlocked;
 
         this.storyModeText = this.scene.make.bitmapText({
             x: 0,
@@ -433,7 +434,7 @@ function GameModeSelectionMenu(menu) {
             this.arcadeModeText.setInteractive().on("pointerdown", this.onButtonClick, this.arcadeModeText);
         }
         else {
-            this.arcadeModeText.setAlpha(0.6);
+            this.arcadeModeText.setAlpha(0.3);
         }
 
         if (this.menu.environment.music == undefined) {

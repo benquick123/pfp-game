@@ -48,13 +48,6 @@ function Level(environment) {
             objectA.destroy();
         }
 
-        var onOutOfBoundsObstacle = function(objectA, objectB) {
-            if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
-                gameOver();
-            }
-            objectA.destroy();
-        }
-
         this.addAnimations();
 
         this.obstacles = modeInstance ? modeInstance.obstacles : this.scene.add.group();
@@ -96,7 +89,7 @@ function Level(environment) {
         this.scene.physics.add.overlap(this.enemies, this.rightCollider, onOutOfBounds);
         this.scene.physics.add.overlap(this.enemies, this.bottomCollider, onOutOfBounds);
 
-        this.scene.physics.add.overlap(this.obstacles, this.leftCollider, onOutOfBoundsObstacle, function(objectA, objectB) { return true; }, this);
+        this.scene.physics.add.overlap(this.obstacles, this.leftCollider, onOutOfBounds, function(objectA, objectB) { return true; }, this);
 
         if (collisionsOn) {
             this.scene.physics.add.collider(this.player, this.obstacles, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
@@ -107,7 +100,85 @@ function Level(environment) {
         this.scene.physics.add.overlap(this.grounds, this.leftCollider, onOutOfBounds);
 
         /* if (this.cameraShakeScoreOffset) {
-            this.cameraShakeNext = this.camer              args: [gridHeight*ratio + this.obstacleStartingXOffset, this.groundYOffset-this.groundImageDimension/2-this.obstacleHeight/2 + this.obstacleStartingYOffset],
+            this.cameraShakeNext = this.cameraShakeScoreOffset + this.score;
+        }*/ 
+    }
+
+    this.letGo = function (listeners) {
+        if (listeners) {
+            this.cursors = undefined;
+            this.scene.input.off("pointerdown");
+        }
+
+        var obstaclesChildren = this.obstacles.getChildren();
+        for (var i = 0; i < obstaclesChildren.length; i++) {
+            obstaclesChildren[i].timer.remove();
+        }
+        var enemyChildren = this.enemies.getChildren();
+        for (var i = 0; i < enemyChildren.length; i++) {
+            enemyChildren[i].timer.remove();
+        }
+
+        if (this.bossSprite != "") {
+            var toX = gridHeight*ratio + this.bossEndingPositionOffset[0];
+            var toY = gridHeight/2 + this.bossEndingPositionOffset[1];
+            this.addBossMovement(toX, toY);
+            this.bossIsDone = true;
+        }
+
+        for (var i = 0; i < this.levelTimers.length; i++) {
+            this.levelTimers[i].remove();
+        }
+    }
+
+    this.addObstacle = function (x, y) {
+        if (!this.isStopped && this.obstacleSprite.length > 0 && this.score + 24 < this.levelEndScore) {
+            console.log(-this.currSpeed);
+            var onOutOfBounds = function(objectA, objectB) {
+                if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
+                    gameOver();
+                }
+                objectA.destroy();
+            }
+            var obstacleIndex = Math.floor(Math.random() * this.obstacleSprite.length);
+            if (this.obstacleSequence.length > 0) {
+                obstacleIndex = this.obstacleSequence[this.obstacleNumber % this.obstacleSequence.length];
+                this.obstacleNumber++;
+            }
+            var obstacle = this.scene.physics.add.sprite(x, y, this.obstacleSprite[obstacleIndex]);
+            obstacle.setImmovable();
+            obstacle.setFrictionX(0);
+            obstacle.setDepth(1);
+            obstacle.isJumpedOn = false;
+            
+            if (this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }).length > 0) {
+                this.scene.anims.create({
+                    key: this.obstacleSprite[obstacleIndex] + "animation",
+                    frames: this.scene.anims.generateFrameNumbers(this.obstacleSprite[obstacleIndex], { start: 0, end: 7 }),
+                    frameRate: 7,
+                    repeat: -1
+                });
+                obstacle.anims.play(this.obstacleSprite[obstacleIndex] + "animation");
+            }
+
+            if (this.obstacleStartingYOffset < 0) {
+                obstacle.setGravityY(this.gravity);
+                this.scene.physics.add.collider(this.grounds, obstacle, function (objectA, objectB) { 
+                    objectB.setGravity(0); 
+                    objectB.setVelocityY(0);
+                    objectB.y = this.groundYOffset-this.groundImageDimension/2-this.obstacleHeight/2; 
+                }, null, this);
+            }
+
+            // Add velocity to the obstacle to make it move left
+            obstacle.body.setVelocityX(-this.currSpeed);
+
+            this.obstacles.add(obstacle);
+            
+            var timer = this.scene.time.addEvent({
+                delay: Math.random() * (this.obstacleTimeRange[1] - this.obstacleTimeRange[0]) + (this.obstacleTimeRange[0]),
+                callback: this.addObstacle,
+                args: [gridHeight*ratio + this.obstacleStartingXOffset, this.groundYOffset-this.groundImageDimension/2-this.obstacleHeight/2 + this.obstacleStartingYOffset],
                 callbackScope: this,
                 loop: false
             });

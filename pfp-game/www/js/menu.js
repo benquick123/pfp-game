@@ -434,7 +434,7 @@ function GameModeSelectionMenu(menu) {
             this.arcadeModeText.setInteractive().on("pointerdown", this.onButtonClick, this.arcadeModeText);
         }
         else {
-            this.arcadeModeText.setAlpha(0.6);
+            this.arcadeModeText.setAlpha(0.3);
         }
 
         if (this.menu.environment.music == undefined) {

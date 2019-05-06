@@ -48,13 +48,6 @@ function Level(environment) {
             objectA.destroy();
         }
 
-        var onOutOfBoundsObstacle = function(objectA, objectB) {
-            if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
-                gameOver();
-            }
-            objectA.destroy();
-        }
-
         this.addAnimations();
 
         this.obstacles = modeInstance ? modeInstance.obstacles : this.scene.add.group();
@@ -96,7 +89,7 @@ function Level(environment) {
         this.scene.physics.add.overlap(this.enemies, this.rightCollider, onOutOfBounds);
         this.scene.physics.add.overlap(this.enemies, this.bottomCollider, onOutOfBounds);
 
-        this.scene.physics.add.overlap(this.obstacles, this.leftCollider, onOutOfBoundsObstacle, function(objectA, objectB) { return true; }, this);
+        this.scene.physics.add.overlap(this.obstacles, this.leftCollider, onOutOfBounds, function(objectA, objectB) { return true; }, this);
 
         if (collisionsOn) {
             this.scene.physics.add.collider(this.player, this.obstacles, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
@@ -141,6 +134,12 @@ function Level(environment) {
     this.addObstacle = function (x, y) {
         if (!this.isStopped && this.obstacleSprite.length > 0 && this.score + 24 < this.levelEndScore) {
             console.log(-this.currSpeed);
+            var onOutOfBounds = function(objectA, objectB) {
+                if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
+                    gameOver();
+                }
+                objectA.destroy();
+            }
             var obstacleIndex = Math.floor(Math.random() * this.obstacleSprite.length);
             if (this.obstacleSequence.length > 0) {
                 obstacleIndex = this.obstacleSequence[this.obstacleNumber % this.obstacleSequence.length];
