@@ -29,8 +29,8 @@
     "obstacleStartingYOffset": 0,
     "obstacleTimeRange": [1200, 2000], 
     "obstacleHeight": 24,
-    "weaponSprite": "weapon-placeholder",
-    "weaponAngularVelocity": 500,
+    "weaponSprite": "weapon-4",
+    "weaponAngularVelocity": 100,
     "musicName": "bff",
 
     "cameraShakeScoreOffset": 200,

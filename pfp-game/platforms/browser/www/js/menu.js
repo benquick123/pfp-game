@@ -404,6 +404,7 @@ function GameModeSelectionMenu(menu) {
     this.createMenu = function () {
         var unlocked = window.localStorage.getItem("arcadeUnlock");
         console.log("unlocked:" + unlocked);
+        this.arcadeUnlocked = unlocked;
 
         this.storyModeText = this.scene.make.bitmapText({
             x: 0,
