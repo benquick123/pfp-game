@@ -12,6 +12,9 @@
     },
     "cordova-plugin-media": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "pfp.vasko"
     }
   },
   "dependent_plugins": {
