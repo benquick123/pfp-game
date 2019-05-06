@@ -11,6 +11,7 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
+        console.log(window.devicePixelRatio);
         w = document.documentElement.clientWidth;
         h = document.documentElement.clientHeight;
         ratio = w / h;

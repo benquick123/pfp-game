@@ -16,7 +16,7 @@ var currModeInstance;
 var prevModeInstance;
 var gameplayMode = STORYMODE;
 
-var collisionsOn = false;
+var collisionsOn = true;
 
 var shaders;
  
@@ -57,6 +57,9 @@ function preload() {
         this.load.spritesheet("enemy-" + i, "img/enemy-" + i + ".png", {frameWidth: 24, frameHeight: 24});
         this.load.image("weapon-" + i, "img/weapon-" + i + ".png");
     }
+
+    for (var i = 0; i < 5; i++)
+        this.load.image("weapon-" + i, "img/weapon-" + i + ".png");
 
     this.load.spritesheet("boss-0", "img/boss-0.png", {frameWidth: 48, frameHeight: 64});
     this.load.spritesheet("boss-1", "img/boss-1.png", {frameWidth: 54, frameHeight: 105});
