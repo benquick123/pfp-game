@@ -1,9 +1,9 @@
 {
-    "initSpeed": 310,
+    "initSpeed": 315,
     "levelDifficultyFactor": 1.08,
     "levelEndScore": 100000000000,
     "levelMode": 0,
-    "levelInitScore": 2000,
+    "levelInitScore": 2204,
 
     "playerSprite": "character-4",
     "playerHeight": 64,

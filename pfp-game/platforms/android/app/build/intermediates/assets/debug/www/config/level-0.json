@@ -1,7 +1,7 @@
 {
     "initSpeed": 200,
     "levelDifficultyFactor": 1.1,
-    "levelEndScore": 500,
+    "levelEndScore": 512,
     "levelInitScore": 0,
     "levelMode": 0,
 
@@ -31,5 +31,5 @@
     "obstacleTimeRange": [1000, 2000],
     "weaponSprite": "",
     "weaponAngularVelocity": 100,
-    "musicName": "slshr"
+    "musicName": "sugar"
 }

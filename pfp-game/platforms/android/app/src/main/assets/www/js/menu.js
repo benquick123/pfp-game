@@ -30,6 +30,7 @@ function MainMenu(menu) {
     this.menu = menu;
     this.menuOptionsText = ["New game", "Leaderboard", "Feed VASKO", "Credits"];
     this.menuOptionsTextSize = 24;
+    this.appVersion;
     this.menuOptions;
     this.musicName = "basic";
 
@@ -55,6 +56,13 @@ function MainMenu(menu) {
             this.menu.environment.music = this.scene.sound.add(this.musicName, { loop: true });
             this.menu.environment.music.play();
         }
+
+        this.appVersion = this.scene.make.bitmapText({
+            x: 2,
+            y: 0,
+            text: "0.9.0",
+            font: "font12"
+        })
     }
 
     /* this.onButtonClick = function (pointer, localX, localY, event) {
@@ -71,6 +79,8 @@ function MainMenu(menu) {
 
     this.letGo = function (button) {
         var menuChildren = this.menuOptions.getChildren();
+        this.appVersion.destroy();
+
         for (var i=0; i < menuChildren.length; i++) {
             menuChildren[i].off("pointerdown", NaN);
             menuChildren[i].removeAllListeners();
@@ -93,7 +103,7 @@ function MainMenu(menu) {
             prevModeInstance = currModeInstance;
             currModeInstance = new MainMenu(prevModeInstance.menu);
             currModeInstance.createMenu(gridHeight*ratio/2, gridHeight/2);
-            window.open("https://www.paypal.me/personsfromporlock", "_system");
+            window.open("https://paypal.me/vasko420blazeit69", "_system");
         }
 
         else if (button.text == this.menuOptionsText[3]) {
@@ -109,7 +119,7 @@ function CreditsMenu(menu) {
     this.scrollSpeed = 0.6;
 
     this.creditsText;
-    this.creditsTextString = "\n\n\nCredits\n\nCredits\n\nCredits\n\nCredits\nCredits\nCredits\nCredits\n\nCredits\nCredits\nCredits\nCredits\n\nCredits\nCredits\n\nCredits\n\nCredits\nCredits\nCredits\nCredits\nCredits\n\nCredits\n\n\n\n\nCredits\n\n\n";
+    this.creditsTextString = "Team V.A.S.K.O.:\n\n\nDesign\nNina Kosednar\n\n\nCloud Soulutions Engineering\n@Blowkz\n\n\nEVERYTHING ELSE\n\nYours trully,\npersons from porlock\n\nd:^)";
 
     this.createMenu = function () {
         this.creditsText = this.scene.make.bitmapText({
@@ -394,6 +404,7 @@ function GameModeSelectionMenu(menu) {
     this.createMenu = function () {
         var unlocked = window.localStorage.getItem("arcadeUnlock");
         console.log("unlocked:" + unlocked);
+        this.arcadeUnlocked = unlocked;
 
         this.storyModeText = this.scene.make.bitmapText({
             x: 0,
@@ -423,7 +434,7 @@ function GameModeSelectionMenu(menu) {
             this.arcadeModeText.setInteractive().on("pointerdown", this.onButtonClick, this.arcadeModeText);
         }
         else {
-            this.arcadeModeText.setAlpha(0.6);
+            this.arcadeModeText.setAlpha(0.3);
         }
 
         if (this.menu.environment.music == undefined) {

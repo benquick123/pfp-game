@@ -1,8 +1,8 @@
 {
     "initSpeed": 235,
     "levelDifficultyFactor": 1.11,
-    "levelEndScore": 983,
-    "levelInitScore": 500,
+    "levelEndScore": 1020,
+    "levelInitScore": 512,
     "levelMode": 1,
 
     "playerSprite": "character-1",
@@ -33,5 +33,5 @@
     "obstacleHeight": 22,
     "weaponSprite": "",
     "weaponAngularVelocity": 500,
-    "musicName": "bff"
+    "musicName": "slshr"
 }

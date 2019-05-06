@@ -16,7 +16,7 @@ var currModeInstance;
 var prevModeInstance;
 var gameplayMode = STORYMODE;
 
-var collisionsOn = false;
+var collisionsOn = true;
 
 var shaders;
  
@@ -58,6 +58,9 @@ function preload() {
         this.load.image("weapon-" + i, "img/weapon-" + i + ".png");
     }
 
+    for (var i = 0; i < 5; i++)
+        this.load.image("weapon-" + i, "img/weapon-" + i + ".png");
+
     this.load.spritesheet("boss-0", "img/boss-0.png", {frameWidth: 48, frameHeight: 64});
     this.load.spritesheet("boss-1", "img/boss-1.png", {frameWidth: 54, frameHeight: 105});
 
@@ -68,6 +71,8 @@ function preload() {
     this.load.audio("basic", "audio/basic.mp3");
     this.load.audio("slshr", "audio/slshr.mp3");
     this.load.audio("bff", "audio/bff.mp3");
+    this.load.audio("avalench", "audio/avalench.mp3");
+    this.load.audio("sugar", "audio/sugar.mp3");
 
     this.load.spritesheet("character-placeholder", "img/character-placeholder.png", {frameWidth: 24, frameHeight: 48});
     this.load.spritesheet("character-placeholder-walk", "img/character-placeholder-walk.png", {frameWidth: 24, frameHeight: 48});
@@ -122,6 +127,7 @@ function create() {
     this.cameras.main.setBounds(0, 0, w, h);     
     this.cameras.main.setBackgroundColor('black');
     this.cameras.main.setRenderToTexture(shaders.blackHoleShader);
+    this.cameras.main.setRoundPixels(true);
     
 }
  

@@ -12,7 +12,7 @@
     <feature name="Media">
         <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
     </feature>
-    <name>VASKO</name>
+    <name>V.A.S.K.O.</name>
     <description>
         A persons from Porlock game.
     </description>
