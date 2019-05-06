@@ -3,7 +3,7 @@
     "levelDifficultyFactor": 1.08,
     "levelEndScore": 100000000000,
     "levelMode": 0,
-    "levelInitScore": 2000,
+    "levelInitScore": 300,
 
     "playerSprite": "character-4",
     "playerHeight": 64,
@@ -29,8 +29,8 @@
     "obstacleStartingYOffset": 0,
     "obstacleTimeRange": [1200, 2000], 
     "obstacleHeight": 24,
-    "weaponSprite": "weapon-placeholder",
-    "weaponAngularVelocity": 500,
+    "weaponSprite": "weapon-4",
+    "weaponAngularVelocity": 100,
     "musicName": "bff",
 
     "cameraShakeScoreOffset": 200,

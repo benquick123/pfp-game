@@ -119,7 +119,7 @@ function CreditsMenu(menu) {
     this.scrollSpeed = 0.6;
 
     this.creditsText;
-    this.creditsTextString = "\n\n\nCredits\n\nCredits\n\nCredits\n\nCredits\nCredits\nCredits\nCredits\n\nCredits\nCredits\nCredits\nCredits\n\nCredits\nCredits\n\nCredits\n\nCredits\nCredits\nCredits\nCredits\nCredits\n\nCredits\n\n\n\n\nCredits\n\n\n";
+    this.creditsTextString = "Team V.A.S.K.O.:\n\n\nDesign\nNina Kosednar\n\n\nCloud Soulutions Engineering\n@Blowkz\n\n\nEVERYTHING ELSE\n\nYours trully,\npersons from porlock\n\nd:^)";
 
     this.createMenu = function () {
         this.creditsText = this.scene.make.bitmapText({
@@ -404,6 +404,7 @@ function GameModeSelectionMenu(menu) {
     this.createMenu = function () {
         var unlocked = window.localStorage.getItem("arcadeUnlock");
         console.log("unlocked:" + unlocked);
+        this.arcadeUnlocked = unlocked;
 
         this.storyModeText = this.scene.make.bitmapText({
             x: 0,
