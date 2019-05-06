@@ -188,7 +188,10 @@ function EnterLeaderboardName(menu) {
         this.gameOverText.setY(10);
 
         $("#highscore-text").css("visibility", "visible");
-        $("#highscore-text").val(window.localStorage.getItem("username"));
+        var username = window.localStorage.getItem("username");
+        if (!username)
+            username = "@"
+        $("#highscore-text").val(username);
 
         this.submitText = this.scene.make.bitmapText({
             x: 0,
