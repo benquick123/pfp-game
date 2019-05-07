@@ -60,7 +60,7 @@ function MainMenu(menu) {
         this.appVersion = this.scene.make.bitmapText({
             x: 2,
             y: 0,
-            text: "0.9.2",
+            text: "0.9.3",
             font: "font12"
         })
     }

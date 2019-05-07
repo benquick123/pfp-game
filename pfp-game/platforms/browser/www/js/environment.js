@@ -2,7 +2,7 @@ function Environment (scene) {
     this.scene = scene;
     
     this.playerSprite = "character-0";
-    this.playerHeight = 24;
+    this.playerHeight = 48;
     this.playerXOffset = 210;
     this.player = undefined;
     this.playerBounce = 0;
