@@ -48,7 +48,7 @@ function Level(environment) {
             objectA.destroy();
         }
 
-        var onOutOfBoundsObstacle = function(objectA, objectB) {
+        var onObstacleOutOfScene = function(objectA, objectB) {
             if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
                 gameOver();
             }
@@ -96,7 +96,7 @@ function Level(environment) {
         this.scene.physics.add.overlap(this.enemies, this.rightCollider, onOutOfBounds);
         this.scene.physics.add.overlap(this.enemies, this.bottomCollider, onOutOfBounds);
 
-        this.scene.physics.add.overlap(this.obstacles, this.leftCollider, onOutOfBoundsObstacle, function(objectA, objectB) { return true; }, this);
+        this.scene.physics.add.overlap(this.obstacles, this.leftCollider, onObstacleOutOfScene, function(objectA, objectB) { return true; }, this);
 
         if (collisionsOn) {
             this.scene.physics.add.collider(this.player, this.obstacles, this.onObstacleCollision, function(objectA, objectB) { return true; }, this);
