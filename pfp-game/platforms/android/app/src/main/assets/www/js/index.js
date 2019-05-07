@@ -11,7 +11,9 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
-        console.log(window.devicePixelRatio);
+        document.addEventListener("pause", onPause, false);
+        document.addEventListener("resume", onResume, false);
+
         w = document.documentElement.clientWidth;
         h = document.documentElement.clientHeight;
         ratio = w / h;
@@ -50,5 +52,19 @@ var app = {
         $("#highscore-text").attr("placeholder", "@instagram_handle");
     }
 };
+
+function onPause() {
+    console.log("onPause");
+    if (currModeInstance && currModeInstance.music.isPlaying) {
+        currModeInstance.music.pause();
+    }
+}
+
+function onResume() {
+    console.log("onResume");
+    if (currModeInstance) {
+        currModeInstance.music.resume();
+    }
+}
 
 app.initialize();
