@@ -49,7 +49,8 @@ function Level(environment) {
         }
 
         var onObstacleOutOfScene = function(objectA, objectB) {
-            if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
+            console.log(objectA);
+            if (currModeInstance.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
                 gameOver();
             }
             objectA.destroy();
@@ -322,10 +323,10 @@ function Level(environment) {
     }
 
     this.onObstacleCollision = function (objectA, objectB) {
-        if (this.levelMode == LEVELMODEOVER) {
+        if (currModeInstance.levelMode == LEVELMODEOVER) {
             gameOver();
         }
-        else if (this.levelMode == LEVELMODEON) {
+        else if (currModeInstance.levelMode == LEVELMODEON) {
             if (objectB.body.touching.up) {
                 objectB.isJumpedOn = true;
             }
