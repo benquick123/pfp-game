@@ -60,7 +60,7 @@ function MainMenu(menu) {
         this.appVersion = this.scene.make.bitmapText({
             x: 2,
             y: 0,
-            text: "0.9.1",
+            text: "0.9.3",
             font: "font12"
         })
     }
@@ -243,7 +243,8 @@ function EnterLeaderboardName(menu) {
         }
         else {
             var highScoreName = $("#highscore-text").val();
-            if (highScoreName.length == 0) {
+            if (highScoreName.length == 0 || highScoreName == "@") {
+                $("#highscore-text").val("")
                 $("#highscore-text").attr("placeholder", "Invalid Instagram handle");
             }
             else {
@@ -337,6 +338,7 @@ function LeaderboardMenu(menu) {
             this.leaderboard.add(textName);
             this.leaderboard.add(textScore);
         }
+        this.leaderboard.setDepth(4);
     }
 
     this.createMenu = function (x, y) {
@@ -354,7 +356,7 @@ function LeaderboardMenu(menu) {
         this.backText.setLetterSpacing(2);
         this.backText.setX(gridHeight*ratio/2 - this.backText.width/2);
         this.backText.setInteractive().on("pointerdown", this.onButtonClick, this.backText);
-        this.backText.setDepth(3);
+        this.backText.setDepth(8);
     }
 
     this.letGo = function (button) {

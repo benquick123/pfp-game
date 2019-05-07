@@ -49,13 +49,21 @@ function Level(environment) {
         }
 
         var onObstacleOutOfScene = function(objectA, objectB) {
-            if (this.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
+            if (currModeInstance.levelMode == LEVELMODEON && !objectA.isJumpedOn && collisionsOn) {
                 gameOver();
             }
             objectA.destroy();
         }
 
         this.addAnimations();
+        if (modeInstance) {
+            var prevHeight = modeInstance.playerHeight;
+            this.player.setY(this.player.y - this.playerHeight + this.player.body.height);
+            this.player.body.setSize(this.player.width, this.playerHeight, true);
+            // this.player.body.updateCenter();
+            this.player.body.updateBounds();
+            this.player.body.setOffset(0.5);
+        }
 
         this.obstacles = modeInstance ? modeInstance.obstacles : this.scene.add.group();
         this.enemies = modeInstance ? modeInstance.enemies : this.scene.add.group();
@@ -322,10 +330,10 @@ function Level(environment) {
     }
 
     this.onObstacleCollision = function (objectA, objectB) {
-        if (this.levelMode == LEVELMODEOVER) {
+        if (currModeInstance.levelMode == LEVELMODEOVER) {
             gameOver();
         }
-        else if (this.levelMode == LEVELMODEON) {
+        else if (currModeInstance.levelMode == LEVELMODEON) {
             if (objectB.body.touching.up) {
                 objectB.isJumpedOn = true;
             }
