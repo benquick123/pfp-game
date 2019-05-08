@@ -54,7 +54,7 @@ var app = {
 };
 
 function onPause() {
-    if (currModeInstance && currModeInstance.music.isPlaying()) {
+    if (currModeInstance && currModeInstance.music.isPlaying) {
         currModeInstance.music.pause();
     }
 }
