@@ -71,6 +71,8 @@ function preload() {
     this.load.audio("basic", "audio/basic.mp3");
     this.load.audio("slshr", "audio/slshr.mp3");
     this.load.audio("bff", "audio/bff.mp3");
+    this.load.audio("avalench", "audio/avalench.mp3");
+    this.load.audio("sugar", "audio/sugar.mp3");
 
     this.load.spritesheet("character-placeholder", "img/character-placeholder.png", {frameWidth: 24, frameHeight: 48});
     this.load.spritesheet("character-placeholder-walk", "img/character-placeholder-walk.png", {frameWidth: 24, frameHeight: 48});
