@@ -54,14 +54,12 @@ var app = {
 };
 
 function onPause() {
-    console.log("onPause");
     if (currModeInstance && currModeInstance.music.isPlaying) {
         currModeInstance.music.pause();
     }
 }
 
 function onResume() {
-    console.log("onResume");
     if (currModeInstance) {
         currModeInstance.music.resume();
     }

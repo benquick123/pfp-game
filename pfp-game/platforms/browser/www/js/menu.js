@@ -60,7 +60,7 @@ function MainMenu(menu) {
         this.appVersion = this.scene.make.bitmapText({
             x: 2,
             y: 0,
-            text: "0.9.3",
+            text: "0.9.4",
             font: "font12"
         })
     }
@@ -409,7 +409,7 @@ function GameModeSelectionMenu(menu) {
     this.createMenu = function () {
         var unlocked = window.localStorage.getItem("arcadeUnlock");
         console.log("unlocked:" + unlocked);
-        this.arcadeUnlocked = unlocked;
+        this.arcadeUnlocked = true;
 
         this.storyModeText = this.scene.make.bitmapText({
             x: 0,

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pfp.vasko"
     android:hardwareAccelerated="true"
-    android:versionCode="903"
-    android:versionName="0.9.3" >
+    android:versionCode="904"
+    android:versionName="0.9.4" >
 
     <uses-sdk
         android:minSdkVersion="19"

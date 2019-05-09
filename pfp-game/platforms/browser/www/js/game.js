@@ -16,7 +16,7 @@ var currModeInstance;
 var prevModeInstance;
 var gameplayMode = STORYMODE;
 
-var collisionsOn = false;
+var collisionsOn = true;
 
 var shaders;
  
@@ -256,16 +256,10 @@ function update(time, delta) {
             if (prevMode == MODELEVEL || prevMode == MODEFIGHT)
                 prevModeInstance.letGo(true, true);
             
-            currModeInstance.scene.time.addEvent({
-                delay: 2000,
-                callback: function () {
-                    currModeInstance.stopGameplay(false);
-                    currModeInstance.scene.input.on("pointerdown", currModeInstance.onPointerDown, currModeInstance);
-                    currModeInstance.registerSkipButton();
-                    currModeInstance.conversate();
-                },
-                loop: false
-            });
+            currModeInstance.stopGameplay(false);
+            currModeInstance.scene.input.on("pointerdown", currModeInstance.onPointerDown, currModeInstance);
+            currModeInstance.registerSkipButton();
+            currModeInstance.conversate();
         }
         else if (!currModeInstance.inConversation && !currModeInstance.speakersPositioned) {
             if (currModeInstance.player.body.touching.down && !currModeInstance.player.anims.isPlaying && !prevModeInstance.remainStillAfterEnd) {
