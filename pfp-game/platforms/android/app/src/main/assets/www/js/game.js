@@ -257,7 +257,12 @@ function update(time, delta) {
                 prevModeInstance.letGo(true, true);
             
             currModeInstance.stopGameplay(false);
-            currModeInstance.scene.input.on("pointerdown", currModeInstance.onPointerDown, currModeInstance);
+            currModeInstance.scene.time.addEvent({
+                delay: 1500,
+                callback: function () {
+                    currModeInstance.scene.input.on("pointerdown", currModeInstance.onPointerDown, currModeInstance);
+                }
+            });
             currModeInstance.registerSkipButton();
             currModeInstance.conversate();
         }

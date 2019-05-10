@@ -10,8 +10,8 @@
     "enemySprites": [
         "enemy-1"
     ],
-    "enemyTimeRange": [500, 900],
-    "enemySpeedRange": [1000, 2000],
+    "enemyTimeRange": [300, 700],
+    "enemySpeedRange": [500, 1500],
     "groundFloorImage": "floor-2",
     "groundUnderImage": "underground-2",
     "backgroundImage": [
@@ -35,8 +35,8 @@
     "bossMovementXOffset": 8,
     "bossStartingPositionOffset": [54, 0],
     "bossEndingPositionOffset": [54, 0],
-	"bossTimeBetweenMovements": 1000,
-    "bossMovementTime": 1000,
+	"bossTimeBetweenMovements": 900,
+    "bossMovementTime": 100,
 
     "parallaxScrollFactor": 0.8,
     "gravity": 650,
