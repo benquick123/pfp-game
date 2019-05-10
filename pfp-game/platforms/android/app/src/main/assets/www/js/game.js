@@ -176,7 +176,7 @@ function update(time, delta) {
     }
 
     if (currMode == MODELEVEL) {
-        if (currModeInstance.player.body.touching.down && !currModeInstance.player.anims.isPlaying) {
+        if (currModeInstance.player && currModeInstance.player.body && currModeInstance.player.body.touching.down && !currModeInstance.player.anims.isPlaying) {
             currModeInstance.player.anims.play("playerwalk");
         }
         currModeInstance.checkKeyboardEvents();
@@ -263,8 +263,10 @@ function update(time, delta) {
                 delay: 1500,
                 callback: function () {
                     currModeInstance.scene.input.on("pointerdown", currModeInstance.onPointerDown, currModeInstance);
-                }
+                },
+                loop: false
             });
+            // currModeInstance.scene.input.on("pointerdown", currModeInstance.onPointerDown, currModeInstance);
             currModeInstance.registerSkipButton();
             currModeInstance.conversate();
         }
