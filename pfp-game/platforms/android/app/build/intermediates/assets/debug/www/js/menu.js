@@ -518,6 +518,16 @@ function ScrollingIntroText (menu) {
         this.scrollingText.removeAllListeners();
         this.scrollingText.destroy();
 
+        /* this.pauseButton = this.scene.add.image(gridHeight*ratio-20, gridHeight-10, "pause");
+        this.pauseButton.setInteractive().on("pointerdown", function () { 
+            console.log("pauseClicked"); 
+            if (!currModeInstance.scene.scene.isSleeping()) {
+                currModeInstance.scene.scene.sleep();
+            }
+            else {
+                currModeInstance.scene.scene.wake();
+            }
+        });*/
         changeMode();
     }
 }

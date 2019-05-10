@@ -219,10 +219,12 @@ function Story(environment) {
 
         this.player.finalPositionX = this.player.x;
         if (this.playerIsSpeaker0 && this.stayingSpeaker != 0 && this.stayingSpeakerPosition != 0) {
-            this.player.setVelocityX(-this.currSpeed);
-            this.player.setGravity(0);
-            this.player.finalPositionX = this.speakersEndingPositionsOffsets[0][0];
-            this.scene.physics.add.overlap(this.player, this.extraLeftCollider, onOutOfBounds);
+            if (this.player) {
+                this.player.setVelocityX(-this.currSpeed);
+                this.player.setGravity(0);
+                this.player.finalPositionX = this.speakersEndingPositionsOffsets[0][0];
+                this.scene.physics.add.overlap(this.player, this.extraLeftCollider, onOutOfBounds);
+            }
         }
         
         var speakerChildren = this.speakers.getChildren();
@@ -243,19 +245,21 @@ function Story(environment) {
                 var finalPlayerPositionX = this.player.x;
 
                 this.environment.playerSprite = this.speakerSprites[i];
-                this.environment.addPlayer(speakerChildren[i-this.playerIsSpeaker0].x, speakerChildren[i-this.playerIsSpeaker0].y);
+                if (speakerChildren[i-this.playerIsSpeaker0]) {
+                    this.environment.addPlayer(speakerChildren[i-this.playerIsSpeaker0].x, speakerChildren[i-this.playerIsSpeaker0].y);
 
-                speakerChildren[i-this.playerIsSpeaker0].destroy();
-                
-                this.player.setVelocityX(-this.currSpeed);
-                this.player.finalPositionX = finalPlayerPositionX;
+                    speakerChildren[i-this.playerIsSpeaker0].destroy();
+                    
+                    this.player.setVelocityX(-this.currSpeed);
+                    this.player.finalPositionX = finalPlayerPositionX;
 
-                var groundChildren = this.grounds.getChildren();
-                for (var i = 0; i < groundChildren.length; i+=3) {
-                    this.scene.physics.add.collider(this.player, groundChildren[i]);
+                    var groundChildren = this.grounds.getChildren();
+                    for (var i = 0; i < groundChildren.length; i+=3) {
+                        this.scene.physics.add.collider(this.player, this.grounds);
+                    }
+
+                    this.addAnimations();
                 }
-
-                this.addAnimations();
             }
         }
 

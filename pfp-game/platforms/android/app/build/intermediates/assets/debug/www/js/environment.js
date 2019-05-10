@@ -45,6 +45,8 @@ function Environment (scene) {
 
     this.enemySpecial = false;
 
+    this.pauseButton;
+
     this.colliderMagicNumber = 16
     this.leftCollider = new Phaser.Physics.Arcade.Sprite(this.scene, 0, -this.colliderMagicNumber).setOrigin(0, 0);
     this.leftCollider.height = gridHeight + 2*this.colliderMagicNumber;

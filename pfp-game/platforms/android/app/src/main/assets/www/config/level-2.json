@@ -10,8 +10,8 @@
     "enemySprites": [
         "enemy-1"
     ],
-    "enemyTimeRange": [300, 700],
-    "enemySpeedRange": [500, 1500],
+    "enemyTimeRange": [200, 500],
+    "enemySpeedRange": [500, 1000],
     "groundFloorImage": "floor-2",
     "groundUnderImage": "underground-2",
     "backgroundImage": [

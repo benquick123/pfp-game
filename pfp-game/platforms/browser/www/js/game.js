@@ -84,6 +84,8 @@ function preload() {
     this.load.spritesheet("enemy-placeholder", "img/enemy-placeholder.png", {frameWidth: 24, frameHeight: 24});
     this.load.image("weapon-placeholder", "img/weapon-placeholder.png");
     this.load.spritesheet("helper-placeholder", "img/helper-placeholder.png", {frameWidth: 48, frameHeight: 64});
+
+    // this.load.image("pause", "img/pause.png");
 }
  
 function create() {
