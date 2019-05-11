@@ -40,6 +40,9 @@ var app = {
                 preload: preload,
                 create: create,
                 update: update
+            },
+            input: {
+                activePointers: 1
             }
         };
         game = new Phaser.Game(config);

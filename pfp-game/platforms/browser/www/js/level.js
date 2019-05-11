@@ -345,8 +345,10 @@ function Level(environment) {
 
     this.onPointerDown = function(pointer) {
         if (pointer.x < gridHeight*ratio/3 && this.player.anims.isPlaying) {
-            this.player.anims.play("playerjump");
-            this.player.body.setVelocityY(-this.jumpVelocity); // jump up
+            if (this.player.body.velocity.y == 0) {
+                this.player.anims.play("playerjump");
+                this.player.body.setVelocityY(-this.jumpVelocity); // jump up
+            }
         }
         else if (pointer.x >= gridHeight*ratio/3) {
             if (pointer.y < this.groundYOffset - this.groundImageDimension/2 && this.weaponSprite != "")
