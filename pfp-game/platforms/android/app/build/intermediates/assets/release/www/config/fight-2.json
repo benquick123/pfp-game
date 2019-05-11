@@ -1,0 +1,22 @@
+{
+    "bossSprite": "boss-0",
+    "bossPower": 5,
+    "bossStartingPositionOffset": [192, 0],
+    "bossMovementBB": [[-72, -16], [0, 96]],
+    "bossEndingPositionOffset": [-112, 36],
+    "bossTimeBetweenMovements": 200,
+    "bossMovementTime": 2000,
+
+    "enemySprites": ["enemy-0"],
+    "enemySpecial": true,
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+
+    "weaponSprite": "weapon-2",
+    "weaponAngularVelocity": -1,
+
+    "hitCountGoal": 20,
+
+    "jumpVelocity": -1
+}

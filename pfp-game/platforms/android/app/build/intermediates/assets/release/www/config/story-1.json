@@ -1,0 +1,52 @@
+{
+    "dialogues": [
+        [2, "Vse je kul prjatu..."],
+        [0, "Its DAN D!"],
+        [0, "...uhh I mean..."],
+        [0, "MRFY!"],
+        [2, "We find you here, now.\nBecause you are the one\nfate has smiled upon."],
+        [2, "This demon has sewn\nhis bad vibes upon this\nland for too long."],
+        [2, "He must be strewn down\ninto the void."],
+        [2, "Into the hottest flame of\nhuman fire."],
+        [2, "But we can only extend\nour hand, You yourself\nmust grab it."],
+        [2, "Finish your pilgrimage to\nLyublianaah. Learn the\nways of the Sacred Lute."],
+        [2, "It is only through the\ndivine psalm that we can\ndefeat this perversion\nof the human soul."],
+        [2, "Do you accept our quest?"],
+        [1, "HA! HA! HA! HA! HA!"],
+        [1, "No wizarding\ntrickery can\nsave you now."],
+        [1, "You stand\nno chance,\nboi."],
+        [2, "Silence, ageless one."],
+        [2, "Sedaj bom..."],
+        [2, "Umru zate...."],
+        [0, "GDWYN, NOOOOO"]
+    ],
+    "nSpeakers": 3,
+    "speakersStartingPositionsOffsets": [[0, 0], [-96, 20], [48, -16]],
+    "speakersEndingPositionsOffsets": [[0, 0], [0, 0], [-80, 0]],
+    "speakerSprites": ["character-0", "boss-0", "helper-0"],
+    "speakerFlipX": [false, false, false],
+    "speakersDieImmediately": [false, true, true],
+    "speakersImmediateDeathDirection": [0, 200, -200],
+    "playerIsSpeaker0": true,
+
+    "stayingSpeaker": 0,
+    "stayingSpeakerPosition": 0,
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+
+    "groundFloorImage": "floor-0",
+    "groundUnderImage": "underground-0",
+
+    "backgroundImage": [
+        ["background-0",
+        "background-1",
+        "background-2",
+        "background-3",
+        "background-4",
+        "background-5",
+        "background-6",
+        "background-7"]
+    ],
+    "backgroundImageSpawner": ["sequential"]
+}

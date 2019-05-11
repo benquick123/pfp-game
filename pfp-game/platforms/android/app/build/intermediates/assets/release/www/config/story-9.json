@@ -1,0 +1,28 @@
+{
+    "dialogues": [
+        [0, "G..Grand Wizards?"],
+        [1, "A cloak of shame\ncovers this man."],
+        [1, "And only supreme light\nwill wash his body clean."],
+        [0, "..."],
+        [1, "You shall find nothing\nbut sweaty devestated\nloneliness here..."],
+        [1, "And a thousand \njudging eyes gazing\nback at you..."]
+    ],
+    "nSpeakers": 2,
+    "speakersStartingPositionsOffsets": [[0, 0], [224, 0]],
+    "speakersEndingPositionsOffsets": [[0, 0], [-258, 0]],
+    "speakerSprites": ["character-3", "boss-0"],
+    "speakerFlipX": [false, false],
+    "speakersDieImmediately": [false, false],
+    "playerIsSpeaker0": true,
+
+    "stopBackgroundsAtEnd": true,
+
+    "stayingSpeaker": 0,
+    "stayingSpeakerPosition": 1,
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+
+    "groundFloorImage": "floor-3",
+    "groundUnderImage": "underground-3"
+}

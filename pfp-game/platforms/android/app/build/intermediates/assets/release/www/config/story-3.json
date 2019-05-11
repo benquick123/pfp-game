@@ -1,0 +1,42 @@
+{
+    "dialogues": [
+        [0, "Ooh, a fluffy panda."],
+        [1, "Koala."],
+        [0, "Whatever."],
+        [1, "We were just floatin by,\ngathering some\nEucalyptus cloves..."],
+        [1, "when we heard that\nglourious SOUND, man."],
+        [0, "Pshyaa, thx brah."],
+        [1, "We are the\nVoice of the Australiabear."],
+        [1, "We watch over this train\nin search of the worthy\nand the RIGHTEOUS Ones\non their way to\nLyublianahh."],
+        [1, "We seek to aid you by\nsharing in these magical\ncloves that we gather..."],
+        [1, "Cloves of the Eucalyptus..."],
+        [1, "Whose smoke soothes\none’s soul..."],
+        [1, "And opens one’s mind."],
+        [1, "But before the\nherb is granted,\nwe must inquire..."],
+        [1, "How doth one sculpt\nsuch RADICAL TONES,\nmy guy?"],
+        [0, "See those boxes\non the floor?"],
+        [1, "Yah."],
+        [0, "You step on them..."],
+        [1, "Oh..."],
+        [1, "Sick."]
+    ],
+    "nSpeakers": 2,
+    "speakersStartingPositionsOffsets": [[0, 0], [224, 0]],
+    "speakersEndingPositionsOffsets": [[0, 0], [-258, 0]],
+    "speakerSprites": ["character-1", "helper-1"],
+    "speakerFlipX": [false, false],
+    "speakersDieImmediately": [false, false],
+    "playerIsSpeaker0": true,
+
+    "stayingSpeaker": 0,
+    "stayingSpeakerPosition": 1,
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+    "gravity": -1,
+
+    "groundFloorImage": "floor-1",
+    "groundUnderImage": "underground-1",
+
+    "backgroundTrigger": "background-8"
+}

@@ -1,0 +1,31 @@
+{
+    "dialogues": [
+        [1, "Your alligeance\nhas been recognized."],
+        [1, "Your purity\nhas been witnessed."],
+        [1, "Panini bonino\nfrke za blokom."],
+        [1, "O fak zimbabwe,\nbanana banana\npicka ti materna."],
+        [0, "Pardon?"],
+        [1, "Zen, baby, zen..."],
+        [1, "It’s only a game."],
+        [1, "We bestow upon you.."],
+        [1, "The BLESSING OF THE URH."]
+    ],
+    "nSpeakers": 2,
+    "speakersStartingPositionsOffsets": [[0, 0], [224, 0]],
+    "speakersEndingPositionsOffsets": [[0, 0], [-258, 0]],
+    "speakerSprites": ["character-3", "helper-3"],
+    "speakerFlipX": [false, false],
+    "speakersDieImmediately": [false, false],
+    "playerIsSpeaker0": true,
+
+    "stopBackgroundsAtEnd": true,
+
+    "stayingSpeaker": 0,
+    "stayingSpeakerPosition": 1,
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+
+    "groundFloorImage": "floor-3",
+    "groundUnderImage": "underground-3"
+}

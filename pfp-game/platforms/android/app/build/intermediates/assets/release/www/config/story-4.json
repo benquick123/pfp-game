@@ -1,0 +1,29 @@
+{
+    "dialogues": [
+        [0, "Yo."],
+        [1, "Suhh.."],
+        [0, "The panda people gave me\nthese Eucalyptus cloves."],
+        [0, "Youre supposed to\nsmoke them, but\nI don’t smoke anymore."],
+        [0, "Do you want them?"],
+        [1, "Sure."]
+
+    ],
+    "nSpeakers": 2,
+    "speakersStartingPositionsOffsets": [[0, 0], [224, 28]],
+    "speakersEndingPositionsOffsets": [[0, 0], [-288, 0]],
+    "speakerSprites": ["character-1", "character-2"],
+    "speakerFlipX": [false, true],
+    "speakersDieImmediately": [false, false],
+    "playerIsSpeaker0": true,
+
+    "stayingSpeaker": 1,
+    "stayingSpeakerPosition": 1,
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+
+    "groundFloorImage": "floor-1",
+    "groundUnderImage": "underground-1",
+
+    "backgroundTrigger": "background-8"
+}
