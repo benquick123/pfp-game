@@ -1,0 +1,34 @@
+{
+    "dialogues": [
+        [1, "Greetings."],
+        [0, "Men’s rights."],
+        [1, "Yikes."],
+        [1, "Let’s try again."],
+        [1, "Hi."],
+        [0, "Globalist conspiracy."],
+        [1, "Okay fine."],
+        [1, "I do not understand\nyour profane gibberish."],
+        [1, "For I, a man of a\nmost noble standing,\nam on a quest! "],
+        [1, "Tell me, sewer dweller..."],
+        [1, "Have you heard the\ntale of the sacred lute?"],
+        [0, "Did you know that\nblack people are-"],
+        [1, "NOOooookay,\nthat’ll be enough,\nthank you."],
+        [1, "Bye now."]
+    ],
+    "nSpeakers": 2,
+    "speakersStartingPositionsOffsets": [[0, 0], [224, 28]],
+    "speakersEndingPositionsOffsets": [[0, 0], [-288, 0]],
+    "speakerSprites": ["character-2", "character-3"],
+    "speakerFlipX": [false, true],
+    "speakersDieImmediately": [false, false],
+    "playerIsSpeaker0": true,
+
+    "stayingSpeaker": 1,
+    "stayingSpeakerPosition": 1,
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+
+    "groundFloorImage": "floor-3",
+    "groundUnderImage": "underground-3"
+}

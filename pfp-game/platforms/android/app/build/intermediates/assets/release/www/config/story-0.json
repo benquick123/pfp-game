@@ -1,0 +1,44 @@
+{
+    "dialogues": [
+        [1, "So..."],
+        [1, "You think\nyou can tell?"],
+        [0, "..."],
+        [1, "Heaven from hell?"],
+        [0, "I beseach thou,\nI seek not for trouble."],
+        [0, "I am but a lone pilgrim\non my way to Lyublianaah."],
+        [1, "Ahh, a pilgrim.\nPleased to meet\nyou, hope you\nguess my name."],
+        [1, "But whats\ntroubling you,\nis the nature\nof my game."],
+        [0, "Ok, cool it with the\ndadrock references."],
+        [1, "NOW I LAY YOU\nDOWN TO SLEEP\nPRAY THE LORD\nMY SOUL TO KEEP!"]
+    ],
+    "nSpeakers": 2,
+    "speakersStartingPositionsOffsets": [[0, 0], [-96, 20]],
+    "speakersEndingPositionsOffsets": [[0, 0], [0, 0]],
+    "speakerSprites": ["character-0", "boss-0"],
+    "speakerFlipX": [false, false],
+    "speakersDieImmediately": [false, true],
+    "playerIsSpeaker0": true,
+
+    "stayingSpeaker": 0,
+    "stayingSpeakerPosition": 0,
+
+    "speed": -1,
+    "parallaxScrollFactor": -1,
+
+    "groundFloorImage": "floor-0",
+    "groundUnderImage": "underground-0",
+
+    "backgroundImage": [
+        ["background-0",
+        "background-1",
+        "background-2",
+        "background-3",
+        "background-4",
+        "background-5",
+        "background-6",
+        "background-7"]
+    ],
+    "backgroundImageSpawner": ["sequential"],
+
+    "remainStillAfterEnd": true
+}

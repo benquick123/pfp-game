@@ -1,0 +1,4 @@
+#Sat May 11 18:51:52 CEST 2019
+base.0=C\:\\Users\\Jonathan\\Documents\\pfp-game\\pfp-game\\platforms\\android\\app\\build\\intermediates\\transforms\\dex\\release\\0
+path.0=classes.dex
+renamed.0=classes.dex
