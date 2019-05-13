@@ -9,19 +9,19 @@ INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\ap
 INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
 INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
 	package
-		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:100-119
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:102-121
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 	android:versionName
-		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:72-99
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:74-101
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 	android:hardwareAccelerated
 		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:11-45
 	xmlns:android
-		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:120-178
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:122-180
 	android:versionCode
-		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:46-71
+		ADDED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml:2:46-73
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Jonathan\Documents\pfp-game\pfp-game\platforms\android\app\src\main\AndroidManifest.xml
 supports-screens

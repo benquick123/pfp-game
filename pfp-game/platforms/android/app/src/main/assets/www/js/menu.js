@@ -57,12 +57,12 @@ function MainMenu(menu) {
             this.menu.environment.music.play();
         }
 
-        this.appVersion = this.scene.make.bitmapText({
+        /* this.appVersion = this.scene.make.bitmapText({
             x: 2,
             y: 0,
             text: "0.9.6",
             font: "font12"
-        })
+        })*/ 
     }
 
     /* this.onButtonClick = function (pointer, localX, localY, event) {
@@ -79,7 +79,7 @@ function MainMenu(menu) {
 
     this.letGo = function (button) {
         var menuChildren = this.menuOptions.getChildren();
-        this.appVersion.destroy();
+        // this.appVersion.destroy();
 
         for (var i=0; i < menuChildren.length; i++) {
             menuChildren[i].off("pointerdown", NaN);
@@ -119,7 +119,7 @@ function CreditsMenu(menu) {
     this.scrollSpeed = 0.6;
 
     this.creditsText;
-    this.creditsTextString = "Team V.A.S.K.O.:\n\n\nDesign\nNina Kosednar\n\n\nCloud Soulutions Engineering\n@Blowkz\n\n\nSpecial Danks\nMRFY\n+\nTomaz Zupancic\n\n\nEVERYTHING ELSE\n\nYours trully,\npersons from porlock\n\nd:^)";
+    this.creditsTextString = "Team V.A.S.K.O.:\n\n\nDesign\nNina Kosednar\n\n\nCloud Soulutions Engineering\n@Blowkz\n\n\nSpecial Danks\n<3 MRFY <3\n\n\nEVERYTHING ELSE\n\nYours trully,\npersons from porlock\n\nd:^)";
 
     this.createMenu = function () {
         this.creditsText = this.scene.make.bitmapText({
@@ -243,15 +243,23 @@ function EnterLeaderboardName(menu) {
         }
         else {
             var highScoreName = $("#highscore-text").val();
-            if (highScoreName.length == 0 || highScoreName == "@") {
+            if (highScoreName.length == 0 || highScoreName == "@" || highScoreName[0] != "@") {
                 $("#highscore-text").val("")
                 $("#highscore-text").attr("placeholder", "Invalid Instagram handle");
             }
             else {
+
+                var timestamp = Date.now();
+                var reqData = {"player": highScoreName.substring(1, highScoreName.length), "score": Math.round(this.score), "timestamp": timestamp};
+                
+                var secret = "bmlrb2wgc2UgbmUgemFjZXQgZHJvZ2lyYXQ=";
+                var hash = CryptoJS.HmacSHA256($.param(reqData), atob(secret)).toString(CryptoJS.enc.Hex).toUpperCase();
+
                 var postResponse = $.ajax({
                     type: "POST",
                     url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings",
-                    data: {"player": highScoreName.substring(1, highScoreName.length), "score": Math.round(this.score)},
+                    data: reqData,
+                    headers: {"Security-Motherfucker": hash},
                     async: false
                 });
                 if (postResponse.status == 400) {
