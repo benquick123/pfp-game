@@ -30,7 +30,7 @@ function MainMenu(menu) {
     this.menu = menu;
     this.menuOptionsText = ["New game", "Leaderboard", "Feed VASKO", "Credits"];
     this.menuOptionsTextSize = 24;
-    this.appVersion;
+    // this.appVersion;
     this.menuOptions;
     this.musicName = "basic";
 
@@ -57,12 +57,12 @@ function MainMenu(menu) {
             this.menu.environment.music.play();
         }
 
-        this.appVersion = this.scene.make.bitmapText({
+        /* this.appVersion = this.scene.make.bitmapText({
             x: 2,
             y: 0,
             text: "0.9.6",
             font: "font12"
-        })
+        })*/
     }
 
     /* this.onButtonClick = function (pointer, localX, localY, event) {
@@ -79,7 +79,7 @@ function MainMenu(menu) {
 
     this.letGo = function (button) {
         var menuChildren = this.menuOptions.getChildren();
-        this.appVersion.destroy();
+        // this.appVersion.destroy();
 
         for (var i=0; i < menuChildren.length; i++) {
             menuChildren[i].off("pointerdown", NaN);
@@ -169,7 +169,7 @@ function EnterLeaderboardName(menu) {
     this.menu = menu;
     this.leaderboard = []
     this.gameOverText;
-    this.submitText;
+    // this.submitText;
     this.newGameText;
     this.achievedI = -1;
     this.score = -1;
@@ -193,7 +193,7 @@ function EnterLeaderboardName(menu) {
             username = "@"
         $("#highscore-text").val(username);
 
-        this.submitText = this.scene.make.bitmapText({
+        /* this.submitText = this.scene.make.bitmapText({
             x: 0,
             y: 0,
             text: "Submit",
@@ -204,7 +204,7 @@ function EnterLeaderboardName(menu) {
         this.submitText.setX(gridHeight*ratio/4 - this.submitText.width/2);
         this.submitText.setY(96);
         this.submitText.setInteractive().on("pointerdown", this.onButtonClick, this.submitText);
-        this.submitText.setDepth(3);
+        this.submitText.setDepth(3);*/
 
         this.newGameText = this.scene.make.bitmapText({
             x: 0,
@@ -214,7 +214,7 @@ function EnterLeaderboardName(menu) {
         });
         this.newGameText.setFontSize(24);
         this.newGameText.setLetterSpacing(2);
-        this.newGameText.setX(3*gridHeight*ratio/4 - this.newGameText.width/2);
+        this.newGameText.setX(1*gridHeight*ratio/2 - this.newGameText.width/2);
         this.newGameText.setY(96);
         this.newGameText.setInteractive().on("pointerdown", this.onButtonClick, this.newGameText);
         this.newGameText.setDepth(3);
@@ -223,15 +223,15 @@ function EnterLeaderboardName(menu) {
     }
 
     this.onEnterDown = function (event) {
-        this.letGo(this.submitText);
+        // this.letGo(this.submitText);
     }
 
     this.letGo = function(button) {
         if (button.text == "Restart") {
             this.gameOverText.destroy();
             $("#highscore-text").css("visibility", "hidden");
-            this.submitText.removeAllListeners();
-            this.submitText.destroy();
+            /* this.submitText.removeAllListeners();
+            this.submitText.destroy();*/
             this.newGameText.removeAllListeners();
             this.newGameText.destroy();
             this.scene.input.keyboard.off("keydown-ENTER");
@@ -271,8 +271,8 @@ function EnterLeaderboardName(menu) {
                     storage.setItem("username", highScoreName);
                     this.gameOverText.destroy();
                     $("#highscore-text").css("visibility", "hidden");
-                    this.submitText.removeAllListeners();
-                    this.submitText.destroy();
+                    // this.submitText.removeAllListeners();
+                    // this.submitText.destroy();
                     this.newGameText.removeAllListeners();
                     this.newGameText.destroy();
                     this.scene.input.keyboard.off("keydown-ENTER");
