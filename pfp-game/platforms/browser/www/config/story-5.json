@@ -1,5 +1,6 @@
 {
     "dialogues": [
+        [0, "..."],
         [0, "Huh?"]
     ],
     "nSpeakers": 1,
