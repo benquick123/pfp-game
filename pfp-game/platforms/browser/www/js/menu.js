@@ -248,10 +248,18 @@ function EnterLeaderboardName(menu) {
                 $("#highscore-text").attr("placeholder", "Invalid Instagram handle");
             }
             else {
+
+                var timestamp = Date.now();
+                var reqData = {"player": highScoreName.substring(1, highScoreName.length), "score": Math.round(this.score), "timestamp": timestamp};
+                
+                var secret = "bmlrb2wgc2UgbmUgemFjZXQgZHJvZ2lyYXQ=";
+                var hash = CryptoJS.HmacSHA256($.param(reqData), atob(secret)).toString(CryptoJS.enc.Hex).toUpperCase();
+
                 var postResponse = $.ajax({
                     type: "POST",
                     url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings",
-                    data: {"player": highScoreName.substring(1, highScoreName.length), "score": Math.round(this.score)},
+                    data: reqData,
+                    headers: {"Security-Motherfucker": hash},
                     async: false
                 });
                 if (postResponse.status == 400) {

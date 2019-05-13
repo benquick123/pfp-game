@@ -129,8 +129,7 @@ function create() {
     this.cameras.main.setBounds(0, 0, w, h);     
     this.cameras.main.setBackgroundColor('black');
     this.cameras.main.setRenderToTexture(shaders.blackHoleShader);
-    this.cameras.main.setRoundPixels(true);
-    
+    this.cameras.main.setRoundPixels(true);    
 }
  
 function update(time, delta) {
