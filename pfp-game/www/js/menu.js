@@ -243,7 +243,7 @@ function EnterLeaderboardName(menu) {
         }
         else {
             var highScoreName = $("#highscore-text").val();
-            if (highScoreName.length == 0 || highScoreName == "@") {
+            if (highScoreName.length == 0 || highScoreName == "@" || highScoreName[0] != "@") {
                 $("#highscore-text").val("")
                 $("#highscore-text").attr("placeholder", "Invalid Instagram handle");
             }
