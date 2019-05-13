@@ -241,53 +241,6 @@ function EnterLeaderboardName(menu) {
             prevModeInstance = undefined;
             this.scene.scene.restart();
         }
-        else {
-            var highScoreName = $("#highscore-text").val();
-            if (highScoreName.length == 0 || highScoreName == "@" || highScoreName[0] != "@") {
-                $("#highscore-text").val("")
-                $("#highscore-text").attr("placeholder", "Invalid Instagram handle");
-            }
-            else {
-
-                var timestamp = Date.now();
-                var reqData = {"player": highScoreName.substring(1, highScoreName.length), "score": Math.round(this.score), "timestamp": timestamp};
-                
-                var secret = "bmlrb2wgc2UgbmUgemFjZXQgZHJvZ2lyYXQ=";
-                var hash = CryptoJS.HmacSHA256($.param(reqData), atob(secret)).toString(CryptoJS.enc.Hex).toUpperCase();
-
-                var postResponse = $.ajax({
-                    type: "POST",
-                    url: "http://pfp-scoreboard.us-west-2.elasticbeanstalk.com/rankings",
-                    data: reqData,
-                    headers: {"Security-Motherfucker": hash},
-                    async: false
-                });
-                if (postResponse.status == 400) {
-                    $("#highscore-text").val("");
-                    $("#highscore-text").attr("placeholder", "Invalid profile.");
-                }
-                else {
-                    var storage = window.localStorage;
-                    storage.setItem("username", highScoreName);
-                    this.gameOverText.destroy();
-                    $("#highscore-text").css("visibility", "hidden");
-                    // this.submitText.removeAllListeners();
-                    // this.submitText.destroy();
-                    this.newGameText.removeAllListeners();
-                    this.newGameText.destroy();
-                    this.scene.input.keyboard.off("keydown-ENTER");
-                    this.environment.scoreText.setText("");
-
-                    prevModeInstance = currModeInstance
-                    currModeInstance = new LeaderboardMenu(prevModeInstance.menu);
-                    currModeInstance.backRestart = true;
-                    if (postResponse.responseJSON["isHighscore"]) {
-                        currModeInstance.currPlayerRank = postResponse.responseJSON["rank"];
-                    }   
-                    currModeInstance.createMenu(gridHeight*ratio/2-currModeInstance.maxLineLength/2, 2);
-                }
-            }
-        }
     }
 }
 
@@ -416,8 +369,7 @@ function GameModeSelectionMenu(menu) {
 
     this.createMenu = function () {
         var unlocked = window.localStorage.getItem("arcadeUnlock");
-        console.log("unlocked:" + unlocked);
-        this.arcadeUnlocked = true;
+        this.arcadeUnlocked = unlocked;
 
         this.storyModeText = this.scene.make.bitmapText({
             x: 0,
