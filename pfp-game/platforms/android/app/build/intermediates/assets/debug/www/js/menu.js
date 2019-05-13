@@ -57,12 +57,12 @@ function MainMenu(menu) {
             this.menu.environment.music.play();
         }
 
-        /* this.appVersion = this.scene.make.bitmapText({
+        this.appVersion = this.scene.make.bitmapText({
             x: 2,
             y: 0,
             text: "0.9.6",
             font: "font12"
-        })*/ 
+        })
     }
 
     /* this.onButtonClick = function (pointer, localX, localY, event) {
@@ -79,7 +79,7 @@ function MainMenu(menu) {
 
     this.letGo = function (button) {
         var menuChildren = this.menuOptions.getChildren();
-        // this.appVersion.destroy();
+        this.appVersion.destroy();
 
         for (var i=0; i < menuChildren.length; i++) {
             menuChildren[i].off("pointerdown", NaN);
@@ -416,8 +416,8 @@ function GameModeSelectionMenu(menu) {
 
     this.createMenu = function () {
         var unlocked = window.localStorage.getItem("arcadeUnlock");
-        console.log("unlocked:" + unlocked);
-        this.arcadeUnlocked = true;
+        // console.log("unlocked:" + unlocked);
+        this.arcadeUnlocked = unlocked;
 
         this.storyModeText = this.scene.make.bitmapText({
             x: 0,
