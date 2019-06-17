@@ -412,12 +412,13 @@ function GameModeSelectionMenu(menu) {
     this.arcadeModeText;
     this.storyModeText;
     this.arcadeUnlocked = true;
+    this.godModeText;
     this.musicName = "basic";
 
     this.createMenu = function () {
         var unlocked = window.localStorage.getItem("arcadeUnlock");
         // console.log("unlocked:" + unlocked);
-        this.arcadeUnlocked = unlocked;
+        this.arcadeUnlocked = true;
 
         this.storyModeText = this.scene.make.bitmapText({
             x: 0,
@@ -428,7 +429,7 @@ function GameModeSelectionMenu(menu) {
         this.storyModeText.setFontSize(24);
         this.storyModeText.setLetterSpacing(2);
         this.storyModeText.setX(gridHeight*ratio/2 - this.storyModeText.width/2);
-        this.storyModeText.setY(gridHeight/2 - this.storyModeText.height/2);
+        this.storyModeText.setY(gridHeight/2 - this.storyModeText.height);
         this.storyModeText.setInteractive().on("pointerdown", this.onButtonClick, this.storyModeText);
         this.storyModeText.setDepth(3);
 
@@ -441,8 +442,22 @@ function GameModeSelectionMenu(menu) {
         this.arcadeModeText.setFontSize(24);
         this.arcadeModeText.setLetterSpacing(2);
         this.arcadeModeText.setX(gridHeight*ratio/2 - this.arcadeModeText.width/2);
-        this.arcadeModeText.setY(gridHeight/2 + this.arcadeModeText.height/2);
+        this.arcadeModeText.setY(gridHeight/2 + this.arcadeModeText.height*0);
         this.arcadeModeText.setDepth(5);
+
+        this.godModeText = this.scene.make.bitmapText({
+            x: 0,
+            y: 0,
+            text: "God mode",
+            font: "font20"
+        });
+        this.godModeText.setFontSize(24);
+        this.godModeText.setLetterSpacing(2);
+        this.godModeText.setX(gridHeight*ratio/2 - this.godModeText.width/2);
+        this.godModeText.setY(gridHeight/2 + this.godModeText.height);
+        this.godModeText.setInteractive().on("pointerdown", this.onButtonClick, this.godModeText);
+        this.godModeText.setDepth(5);
+
         if (this.arcadeUnlocked) {
             this.arcadeModeText.setInteractive().on("pointerdown", this.onButtonClick, this.arcadeModeText);
         }
@@ -465,6 +480,10 @@ function GameModeSelectionMenu(menu) {
         this.storyModeText.removeAllListeners();
         this.storyModeText.destroy();
 
+        this.godModeText.off("pointerdown", NaN);
+        this.godModeText.removeAllListeners();
+        this.godModeText.destroy();
+
         if (button.text == "Story mode") {
             gameplayMode = STORYMODE;
             prevModeInstance = currModeInstance;
@@ -474,6 +493,11 @@ function GameModeSelectionMenu(menu) {
         }
         else if (button.text == "Arcade mode") {
             gameplayMode = ARCADEMODE;
+            changeMode();
+        }
+        else if (button.text == "God mode") {
+            gameplayMode = STORYMODE;
+            collisionsOn = false;
             changeMode();
         }
     }
